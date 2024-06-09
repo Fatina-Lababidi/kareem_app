@@ -2,15 +2,15 @@ class LocalizationKeys {
   //offline :
   static const String offline = "offline";
   //onboarding:
-  static const String skip = "SKIP";
+  static const String skip = "Skip";
   //? Onboarding Titles:
-  static const String onboardingTilte1 = "onboarding_title_1";
-  static const String onboardingTilte2 = "onboarding_title_2";
-  static const String onboardingTilte3 = "onboarding_title_3";
+  static const String onboardingTilte1 = "Anywhere you are";
+  static const String onboardingTilte2 = "At anytime";
+  static const String onboardingTilte3 = "Book your car";
   //?Onboarding discription 1:
-  static const String onboardingDescription1A = "onboarding_description_1_A";
-  static const String onboardingDescription1B = "onboarding_description_1_B";
-  static const String onboardingDescription1C = "onboarding_description_1_C";
+  static const String onboardingDescription1A = "Sell houses easily with the help of Listenoryx and to make this line big I am writing more.";
+  static const String onboardingDescription1B = "Sell houses easily with the help of Listenoryx and to make this line big I am writing more.";
+  static const String onboardingDescription1C = "Sell houses easily with the help of Listenoryx and to make this line big I am writing more.";
   //location :
   static const String enableYourLocation = "enable_your_location";
   static const String chooseYourLocationA = "choose_your_location_A";

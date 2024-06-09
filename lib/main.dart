@@ -1,6 +1,7 @@
 import 'package:careem_app/core/config/check_connect.dart';
 import 'package:careem_app/core/functions/language.dart';
 import 'package:careem_app/core/resources/string.dart';
+import 'package:careem_app/pages/on_boarding.dart';
 import 'package:careem_app/widgets/app_Scaffold.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ void main() async {
     ],
     path: 'assets/translation',
     fallbackLocale: const Locale('en'),
-    child: const MyApp(),
+    child:const MyApp(),
   ));
 }
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          home: const OnBoarding(),
         ));
   }
 }
