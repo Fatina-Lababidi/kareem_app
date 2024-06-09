@@ -1,4 +1,6 @@
 class LocalizationKeys {
+  //offline :
+  static const String offline = "offline";
   //onboarding:
   static const String skip = "SKIP";
   //? Onboarding Titles:
@@ -41,7 +43,7 @@ class LocalizationKeys {
   static const String atleastOneNumberOrSpecialCharacter =
       "atleast_one_number_or_special_character";
   static const String register = "register";
- //profile :
+  //profile :
   static const String profile = "profile";
   static const String fullName = "full_name";
   static const String street = "street";
