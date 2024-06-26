@@ -7,23 +7,37 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppScaffold extends StatelessWidget {
-  AppScaffold({super.key, required this.child});
+  const AppScaffold({super.key, required this.child});
 
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    var connection = Provider.of<Status>(context);
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+    const double fontSize = 50;
+
+    var connection = Provider.of<NetworkStatus>(context);
 
     return Scaffold(
-      body: (connection == Status.offline)
-          ? Column(
-              children: [
-                Image.asset(AppImages.offline),
-                Text(
-                  LocalizationKeys.offline.tr(),
-                  style: TextStyle(color: AppColor.baseColor),
-                )
-              ],
+      body: (connection == NetworkStatus.offline)
+          ? Center(
+              child: Column(
+                children: [
+                  const Spacer(),
+                  Image.asset(
+                    AppImages.offline,
+                    width: screenWidth * 0.5,
+                  ),
+                  const Spacer(),
+                  Text(
+                    LocalizationKeys.offline.tr(),
+                    style: const TextStyle(
+                        color: AppColor.baseColor, fontSize: fontSize),
+                  ),
+                  const Spacer(
+                    flex: 2,
+                  ),
+                ],
+              ),
             )
           : child,
     );

@@ -17,7 +17,7 @@ void main() async {
     ],
     path: 'assets/translation',
     fallbackLocale: const Locale('en'),
-    child:const MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -27,9 +27,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          StreamProvider(
-            create: (context) => CheckConnect().connection.stream,
-            initialData: Status.online,
+          StreamProvider<NetworkStatus>(
+            create: (context) => CheckConnect().statusStream,
+            initialData: NetworkStatus.online,
+            catchError: (_, __) => NetworkStatus.offline,
+            //!! why when i add this line it don't give me the exeption??
           ),
         ],
         child: MaterialApp(
@@ -37,12 +39,9 @@ class MyApp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home: const OnBoarding(),
+          home://MapPage()
+        // MyHomePage(title: 'dd')
+       const OnBoarding(),
         ));
   }
 }
@@ -59,7 +58,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() async {
+  void _changeLanguage() async {
     if (context.locale.languageCode == 'ar') {
       await context.setLocale(const Locale('en'));
     } else {
@@ -74,13 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(LocalizationKeys.onboardingDescription1A.tr()),
+            Text(LocalizationKeys.bySigningUp.tr()),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             ElevatedButton(
-              onPressed: _incrementCounter,
+              onPressed: _changeLanguage,
               child: Padding(
                 padding: isEnglish(context)
                     ? EdgeInsets.only(right: 10)
@@ -91,20 +90,19 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: LocalizationKeys.skip.tr(),
-      //   child: Padding(
-      //     padding: isEnglish(context)
-      //         ? EdgeInsets.only(right: 10)
-      //         : EdgeInsets.only(left: 10),
-      //     child: const Icon(Icons.add),
-      //   ),
-      // ),
     );
   }
 }
-//IntroductionScreen
 
 
-
+//!? is it normal to but try and catch in mock ?
+//!? in the real service how can i now if am getting the correct data ?
+//!? in the ui we validate the textfield so what the benifit of the mock here!!
+//!? how i will know if the data i send is sending in the correct form ?
+//! internet testing in moking it don't work
+//!? is it okay to but default case loading in the bloc ?? in register !!
+//? the real service in the register ?
+//! fix the align in the localization ..
+//?? if the categories came from back how we select the image ??
+//! the categories needs token ? how we now that from the postman??
+//!! why its don't validate in the phone num package ??

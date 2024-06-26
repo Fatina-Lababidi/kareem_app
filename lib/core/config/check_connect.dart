@@ -3,20 +3,25 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
-enum Status { offline, online }
+enum NetworkStatus { offline, online }
 
 class CheckConnect extends ChangeNotifier {
-  StreamController<Status> connection = StreamController();
+  final Connectivity _connectivity = Connectivity();
+  StreamController<NetworkStatus> connection =
+      StreamController<NetworkStatus>();
 
   CheckConnect() {
-    Connectivity().onConnectivityChanged.listen((event) {
+    _connectivity.onConnectivityChanged.listen((event) {
       if (event.first == ConnectivityResult.mobile ||
           event.first == ConnectivityResult.wifi) {
-        connection.add(Status.online);
+        connection.add(NetworkStatus.online);
       } else {
-        connection.add(Status.offline);
+        connection.add(NetworkStatus.offline);
       }
     });
   }
-   Stream<Status> get statusStream => connection.stream;
+  Stream<NetworkStatus> get statusStream => connection.stream;
+// void dispose() {
+//     connection.close();
+//   }
 }
