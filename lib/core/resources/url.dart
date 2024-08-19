@@ -16,8 +16,13 @@ class EndPoint {
   static String bicyclesByCategoryUrl(String category) {
     return 'https://rideshare.devscape.online/api/v1/bicycle/bicycles-by-category?category=$category';
   }
+
 //  can i make it without this?
   static String bicycleByIdUrl(int id) {
     return 'https://rideshare.devscape.online/api/v1/bicycle/$id';
+  }
+
+  static String getAllHubsUrl(num latitude, num longtitude) {
+    return 'https://rideshare.devscape.online/api/v1/hubs?longtitude=$longtitude&latitude=$latitude';
   }
 }

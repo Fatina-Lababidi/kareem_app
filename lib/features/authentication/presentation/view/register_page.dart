@@ -4,6 +4,7 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/app_textFormField.dart';
+import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/features/authentication/data/datasource/remote/remote_user.dart';
 import 'package:careem_app_clean/features/authentication/data/repositories/auth_repository_imp.dart';
 import 'package:careem_app_clean/features/authentication/domain/usecases/login_usecase.dart';
@@ -69,27 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: screenWidth * 0.02),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          size: 20,
-                          Icons.arrow_back_ios_new_outlined,
-                          color: AppColor.contentSecondaryTextColor,
-                        ),
-                        Text(
-                          LocalizationKeys.back.tr(),
-                          style: const TextStyle(
-                              color: AppColor.contentSecondaryTextColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child:const BackWidget()
                 ).animate().fade(duration: .2.seconds, delay: .1.seconds),
                 SizedBox(
                   height: screenHeight * 0.02,

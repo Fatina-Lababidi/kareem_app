@@ -2,6 +2,7 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/app_textFormField.dart';
+import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/features/authentication/presentation/changePassword_bloc/change_password_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -84,29 +85,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: screenWidth * 0.02),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  size: 20,
-                                  Icons.arrow_back_ios_new_outlined,
-                                  color: AppColor.contentSecondaryTextColor,
-                                ),
-                                Text(
-                                  LocalizationKeys.back.tr(),
-                                  style: const TextStyle(
-                                      color: AppColor.contentSecondaryTextColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
+                                padding:
+                                    EdgeInsets.only(left: screenWidth * 0.02),
+                                child: const BackWidget())
                             .animate()
                             .fade(duration: .2.seconds, delay: .1.seconds),
                         SizedBox(

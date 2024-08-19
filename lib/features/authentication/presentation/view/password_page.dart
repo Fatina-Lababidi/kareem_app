@@ -2,6 +2,7 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/app_textFormField.dart';
+import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/features/authentication/domain/entities/user_entity.dart';
 import 'package:careem_app_clean/features/authentication/presentation/register_bloc/register_bloc_bloc.dart';
 import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
@@ -100,27 +101,7 @@ class _PasswordPageState extends State<PasswordPage> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(left: screenWidth * 0.02),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  size: 20,
-                                  Icons.arrow_back_ios_new_outlined,
-                                  color: AppColor.contentSecondaryTextColor,
-                                ),
-                                Text(
-                                  LocalizationKeys.back.tr(),
-                                  style: const TextStyle(
-                                      color: AppColor.contentSecondaryTextColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
+                          child:const BackWidget()
                         )
                             .animate()
                             .fade(duration: .2.seconds, delay: .1.seconds),

@@ -1,9 +1,9 @@
-
 import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
+import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -55,27 +55,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: screenWidth * 0.02),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          size: 20,
-                          Icons.arrow_back_ios_new_outlined,
-                          color: AppColor.contentSecondaryTextColor,
-                        ),
-                        Text(
-                          LocalizationKeys.back.tr(),
-                          style: const TextStyle(
-                              color: AppColor.contentSecondaryTextColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: const BackWidget(),
                 ),
                 Expanded(
                   child: Center(
@@ -104,7 +84,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                 setState(() {
                   selectedContainerIndex = 1;
                 });
-                 _saveSelectedLanguageIndex(selectedContainerIndex);
+                _saveSelectedLanguageIndex(selectedContainerIndex);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -145,7 +125,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   ],
                 ),
               ),
-            ).animate().fade(duration: .3.seconds,delay: .2.seconds),
+            ).animate().fade(duration: .3.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.02,
             ),
@@ -154,7 +134,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                 setState(() {
                   selectedContainerIndex = 2;
                 });
-                 _saveSelectedLanguageIndex(selectedContainerIndex);
+                _saveSelectedLanguageIndex(selectedContainerIndex);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -195,7 +175,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   ],
                 ),
               ),
-            ).animate().fade(duration: .4.seconds,delay: .3.seconds),
+            ).animate().fade(duration: .4.seconds, delay: .3.seconds),
             const Spacer(),
             AppButton(
               onTap: () async {
@@ -206,7 +186,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   await EasyLocalization.of(context)!
                       .setLocale(const Locale('ar'));
                 }
-                 ScaffoldMessenger.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(LocalizationKeys.languageChanged.tr()),
                     duration: const Duration(seconds: 2),
@@ -218,7 +198,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               text: LocalizationKeys.save.tr(),
               textColor: AppColor.whiteColor,
               containerColor: AppColor.buttonColor,
-            ).animate().fade(duration: .5.seconds,delay: .4.seconds),
+            ).animate().fade(duration: .5.seconds, delay: .4.seconds),
             SizedBox(
               height: screenHeight * 0.07,
             )

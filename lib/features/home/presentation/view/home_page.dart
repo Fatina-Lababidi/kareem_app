@@ -211,50 +211,44 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 20,
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: screenWidth * 0.02),
-                    child: GestureDetector(
-                      onTap: _toggleDrawer,
-                      child: Row(
-                        children: [
-                          const Icon(
-                            size: 20,
-                            Icons.arrow_back_ios_new_outlined,
-                            color: AppColor.contentSecondaryTextColor,
-                          ),
-                          Text(
-                            LocalizationKeys.back.tr(),
-                            style: const TextStyle(
-                              color: AppColor.contentSecondaryTextColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 125), //! must have better way ?!
-                decoration: BoxDecoration(
-                    color: AppColor.circularRipple2,
-                    border: Border.all(color: AppColor.baseColor),
-                    shape: BoxShape.circle),
-                child: const Center(
-                  child: Icon(
-                    Icons.person,
-                    color: AppColor.baseColor,
-                    size: 65,
-                  ),
-                ),
-              ),
+             GestureDetector(
+      onTap: () {
+       _toggleDrawer();
+      },
+      child: Row(
+        children: [
+          const Icon(
+            size: 20,
+            Icons.arrow_back_ios_new_outlined,
+            color: AppColor.contentSecondaryTextColor,
+          ),
+          Text(
+            LocalizationKeys.back.tr(),
+            style: const TextStyle(
+                color: AppColor.contentSecondaryTextColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+    ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(right: 125), //! must have better way ?!
+              //   decoration: BoxDecoration(
+              //       color: AppColor.circularRipple2,
+              //       border: Border.all(color: AppColor.baseColor),
+              //       shape: BoxShape.circle),
+              //   child: const Center(
+              //     child: Icon(
+              //       Icons.person,
+              //       color: AppColor.baseColor,
+              //       size: 65,
+              //     ),
+              //   ),
+              // ),
               SizedBox(
                 height: 100,
               ),
@@ -277,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                       color: AppColor.contentSecondaryTextColor,
                     ),
                     SizedBox(
-                      width: 5,
+                      width: 10,
                     ),
                     Text(
                       'Setttings',

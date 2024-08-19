@@ -63,7 +63,8 @@ class _LocationPageState extends State<LocationPage> {
     }
   }
 
-  void _navigateToNextPage() {
+  void _navigateToNextPage() async{
+  await  _saveLocation();
     Navigator.push(
       context,
       PageTransition(
@@ -87,7 +88,7 @@ class _LocationPageState extends State<LocationPage> {
     }
     await prefs.setDouble('latitude', latitude);
     await prefs.setDouble('longitude', longitude);
-    print('Saved Location: Latitude = $latitude, Longitude = $longitude');
+    print('Saved Location 1: Latitude = $latitude, Longitude = $longitude');
   }
 
   @override
