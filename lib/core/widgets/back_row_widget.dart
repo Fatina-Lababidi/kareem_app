@@ -12,7 +12,7 @@ class BackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-final locale = EasyLocalization.of(context)?.locale;
+    EasyLocalization.of(context)?.locale;
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);

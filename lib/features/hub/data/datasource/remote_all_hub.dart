@@ -12,21 +12,20 @@ class RemoteAllHubDataSource {
   });
 
   Future<AllHubModel> getAllHub(num latitude, num longitude) async {
-    // try {
-
-    String url = EndPoint.getAllHubsUrl(latitude, longitude);
-    print(url);
-    Response response = await dio.get(url, options: getHeader(true));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      AllHubModel allHubModel = AllHubModel.formJson(response.data);
-      print(response.data);
-      return allHubModel;
-    } else {
+    try {
+      String url = EndPoint.getAllHubsUrl(latitude, longitude);
+      print(url);
+      Response response = await dio.get(url, options: getHeader(true));
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        AllHubModel allHubModel = AllHubModel.formJson(response.data);
+        print(response.data);
+        return allHubModel;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
       throw ServerException();
     }
-    // } catch (e) {
-    //   throw ServerException();
-    // }
   }
 }

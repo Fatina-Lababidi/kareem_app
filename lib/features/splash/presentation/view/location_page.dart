@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
 import 'package:careem_app_clean/features/splash/presentation/view/welcom_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,8 @@ class _LocationPageState extends State<LocationPage> {
     Navigator.push(
       context,
       PageTransition(
-        child: WelcomePage(
+        child://HomePage(dio: widget.dio, sharedPreferences: widget.sharedPreferences),
+         WelcomePage(
             sharedPreferences: widget.sharedPreferences, dio: widget.dio),
         type: PageTransitionType.fade,
       ),

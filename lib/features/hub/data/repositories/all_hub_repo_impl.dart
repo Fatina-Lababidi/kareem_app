@@ -18,13 +18,13 @@ class AllHubRepoImp implements HubRepo {
   Future<Either<Failures, AllHubEntity>> getAllHub(
       num latitude, num longitude) async {
     if (await networkConnection.isConnected) {
-     // try {
+      try {
         AllHubModel allHubModel =
             await remoteAllHubDataSource.getAllHub(latitude, longitude);
         return Right(allHubModel);
-      // } on ServerException {
-      //   return Left(ServerFailure());
-      // }
+      } on ServerException {
+        return Left(ServerFailure());
+      }
     } else {
       return Left(OfflineFailure());
     }
