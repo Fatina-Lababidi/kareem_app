@@ -48,13 +48,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: screenHeight * 0.02,
-            ),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: screenWidth * 0.02),
+                  padding: EdgeInsets.only(
+                      left: screenWidth * 0.02, top: screenHeight * 0.01),
                   child: const BackWidget(),
                 ),
                 Expanded(

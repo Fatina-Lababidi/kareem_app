@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: screenWidth * 0.02),
+                          padding: EdgeInsets.only(left: screenWidth * 0.02,top: screenHeight*0.01),
                           child:const BackWidget()
                         )
                             .animate()

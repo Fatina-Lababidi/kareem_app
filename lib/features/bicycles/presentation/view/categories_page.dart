@@ -16,10 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesPage extends StatelessWidget {
   final Dio dio;
-  CategoriesPage({super.key, required this.dio});
+  final SharedPreferences sharedPreferences;
+  CategoriesPage({super.key, required this.dio, required this.sharedPreferences});
 
   // final Map<String, String> categoryImages = {
   //   "Road_bikes": AppImages.roadBikes,
@@ -67,14 +69,12 @@ class CategoriesPage extends StatelessWidget {
             },
             child: Column(
               children: [
-                SizedBox(
-                  height: screenHeight * 0.02,
-                ),
                 Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: screenWidth * 0.02),
-                      child:const BackWidget(),
+                      padding: EdgeInsets.only(
+                          left: screenWidth * 0.02, top: screenHeight * 0.01),
+                      child: const BackWidget(),
                     ),
                     Expanded(
                       child: Center(
@@ -128,6 +128,7 @@ class CategoriesPage extends StatelessWidget {
                             //     categoryImages[category] ?? defaultImage;
                             // final text = categoriesText[category] ?? defultText;
                             return CategoriesContainer(
+                              sharedPreferences: sharedPreferences,
                               dio: dio,
                               categoryKey: category,
                               // imageUrl: imageUrl,

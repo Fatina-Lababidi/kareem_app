@@ -21,15 +21,12 @@ class PolicyPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: screenHeight * 0.02,
-            ),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: screenWidth * 0.02),
-                  child:const BackWidget()
-                ),
+                    padding: EdgeInsets.only(
+                        left: screenWidth * 0.02, top: screenHeight * 0.01),
+                    child: const BackWidget()),
                 Expanded(
                   child: Center(
                     child: Padding(
@@ -87,6 +84,7 @@ class PolicyPage extends StatelessWidget {
                           ),
                         ),
                         Text(
+                          textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 20,
                           state.policy.description,
@@ -109,7 +107,7 @@ class PolicyPage extends StatelessWidget {
                   );
                 } else {
                   return const Expanded(
-                    child: const Center(
+                    child: Center(
                       child: CircularProgressIndicator(
                         color: AppColor.baseColor,
                       ),

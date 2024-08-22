@@ -83,5 +83,18 @@
     "district": "الحي",
     "save": "حفظ",
     "cancel": "إلغاء",
-    "all_bicycle_categories":"جميع فئات الدراجات"
+    "all_bicycle_categories": "جميع فئات الدراجات",
+    "whereWouldYouGo": "أين ستذهب؟",
+    "specifications": "المواصفات",
+    "bicycle_features": "ميزات الدراجة",
+    "type": " النوع: ",
+    "model": "الموديل: ",
+    "price": "السعر: ",
+    "size": "الحجم: ",
+    "book_later": "احجز لاحقا",
+    "ride_now": "اركب الان",
+    "home": "الرئيسية",
+    "favourite": "المفضلة",
+    "wallet": "المحفظة",
+    "offer": "االعروض"
 }

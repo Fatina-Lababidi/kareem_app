@@ -69,9 +69,11 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: screenWidth * 0.02),
-                  child:const BackWidget()
-                ).animate().fade(duration: .2.seconds, delay: .1.seconds),
+                        padding: EdgeInsets.only(
+                            left: screenWidth * 0.02, top: screenHeight * 0.01),
+                        child: const BackWidget())
+                    .animate()
+                    .fade(duration: .2.seconds, delay: .1.seconds),
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
@@ -393,7 +395,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                         child: Text(
                           LocalizationKeys.logIn.tr(),
-                          style:const TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: AppColor.buttonColor,

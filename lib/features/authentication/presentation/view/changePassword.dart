@@ -85,8 +85,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     child: Column(
                       children: [
                         Padding(
-                                padding:
-                                    EdgeInsets.only(left: screenWidth * 0.02),
+                                padding: EdgeInsets.only(
+                                    left: screenWidth * 0.02,
+                                    top: screenHeight * 0.01),
                                 child: const BackWidget())
                             .animate()
                             .fade(duration: .2.seconds, delay: .1.seconds),

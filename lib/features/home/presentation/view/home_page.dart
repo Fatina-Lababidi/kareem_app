@@ -1,5 +1,7 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
+import 'package:careem_app_clean/features/favourite/presentation/view/favourite_page.dart';
 import 'package:careem_app_clean/features/home/presentation/view/map_page.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/hexagonal.dart';
 import 'package:careem_app_clean/features/offer.dart';
@@ -33,9 +35,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _pages = [
       MapPage(
+        sharedPreferences: widget.sharedPreferences,
         dio: widget.dio,
       ),
-      const FavouritePage(),
+      FavouritePage(
+        sharedPreferences: widget.sharedPreferences,
+        dio: widget.dio,
+      ),
       const WalletPage(),
       const OfferPage(),
       const ProfilePage(),
@@ -56,6 +62,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
     final double screenWidth = MediaQuery.sizeOf(context).width;
     return WillPopScope(
       onWillPop: () async {
@@ -85,20 +92,20 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: AppColor
-                          .baseColor, // Use AppColor.baseColor if available
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 4.0,
-                          spreadRadius: 1.0,
-                        ),
-                      ],
+                           .progressBackgoundColor,
+                      // boxShadow: const [
+                      //   BoxShadow(
+                      //     color: Colors.black26,
+                      //     blurRadius: 4.0,
+                      //     spreadRadius: 1.0,
+                      //   ),
+                      // ],
                     ),
                     child: Icon(Icons.menu, color: Colors.black),
                   ),
                 ),
               ),
-              if (_isDrawerOpen) _buildDrawer(screenWidth),
+              if (_isDrawerOpen) _buildDrawer(screenWidth, screenHeight),
             ],
           ),
         ),
@@ -155,27 +162,27 @@ class _HomePageState extends State<HomePage> {
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              items: const [
+              items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_rounded),
-                  label: 'Home',
+                  label: LocalizationKeys.home.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.favorite_outline_outlined),
-                  label: 'Favourite',
+                  label: LocalizationKeys.favourite.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.wallet,
                       color: Colors.transparent), // SizedBox.shrink(),
-                  label: 'Wallet',
+                  label: LocalizationKeys.wallet.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.money_off_csred_rounded),
-                  label: 'Offer',
+                  label: LocalizationKeys.offer.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person_2_outlined),
-                  label: 'Profile',
+                  label: LocalizationKeys.profile.tr(),
                 ),
               ],
             ),
@@ -185,10 +192,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDrawer(double screenWidth) {
+  Widget _buildDrawer(double screenWidth, double screenHeight) {
     return Positioned(
       top: 0,
       bottom: 0,
+      // left: isEnglish(context)?0:screenWidth-230,
       left: 0,
       width: 230, //query
       child: GestureDetector(
@@ -208,30 +216,35 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 20,
+              Padding(
+                padding: isEnglish(context)
+                    ? EdgeInsets.only(
+                        left: screenWidth * 0.02, top: screenHeight * 0.01)
+                    : EdgeInsets.only(
+                        right: screenWidth * 0.02, top: screenHeight * 0.02),
+                child: GestureDetector(
+                  onTap: () {
+                    _toggleDrawer();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        size: 20,
+                        Icons.arrow_back_ios_new_outlined,
+                        color: AppColor.contentSecondaryTextColor,
+                      ),
+                      Text(
+                        LocalizationKeys.back.tr(),
+                        style: const TextStyle(
+                            color: AppColor.contentSecondaryTextColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-             GestureDetector(
-      onTap: () {
-       _toggleDrawer();
-      },
-      child: Row(
-        children: [
-          const Icon(
-            size: 20,
-            Icons.arrow_back_ios_new_outlined,
-            color: AppColor.contentSecondaryTextColor,
-          ),
-          Text(
-            LocalizationKeys.back.tr(),
-            style: const TextStyle(
-                color: AppColor.contentSecondaryTextColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w400),
-          ),
-        ],
-      ),
-    ),
               // SizedBox(
               //   height: 10,
               // ),
@@ -264,19 +277,19 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.settings,
                       color: AppColor.contentSecondaryTextColor,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
-                      'Setttings',
-                      style: TextStyle(
-                        fontSize: 12,
+                      LocalizationKeys.settingsTitle.tr(),
+                      style: const TextStyle(
+                        fontSize: 16,
                         color: AppColor.contentSecondaryTextColor,
                         fontWeight: FontWeight.w500,
                       ),

@@ -25,4 +25,11 @@ class EndPoint {
   static String getAllHubsUrl(num latitude, num longtitude) {
     return 'https://rideshare.devscape.online/api/v1/hubs?longtitude=$longtitude&latitude=$latitude';
   }
+
+  static String addFavouriteUrl =
+      "https://rideshare.devscape.online/api/v1/favourite-bicycles";
+
+  static String getFavouritebyClientId(int clientId) {
+    return 'https://rideshare.devscape.online/api/v1/favourite-bicycles/by-clientId/$clientId';
+  }
 }

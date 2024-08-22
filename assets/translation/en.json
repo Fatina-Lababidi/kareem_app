@@ -83,5 +83,18 @@
   "district": "District",
   "save": "Save",
   "cancel": "Cancel",
-  "all_bicycle_categories":"All bicycle's category"
+  "all_bicycle_categories":"All bicycle's category",
+  "whereWouldYouGo":"Where would you go?",
+  "specifications":"Specifications",
+  "bicycle_features":"Bicycle features",
+  "type":"type: ",
+  "model":"model: ",
+  "size":"size: ",
+  "price":"price: ",
+  "book_later":"Book Later",
+  "ride_now":"Ride Now",
+  "home":"Home",
+  "favourite":"Favourite",
+  "wallet":"Wallet",
+  "offer":"Offer"
 }

@@ -106,4 +106,18 @@ class LocalizationKeys {
   static const String availableBikesForRide = "available_bikes_for_ride";
 // bicycle:
   static const String allBicycleCategories = 'all_bicycle_categories';
+  static const String whereWouldYouGo = "whereWouldYouGo";
+  static const String specifications = "specifications";
+  static const String bicycleFeatures = "bicycle_features";
+  static const String type = "type";
+  static const String model = "model";
+  static const String price = "price";
+  static const String size = "size";
+  static const String bookLater = "book_later";
+  static const String rideNow = "ride_now";
+  static const String home = "home";
+  static const String favourite = "favourite";
+  static const String wallet = "wallet";
+  static const String offer = "offer";
+
 }

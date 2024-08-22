@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:flutter/material.dart';
 
 class OfferPage extends StatelessWidget {
@@ -6,6 +7,7 @@ class OfferPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: AppColor.whiteColor,
       body: Center(child: Text('offerPage')),
     );
   }
@@ -17,6 +19,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: AppColor.whiteColor,
       body: Center(child: Text('proile page ')),
     );
   }
@@ -28,19 +31,8 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: AppColor.whiteColor,
       body: Center(child: Text('wallet page')),
-    );
-  }
-}
-
-class FavouritePage extends StatelessWidget {
-  const FavouritePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.blue,
-      body: Center(child: Text('favourite Page')),
     );
   }
 }

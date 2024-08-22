@@ -1,4 +1,5 @@
 
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
@@ -69,7 +70,7 @@ class _OnBoardingState extends State<OnBoarding> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    // bool isEng = isEnglish(context);
+     bool isEng = isEnglish(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -80,7 +81,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 height: 2,
               ),
               Align(
-                alignment: Alignment.topRight,
+                alignment:isEng? Alignment.topRight:Alignment.topLeft,
                 child: TextButton(
                   onPressed: () {
                     Navigator.push(

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
@@ -18,7 +17,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HubPage extends StatefulWidget {
   final Dio dio;
-  const HubPage({super.key, required this.dio});
+  final SharedPreferences sharedPreferences;
+  const HubPage(
+      {super.key, required this.dio, required this.sharedPreferences});
 
   @override
   State<HubPage> createState() => _HubPageState();
@@ -26,10 +27,10 @@ class HubPage extends StatefulWidget {
 
 class _HubPageState extends State<HubPage> {
   Future<Map<String, num>?> getLatAndLon() async {
-    final prefs = await SharedPreferences.getInstance();
-    final num? lat = prefs.getDouble('latitude2');
-    final num? lng = prefs.getDouble('longitude2');
-       log('Retrieved latitude: $lat');
+    // final prefs = await SharedPreferences.getInstance();
+    final num? lat = widget.sharedPreferences.getDouble('latitude2');
+    final num? lng = widget.sharedPreferences.getDouble('longitude2');
+    log('Retrieved latitude: $lat');
     log('Retrieved longitude: $lng');
     print('ln2:$lng lat2:$lat');
     if (lat == null || lng == null || lat == 0.0 || lng == 0.0) {
@@ -81,7 +82,7 @@ class _HubPageState extends State<HubPage> {
       );
       return;
     }
- if (permission == LocationPermission.whileInUse ||
+    if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
       try {
         Position position = await Geolocator.getCurrentPosition();
@@ -102,6 +103,8 @@ class _HubPageState extends State<HubPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+    final double screenHeight = MediaQuery.sizeOf(context).height;
     return FutureBuilder<Map<String, num>?>(
       future: getLatAndLon(),
       builder: (context, snapshot) {
@@ -135,7 +138,12 @@ class _HubPageState extends State<HubPage> {
                     )
                   : Column(
                       children: [
-                        const BackWidget(),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: screenWidth * 0.02,
+                              top: screenHeight * 0.01),
+                          child: const BackWidget(),
+                        ),
                         const Text(
                           'Hub',
                           style: TextStyle(

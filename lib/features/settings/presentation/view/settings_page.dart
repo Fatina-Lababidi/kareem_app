@@ -1,4 +1,3 @@
-
 import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
@@ -41,14 +40,11 @@ class SettingsPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: screenHeight * 0.02,
-            ),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: screenWidth * 0.02),
-                  child:const BackWidget(),
+                  padding: EdgeInsets.only(left: screenWidth * 0.02,top: screenHeight*0.01),
+                  child: const BackWidget(),
                 ),
                 Expanded(
                   child: Center(

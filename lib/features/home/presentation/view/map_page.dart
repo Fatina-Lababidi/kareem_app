@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/categories_page.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
@@ -8,6 +9,7 @@ import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dar
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -17,9 +19,12 @@ import 'package:latlong2/latlong.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//! we have to make sure that the map initalized before the move !!
 class MapPage extends StatefulWidget {
   final Dio dio;
-  const MapPage({super.key, required this.dio});
+  final SharedPreferences sharedPreferences;
+  const MapPage(
+      {super.key, required this.dio, required this.sharedPreferences});
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -33,6 +38,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   LatLng _initialPosition = LatLng(33.5138, 36.2765); //damascus
   LatLng? _savedPosition;
   bool isSearchBarVisible = false;
+  bool _locationCheck = false;
+  bool _isMapReady = false;
 
   @override
   void initState() {
@@ -43,9 +50,9 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   }
 
   Future<void> _loadSavedLocation() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    double? lat = prefs.getDouble('latitude');
-    double? lng = prefs.getDouble('longitude');
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    double? lat = widget.sharedPreferences.getDouble('latitude');
+    double? lng = widget.sharedPreferences.getDouble('longitude');
 
     if (lat != null && lng != null && lat != 0.0 && lng != 0.0) {
       _savedPosition = LatLng(lat, lng);
@@ -57,11 +64,15 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               color: AppColor.baseColor, size: 50),
         ),
       ];
+      setState(() {
+        _locationCheck = true;
+      });
     }
   }
 
   void _moveToPosition(LatLng position) {
-    _mapController.move(position, 15);
+    if(_isMapReady)
+    _mapController.move(position, 14);
   }
 
   Future<void> _checkAndRequestPermission() async {
@@ -137,10 +148,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
 // //? saved new current location to use it in hub:
 
   Future<void> _savedLocation(LatLng position) async {
-    final prefs = await SharedPreferences.getInstance();
+    // final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setDouble('latitude2', position.latitude);
-    await prefs.setDouble('longitude2', position.longitude);
+    await widget.sharedPreferences.setDouble('latitude2', position.latitude);
+    await widget.sharedPreferences.setDouble('longitude2', position.longitude);
     ;
     log('Saved Location2: Latitude = ${position.latitude}, Longitude = ${position.longitude}');
     setState(() {
@@ -179,20 +190,22 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   }
 
   List<Marker> _buildHubMarkers(List<PlaceEntity> places) {
-     markers.value = [
+    if (_locationCheck == true) {
+      markers.value = [
         Marker(
           point: LatLng(_savedPosition!.latitude, _savedPosition!.longitude),
           child: const Icon(Icons.location_pin,
               color: AppColor.baseColor, size: 50),
         ),
       ];
+    }
+
     return places.map((place) {
       return Marker(
         point: LatLng(place.latitude.toDouble(), place.longitude.toDouble()),
         child: Icon(Icons.pedal_bike, color: Colors.red, size: 40),
       );
     }).toList();
-
   }
 
   void _updateHubMarkers(List<PlaceEntity> places) {
@@ -233,6 +246,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                           child: FlutterMap(
                             mapController: _mapController,
                             options: MapOptions(
+                              onMapReady: () {
+                                setState(() {
+                                  _isMapReady = true;
+                                });
+                              },
                               initialCenter: _initialPosition,
                               onLongPress: (point, latLng) =>
                                   _addMarker(latLng),
@@ -252,7 +270,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                                   );
                                 },
                               ),
-                              if(state is AllHubSuccess)MarkerLayer(markers: _buildHubMarkers(state.allHubEntity.body))
+                              if (state is AllHubSuccess)
+                                MarkerLayer(
+                                    markers: _buildHubMarkers(
+                                        state.allHubEntity.body))
                             ],
                           ),
                         ),
@@ -370,6 +391,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                 context,
                 PageTransition(
                     child: CategoriesPage(
+                      sharedPreferences: widget.sharedPreferences,
                       dio: widget.dio,
                     ),
                     type: PageTransitionType.fade));
@@ -419,7 +441,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
           controller: _searchController,
           onChanged: _searchPlaces,
           decoration: InputDecoration(
-            hintText: 'Where would you go?',
+            hintText: LocalizationKeys.whereWouldYouGo.tr(),
             border: InputBorder.none,
             suffixIcon: IconButton(
               icon: const Icon(Icons.close),

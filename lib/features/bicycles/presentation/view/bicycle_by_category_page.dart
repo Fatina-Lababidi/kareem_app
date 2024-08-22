@@ -16,12 +16,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BicycleByCategoryPage extends StatelessWidget {
   final String category;
   final Dio dio;
+  final SharedPreferences sharedPreferences;
   const BicycleByCategoryPage(
-      {super.key, required this.category, required this.dio});
+      {super.key, required this.category, required this.dio, required this.sharedPreferences});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class BicycleByCategoryPage extends StatelessWidget {
               remoteCategoriesDatasource: RemoteCategoriesDatasource(dio: dio),
               networkConnection: NetworkConnection(
                   internetConnectionChecker: InternetConnectionChecker()))))
-        ..add(GetBicycleByCategor(category: category)),
+        ..add(GetBicycleByCategor()),
       child: Builder(builder: (context) {
         return Scaffold(
           backgroundColor: AppColor.whiteColor,
@@ -56,11 +58,9 @@ class BicycleByCategoryPage extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  SizedBox(
-                    height: screenHeight * 0.02,
-                  ),
                   Padding(
-                      padding: EdgeInsets.only(left: screenWidth * 0.02),
+                      padding: EdgeInsets.only(
+                          left: screenWidth * 0.02, top: screenHeight * 0.01),
                       child: const BackWidget()),
                   SizedBox(
                     height: 10,
@@ -184,7 +184,8 @@ class BicycleByCategoryPage extends StatelessWidget {
                                                       PageTransition(
                                                           child:
                                                               BicycleByIdPage(
-                                                                dio: dio,
+                                                                sharedPreferences:sharedPreferences ,
+                                                            dio: dio,
                                                             id: bike.id,
                                                             price: bike
                                                                 .modelPrice
@@ -193,8 +194,8 @@ class BicycleByCategoryPage extends StatelessWidget {
                                                                 .modelPrice
                                                                 .model,
                                                             size: bike.size,
-                                                            photoPath:
-                                                                bike.photoPath,
+                                                            photoPath: bike
+                                                                    .photoPath,
                                                             type: bike.type,
                                                             note: bike.note,
                                                           ),
@@ -246,7 +247,7 @@ class BicycleByCategoryPage extends StatelessWidget {
                             return FailureUi(
                               onTap: () {
                                 context.read<BicycleByCategoryBloc>().add(
-                                    GetBicycleByCategor(category: category));
+                                    GetBicycleByCategor());
                               },
                             );
                           default:

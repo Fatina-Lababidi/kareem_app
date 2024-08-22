@@ -69,9 +69,9 @@ class _LocationPageState extends State<LocationPage> {
     Navigator.push(
       context,
       PageTransition(
-        child://HomePage(dio: widget.dio, sharedPreferences: widget.sharedPreferences),
-         WelcomePage(
-            sharedPreferences: widget.sharedPreferences, dio: widget.dio),
+        child:HomePage(dio: widget.dio, sharedPreferences: widget.sharedPreferences),
+        //  WelcomePage(
+        //     sharedPreferences: widget.sharedPreferences, dio: widget.dio),
         type: PageTransitionType.fade,
       ),
     );

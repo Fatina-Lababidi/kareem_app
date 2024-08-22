@@ -3,6 +3,7 @@ import 'package:careem_app_clean/features/bicycles/presentation/view/bicycle_by_
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesContainer extends StatelessWidget {
   final double screenHeight;
@@ -11,13 +12,14 @@ class CategoriesContainer extends StatelessWidget {
   // final String imageUrl;
   final String categoryKey;
   final Dio dio;
+  final SharedPreferences sharedPreferences;
   const CategoriesContainer({
     super.key,
     required this.screenHeight,
     required this.screenWidth,
     required this.catergory,
     // required this.imageUrl,
-    required this.categoryKey, required this.dio,
+    required this.categoryKey, required this.dio, required this.sharedPreferences,
   });
 
   @override
@@ -29,6 +31,7 @@ class CategoriesContainer extends StatelessWidget {
           PageTransition(
             child: BicycleByCategoryPage(
               //! we have to get this
+              sharedPreferences:sharedPreferences ,
               dio: dio,
               category: categoryKey,
             ),
