@@ -12,4 +12,5 @@ class AppImages {
   static const String defaultBike = 'assets/images/bikes.png';
   static const String englishLanguage = 'assets/images/English.png';
   static const String arabicLanguage = 'assets/images/Arabic_l.png';
+  static const String thinkStart = 'assets/images/star.png';
 }

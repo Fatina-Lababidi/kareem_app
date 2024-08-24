@@ -11,6 +11,7 @@ import 'package:careem_app_clean/features/favourite/data/repositories/add_fav_re
 import 'package:careem_app_clean/features/favourite/domain/usecase/add_favourite_usecase.dart';
 import 'package:careem_app_clean/features/favourite/presentation/addFav_bloc/add_favourite_bloc.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/hub_page.dart';
+import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,8 @@ class BicycleByIdPage extends StatelessWidget {
       create: (context) => AddFavouriteBloc(AddFavouriteUsecase(
           bicycleId: id,
           favouriteRepo: AddFavRepoImp(
-            remoteGetfavbyclientidDatasource: RemoteGetfavbyclientidDatasource(dio: dio),
+              remoteGetfavbyclientidDatasource:
+                  RemoteGetfavbyclientidDatasource(dio: dio),
               sharedPreferences: sharedPreferences,
               remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio),
               networkConnection: NetworkConnection(
@@ -204,23 +206,32 @@ class BicycleByIdPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              height: screenHeight * 0.07, //50,
-                              width: screenWidth * 0.4, //170,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColor.buttonColor,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  LocalizationKeys.bookLater.tr(),
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        child: const ThanksPage(),
+                                        type: PageTransitionType.fade));
+                              },
+                              child: Container(
+                                height: screenHeight * 0.07, //50,
+                                width: screenWidth * 0.4, //170,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
                                     color: AppColor.buttonColor,
-                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    LocalizationKeys.bookLater.tr(),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: AppColor.buttonColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),

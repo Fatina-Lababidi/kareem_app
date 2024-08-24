@@ -43,26 +43,24 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => RegisterBloc(
-              RegisterUserUseCase(
-                repository: AuthRepositoryImpl(
-                  internetConnectionChecker: InternetConnectionChecker(),
-                  sharedPreferences: sharedPreferences,
-                  remoteDataSource: RemoteUserDataSourceImpl(dio: dio),
-                ),
+      home: MultiBlocProvider(providers: [
+        BlocProvider(
+          create: (context) => RegisterBloc(
+            RegisterUserUseCase(
+              repository: AuthRepositoryImpl(
+                internetConnectionChecker: InternetConnectionChecker(),
+                sharedPreferences: sharedPreferences,
+                remoteDataSource: RemoteUserDataSourceImpl(dio: dio),
               ),
             ),
           ),
-        ],
-
-        child: CareemSplashPage(
-          dio: dio,
-          sharedPreferences: sharedPreferences,
         ),
-      ),
+      ],
+          child: CareemSplashPage(
+            dio: dio,
+            sharedPreferences: sharedPreferences,
+          ),
+          ),
     );
   }
 }

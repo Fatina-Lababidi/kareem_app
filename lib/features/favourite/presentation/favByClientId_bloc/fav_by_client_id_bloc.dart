@@ -18,14 +18,14 @@ class FavByClientIdBloc extends Bloc<FavByClientIdEvent, FavByClientIdState> {
       final failureOrEntity = await getFavByClientid.call();
       failureOrEntity.fold((failure) {
         String message;
-        switch (failure.runtimeType) {
-          case ServerFailure():
-            message = "client don't have any favourite bikes";
-            break;
-          default:
-            message = 'there is no internet..';
-            break;
+        if (failure is OfflineFailure) {
+          message = 'There is no internet connection.';
+        } else if (failure is ServerFailure) {
+          message = "Client doesn't have any favourite bikes.";
+        } else {
+          message = 'Unexpected error occurred.';
         }
+
         emit(FavByClientIdFailure(message: message));
       }, (entity) {
         emit(FavByClientIdSuccess(addFavResponseEntity: entity));

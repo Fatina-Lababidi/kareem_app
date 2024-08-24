@@ -129,7 +129,12 @@ class FavouritePage extends StatelessWidget {
                     ),
                   );
                 } else if (state is FavByClientIdFailure) {
-                  return const Expanded(child: Center(child: FailureUi()));
+                  return Expanded(child: Center(child: FailureUi(
+                    onTap: () {
+                      context.read<FavByClientIdBloc>()
+                        ..add(GetFavByClientid());
+                    },
+                  )));
                 } else {
                   return const Expanded(
                     child: Center(

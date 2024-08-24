@@ -5,10 +5,10 @@ part of 'all_hub_bloc.dart';
 sealed class AllHubEvent {}
 
 class GetAllHub extends AllHubEvent {
-  final num lat;
-  final num lng;
-  GetAllHub({
-    required this.lat,
-    required this.lng,
-  });
+  // final num lat;
+  // final num lng;
+  // GetAllHub({
+  //   required this.lat,
+  //   required this.lng,
+  // });
 }

@@ -64,14 +64,15 @@ class _LocationPageState extends State<LocationPage> {
     }
   }
 
-  void _navigateToNextPage() async{
-  await  _saveLocation();
+  void _navigateToNextPage() async {
+    await _saveLocation();
     Navigator.push(
       context,
       PageTransition(
-        child:HomePage(dio: widget.dio, sharedPreferences: widget.sharedPreferences),
+        child: HomePage(
+            dio: widget.dio, sharedPreferences: widget.sharedPreferences),
         //  WelcomePage(
-        //     sharedPreferences: widget.sharedPreferences, dio: widget.dio),
+        // sharedPreferences: widget.sharedPreferences, dio: widget.dio),
         type: PageTransitionType.fade,
       ),
     );

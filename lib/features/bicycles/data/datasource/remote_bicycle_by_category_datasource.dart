@@ -16,12 +16,13 @@ class RemoteBicycleByCategoryDatasource {
       String url = EndPoint.bicyclesByCategoryUrl(category);
       Response response = await dio.get(url, options: getHeader(true));
       print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200) {
         final data = response.data;
 
         BicycleByCategoryModel bicycleByCategoryModel =
             BicycleByCategoryModel.fromJson(data);
-        print(response.data);
+
         return bicycleByCategoryModel;
       } else {
         throw ServerException();

@@ -227,7 +227,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                       internetConnectionChecker: InternetConnectionChecker())),
               latitude: lat,
               longitude: lng))
-            ..add(GetAllHub(lat: lat, lng: lng));
+            ..add(GetAllHub());
         },
         child: Scaffold(
           body: SafeArea(

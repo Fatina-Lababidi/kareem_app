@@ -119,5 +119,9 @@ class LocalizationKeys {
   static const String favourite = "favourite";
   static const String wallet = "wallet";
   static const String offer = "offer";
-
+  static const String requestForRent = "Request_for_rent";
+  static const String yourBookingHasBeenPlacedSent =
+      "Your_booking_has_been_placed_sent";
+  static const String thankYou = "thank_you";
+  static const String confirmRide = 'confrim_ride';
 }
