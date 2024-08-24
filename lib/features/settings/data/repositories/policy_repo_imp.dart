@@ -1,4 +1,3 @@
-
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
@@ -23,8 +22,8 @@ class PolicyRepoImp implements PolicyRepo {
       try {
         PolicyModel policy = await remotePolicyDataSource.getPolicy();
         return Right(policy);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {
       return Left(OfflineFailure());

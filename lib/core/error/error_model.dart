@@ -1,5 +1,5 @@
 class ErrorModel {
-  final int status;
+  final String status;//!: make it string !
   final String errorMessage;
   ErrorModel({
     required this.status,

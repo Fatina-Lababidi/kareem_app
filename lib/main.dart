@@ -14,8 +14,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
- // await init();
- await setupconfig();
+  // final sharedPreferences = await SharedPreferences.getInstance();
+  // final dio = Dio();
+  // await init();
+  await setupconfig();
   await config.allReady();
   runApp(EasyLocalization(
     supportedLocales: const [
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dio = config<Dio>();
+     Dio dio=Dio();
     final sharedPreferences = config<SharedPreferences>();
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,

@@ -21,7 +21,7 @@ class AllHubBloc extends Bloc<AllHubEvent, AllHubState> {
         String message = '';
         switch (failure.runtimeType) {
           case ServerFailure:
-            message = 'server failure';
+            message = failure.message ?? 'server failure';
             break;
           default:
             message = 'no internet';

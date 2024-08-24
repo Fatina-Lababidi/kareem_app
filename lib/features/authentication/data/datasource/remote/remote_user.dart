@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
 import 'package:careem_app_clean/core/resources/url.dart';
@@ -33,48 +34,95 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
         return response.data['body']['token'];
       } else {
         log("Unexpected status code: ${response.statusCode}");
-        throw ServerException();
+        final errorData = response.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
       log("Exception caught: $e");
-      throw ServerException();
+
+      throw ServerException(
+        errorModel: ErrorModel(
+          status: '',
+          errorMessage: 'Unexpected error occurred',
+        ),
+      );
+      //}
     }
   }
 
   @override
   Future<String> loginUser(String phone, String password) async {
-    final response = await dio.post(EndPoint.loginUrl,
-        data: {'phone': phone, 'password': password},
-        options: getHeader(false));
-    if (response.statusCode == 200) {
-      log('log in done');
-      // ? save the token: here ? or in the other place ?
-
-      return response.data['body']['token'];
-    } else {
-      log("Unexpected status code: ${response.statusCode}");
-      throw ServerException();
+    try {
+      final response = await dio.post(EndPoint.loginUrl,
+          data: {'phone': phone, 'password': password},
+          options: getHeader(false));
+      print(response.data);
+      if (response.statusCode == 200) {
+        log('log in done');
+        // ? save the token: here ? or in the other place ?
+        return response.data['body']['token'];
+      } //else if (response.statusCode == 400) {
+      //   final errorData = response.data;
+      //   ErrorModel errorModel = ErrorModel.fromJson(errorData);
+      //   throw ServerException(errorModel: errorModel);
+      // }
+       else {
+        print(response.data);
+        log("Unexpected status code: ${response.statusCode}");
+        final errorData = response.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
+      }
+    } catch (e) {
+      log("Exception caught: $e");
+      throw ServerException(
+        errorModel: ErrorModel(
+          status: '',
+          errorMessage: 'please try later ...',
+        ),
+      );
+      //  }
     }
   }
 
   @override
   Future<String> changePassword(String currentPassword, String newPassword,
       String confirmPassword) async {
-    final response = await dio.put(
-      EndPoint.changePassword,
-      data: {
-        "currentPassword": currentPassword,
-        "newPassword": newPassword,
-        "confirmPassword": confirmPassword,
-      },
-      options: getHeader(true),
-    );
-    if (response.statusCode == 202) {
-      log('change password done! ');
-      return response.data;
-    } else {
-      log("Unexpected status code: ${response.statusCode}");
-      throw ServerException();
+    try {
+      final response = await dio.put(
+        EndPoint.changePassword,
+        data: {
+          "currentPassword": currentPassword,
+          "newPassword": newPassword,
+          "confirmPassword": confirmPassword,
+        },
+        options: getHeader(true),
+      );
+      if (response.statusCode == 202) {
+        log('change password done! ');
+        return response.data;
+      } else {
+        log("Unexpected status code: ${response.statusCode}");
+        final errorData = response.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
+      }
+    } catch (e) {
+      log("Exception caught: $e");
+      // if (e is DioException && e.response != null) {
+      //   final errorData = e.response?.data;
+      //   ErrorModel errorModel = ErrorModel.fromJson(errorData);
+      //   throw ServerException(errorModel: errorModel);
+      // } else {
+      throw ServerException(
+        errorModel: ErrorModel(
+          status: '', // -1 for unexpected errors
+          errorMessage: 'Unexpected error occurred',
+        ),
+      );
+
+      ///}
     }
   }
 }

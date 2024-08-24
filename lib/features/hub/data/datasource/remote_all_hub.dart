@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
 import 'package:careem_app_clean/core/resources/url.dart';
@@ -22,10 +23,17 @@ class RemoteAllHubDataSource {
         print(response.data);
         return allHubModel;
       } else {
-        throw ServerException();
+        final errorData = response.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
-      throw ServerException();
+      throw ServerException(
+        errorModel: ErrorModel(
+          status: '',
+          errorMessage: 'please try later...',
+        ),
+      );
     }
   }
 }

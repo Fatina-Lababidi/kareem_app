@@ -392,7 +392,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                 PageTransition(
                     child: CategoriesPage(
                       sharedPreferences: widget.sharedPreferences,
-                      dio: widget.dio,
+                      dio:widget.dio,
                     ),
                     type: PageTransitionType.fade));
           },

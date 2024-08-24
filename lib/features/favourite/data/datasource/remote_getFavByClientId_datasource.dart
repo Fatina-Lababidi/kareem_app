@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
 import 'package:careem_app_clean/core/resources/url.dart';
@@ -24,11 +27,20 @@ class RemoteGetfavbyclientidDatasource {
 
         return favList;
       } else {
+        final errorData = response.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
         print('here');
-        throw ServerException();
+        throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
-      throw ServerException();
+      log("Exception caught: $e");
+
+      throw ServerException(
+        errorModel: ErrorModel(
+          status: '',
+          errorMessage: 'Unexpected error occurred',
+        ),
+      );
     }
   }
 }

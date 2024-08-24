@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
 import 'package:careem_app_clean/features/authentication/data/datasource/remote/remote_user.dart';
 import 'package:careem_app_clean/features/authentication/data/models/register_model.dart';
@@ -18,58 +19,59 @@ class AuthRepositoryImpl implements AuthRepository {
     required this.sharedPreferences,
   });
 
-  Future<bool> _hasConnection() async {
-    return await internetConnectionChecker.hasConnection;
-  }
-
   @override
   Future<Either<Failures, String>> registerUser(UserEntity user) async {
-    if (!await _hasConnection()) {
+    if (await internetConnectionChecker.hasConnection) {
+      try {
+        final userModel = UserModel.fromEntity(user);
+        final token = await remoteDataSource.registerUser(userModel);
+        // Save token :
+        //  config.get<SharedPreferences>().setString('token', token);
+        await sharedPreferences.setString('token', token);
+
+        return Right(token);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
+      }
+    } else {
       return Left(OfflineFailure());
-    }
-    try {
-      final userModel = UserModel.fromEntity(user);
-      final token = await remoteDataSource.registerUser(userModel);
-      // Save token :
-      //  config.get<SharedPreferences>().setString('token', token);
-      await sharedPreferences.setString('token', token);
-      return Right(token);
-    } catch (e) {
-      return Left(ServerFailure());
     }
   }
 
   @override
   Future<Either<Failures, String>> loginUser(
       String phone, String password) async {
-    if (!await _hasConnection()) {
-      return Left(OfflineFailure());
-    }
-    try {
-      final token = await remoteDataSource.loginUser(phone, password);
-      //? here ?
+    if (await internetConnectionChecker.hasConnection) {
+      try {
+        final token = await remoteDataSource.loginUser(phone, password);
+        //? here ?
 
-      await sharedPreferences.setString('token', token);
-      return Right(token);
-    } catch (e) {
-      log(e.toString());
-      return Left(ServerFailure());
+        await sharedPreferences.setString('token', token);
+        print(sharedPreferences.getString('token'));
+        return Right(token);
+      } on ServerException catch (e) {
+        log(e.toString());
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
+      }
+    } else {
+      return Left(OfflineFailure());
     }
   }
 
   @override
   Future<Either<Failures, String>> changePassword(String currentPassword,
       String newPassword, String confirmPassword) async {
-    if (!await _hasConnection()) {
+    if (await internetConnectionChecker.hasConnection) {
+      try {
+        final message = await remoteDataSource.changePassword(
+            currentPassword, newPassword, confirmPassword);
+        return Right(message);
+      } on ServerException catch (e) {
+        log(e.toString());
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
+      }
+    } else {
       return Left(OfflineFailure());
-    }
-    try {
-      final message = await remoteDataSource.changePassword(
-          currentPassword, newPassword, confirmPassword);
-      return Right(message);
-    } catch (e) {
-      log(e.toString());
-      return Left(ServerFailure());
     }
   }
 }

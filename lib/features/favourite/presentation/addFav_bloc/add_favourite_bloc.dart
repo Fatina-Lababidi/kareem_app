@@ -22,7 +22,7 @@ class AddFavouriteBloc extends Bloc<AddFavouriteEvent, AddFavouriteState> {
         String message = '';
         switch (failure.runtimeType) {
           case ServerFailure:
-            message = "not added to the favourite..";
+            message =failure.message ??"not added to the favourite..";
             break;
           default:
             message = "there is no internet ..";

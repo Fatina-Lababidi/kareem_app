@@ -21,7 +21,8 @@ class FavByClientIdBloc extends Bloc<FavByClientIdEvent, FavByClientIdState> {
         if (failure is OfflineFailure) {
           message = 'There is no internet connection.';
         } else if (failure is ServerFailure) {
-          message = "Client doesn't have any favourite bikes.";
+          message =
+              failure.message ?? "Client doesn't have any favourite bikes.";
         } else {
           message = 'Unexpected error occurred.';
         }

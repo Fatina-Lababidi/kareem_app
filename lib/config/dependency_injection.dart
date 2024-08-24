@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +11,6 @@ GetIt config = GetIt.instance;
 
 Future<void> setupconfig() async {
   final sharedPreferences = await SharedPreferences.getInstance();
-  config.registerSingleton<Dio>(Dio());
+
   config.registerSingleton<SharedPreferences>(sharedPreferences);
 }

@@ -31,8 +31,8 @@ class AddFavRepoImp implements FavouriteRepo {
         await sharedPreferences.setInt('client_Id', clientId);
 
         return Right(addFavBodyResponseEntity);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {
       return Left(OfflineFailure());
@@ -43,15 +43,15 @@ class AddFavRepoImp implements FavouriteRepo {
   Future<Either<Failures, List<AddFavResponseEntity>>> getFavByClientId(
       int clientId) async {
     if (await networkConnection.isConnected) {
-    print('there is internet');
-    try {
-      List<AddFavResponseEntity> fav =
-          await remoteGetfavbyclientidDatasource.getFavByClientId(clientId);
-      return Right(fav);
-    } on ServerException {
-      print('here');
-      return Left(ServerFailure());
-    }
+      print('there is internet');
+      try {
+        List<AddFavResponseEntity> fav =
+            await remoteGetfavbyclientidDatasource.getFavByClientId(clientId);
+        return Right(fav);
+      } on ServerException catch(e){
+        print('here');
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
+      }
     } else {
       return Left(OfflineFailure());
     }

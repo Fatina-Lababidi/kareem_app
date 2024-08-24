@@ -21,7 +21,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         String message = '';
         switch (failure.runtimeType) {
           case ServerFailure:
-            message = 'Please try again later ..';
+            message = failure.message ??"'Please try again later ..'";
             break;
           default:
             message = 'there is no internet';

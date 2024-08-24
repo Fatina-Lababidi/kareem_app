@@ -46,7 +46,7 @@ class CategoriesPage extends StatelessWidget {
       create: (context) => CategoriesBloc(GetCategoriesUsecase(
           categoriesRepo: CategoriesRepoImp(
               remoteBicycleByCategoryDatasource:
-                  RemoteBicycleByCategoryDatasource(dio: dio),
+                  RemoteBicycleByCategoryDatasource(dio:dio),
               remoteCategoriesDatasource: RemoteCategoriesDatasource(dio: dio),
               networkConnection: NetworkConnection(
                   internetConnectionChecker: InternetConnectionChecker()))))

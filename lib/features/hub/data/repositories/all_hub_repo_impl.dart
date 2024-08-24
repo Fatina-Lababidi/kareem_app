@@ -22,8 +22,8 @@ class AllHubRepoImp implements HubRepo {
         AllHubModel allHubModel =
             await remoteAllHubDataSource.getAllHub(latitude, longitude);
         return Right(allHubModel);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch(e){
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {
       return Left(OfflineFailure());

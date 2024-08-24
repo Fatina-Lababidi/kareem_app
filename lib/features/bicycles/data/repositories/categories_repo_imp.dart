@@ -28,8 +28,8 @@ class CategoriesRepoImp implements CategoriesRepo {
         CategoriesModel categories =
             await remoteCategoriesDatasource.getCategories();
         return Right(categories);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e){
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {
       return Left(OfflineFailure());
@@ -45,8 +45,8 @@ class CategoriesRepoImp implements CategoriesRepo {
             await remoteBicycleByCategoryDatasource
                 .getBicycleByCategor(category);
         return Right(bicycleByCategoryModel);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch(e){
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {
       return Left(OfflineFailure());

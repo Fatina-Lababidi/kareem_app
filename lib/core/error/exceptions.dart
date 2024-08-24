@@ -1,7 +1,20 @@
-class ServerException implements Exception {}
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-class OfflineException  implements Exception {}
+import 'package:careem_app_clean/core/error/error_model.dart';
 
-class EmptyCacheException  implements Exception {}
+class ServerException implements Exception {
+  final ErrorModel errorModel;
+  ServerException({
+    required this.errorModel,
+  });
+  @override
+  String toString() {
+    return 'ServerExeption:${errorModel.errorMessage}(Status:${errorModel.status})';
+  }
+}
+
+class OfflineException implements Exception {}
+
+class EmptyCacheException implements Exception {}
 
 class CacheException implements Exception {}

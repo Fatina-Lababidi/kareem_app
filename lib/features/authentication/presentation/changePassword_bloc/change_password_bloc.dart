@@ -34,7 +34,7 @@ class ChangePasswordBloc
 String _mapFailureToMessage(Failures failure) {
   switch (failure.runtimeType) {
     case ServerFailure:
-      return 'Server Failure';
+      return failure.message?? 'Server Failure';
     default:
       return 'Unexpected Error';
   }
