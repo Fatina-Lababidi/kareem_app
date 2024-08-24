@@ -5,12 +5,26 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:careem_app_clean/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+
+   setUpAll(() async {
+    // Reset the GetIt instance before each test
+
+
+    // Register the dependencies
+    SharedPreferences.setMockInitialValues({});
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final dio = Dio();
+
+
+  });
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());

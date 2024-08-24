@@ -4,15 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 GetIt config = GetIt.instance;
 
-init() async {
-  final prefs = await SharedPreferences.getInstance();
-  config.registerSingleton(prefs);
-}
+// init() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   config.registerSingleton(prefs);
+// }
 
-Future<SharedPreferences> getSharedPreferences() async {
-  return await SharedPreferences.getInstance();
-}
-
-Dio createDio() {
-  return Dio();
+Future<void> setupconfig() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  config.registerSingleton<Dio>(Dio());
+  config.registerSingleton<SharedPreferences>(sharedPreferences);
 }

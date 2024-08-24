@@ -14,9 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  final sharedPreferences = await SharedPreferences.getInstance();
-  final dio = Dio();
-  await init();
+ // await init();
+ await setupconfig();
+  await config.allReady();
   runApp(EasyLocalization(
     supportedLocales: const [
       Locale('en'),
@@ -25,42 +25,47 @@ void main() async {
     path: 'assets/translation',
     fallbackLocale: const Locale('en'),
     child: MyApp(
-      sharedPreferences: sharedPreferences,
-      dio: dio,
-    ),
+        // sharedPreferences: sharedPreferences,
+        // dio: dio,
+        ),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final Dio dio;
-  final SharedPreferences sharedPreferences;
-  const MyApp({super.key, required this.dio, required this.sharedPreferences});
+  // final Dio dio;
+  // final SharedPreferences sharedPreferences;
+  const MyApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final dio = config<Dio>();
+    final sharedPreferences = config<SharedPreferences>();
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(providers: [
-        BlocProvider(
-          create: (context) => RegisterBloc(
-            RegisterUserUseCase(
-              repository: AuthRepositoryImpl(
-                internetConnectionChecker: InternetConnectionChecker(),
-                sharedPreferences: sharedPreferences,
-                remoteDataSource: RemoteUserDataSourceImpl(dio: dio),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => RegisterBloc(
+              RegisterUserUseCase(
+                repository: AuthRepositoryImpl(
+                  internetConnectionChecker: InternetConnectionChecker(),
+                  sharedPreferences: sharedPreferences,
+                  remoteDataSource: RemoteUserDataSourceImpl(dio: dio),
+                ),
               ),
             ),
           ),
+        ],
+        child: CareemSplashPage(
+          dio: dio,
+          sharedPreferences: sharedPreferences,
         ),
-      ],
-          child: CareemSplashPage(
-            dio: dio,
-            sharedPreferences: sharedPreferences,
-          ),
-          ),
+      ),
     );
   }
 }
