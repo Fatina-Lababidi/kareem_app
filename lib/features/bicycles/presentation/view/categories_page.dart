@@ -5,6 +5,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/bicycles/data/datasource/remote_bicycle_by_category_datasource.dart';
+import 'package:careem_app_clean/features/bicycles/data/datasource/remote_bicycle_by_id_datasource.dart';
 import 'package:careem_app_clean/features/bicycles/data/datasource/remote_categories_datasource.dart';
 import 'package:careem_app_clean/features/bicycles/data/repositories/categories_repo_imp.dart';
 import 'package:careem_app_clean/features/bicycles/domain/usecase/categories_usecase.dart';
@@ -19,9 +20,11 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesPage extends StatelessWidget {
+  final int? id;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  CategoriesPage({super.key, required this.dio, required this.sharedPreferences});
+  CategoriesPage(
+      {super.key, required this.dio, required this.sharedPreferences, this.id});
 
   // final Map<String, String> categoryImages = {
   //   "Road_bikes": AppImages.roadBikes,
@@ -45,8 +48,10 @@ class CategoriesPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => CategoriesBloc(GetCategoriesUsecase(
           categoriesRepo: CategoriesRepoImp(
+              remoteBicycleByIdDatasource:
+                  RemoteBicycleByIdDatasource(dio: dio),
               remoteBicycleByCategoryDatasource:
-                  RemoteBicycleByCategoryDatasource(dio:dio),
+                  RemoteBicycleByCategoryDatasource(dio: dio),
               remoteCategoriesDatasource: RemoteCategoriesDatasource(dio: dio),
               networkConnection: NetworkConnection(
                   internetConnectionChecker: InternetConnectionChecker()))))

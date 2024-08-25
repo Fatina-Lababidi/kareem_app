@@ -43,7 +43,8 @@ class SettingsPage extends StatelessWidget {
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: screenWidth * 0.02,top: screenHeight*0.01),
+                  padding: EdgeInsets.only(
+                      left: screenWidth * 0.02, top: screenHeight * 0.01),
                   child: const BackWidget(),
                 ),
                 Expanded(
@@ -130,20 +131,22 @@ class SettingsPage extends StatelessWidget {
               screenWidth: screenWidth,
               screenHeight: screenHeight,
               text: LocalizationKeys.contactUs.tr(),
-              child: const NextPage(),
+              child: const NextPage(
+                id: 1,
+              ),
             ).animate().scaleXY(duration: .6.seconds, delay: .3.seconds),
             SizedBox(
               height: screenHeight * 0.025,
             ),
             SettingsOption(
-                    dio: dio,
-                    sharedPreferences: sharedPreferences,
-                    screenWidth: screenWidth,
-                    screenHeight: screenHeight,
-                    text: LocalizationKeys.deleteAccount.tr(),
-                    child: const NextPage())
-                .animate()
-                .scaleXY(duration: .7.seconds, delay: .35.seconds)
+                dio: dio,
+                sharedPreferences: sharedPreferences,
+                screenWidth: screenWidth,
+                screenHeight: screenHeight,
+                text: LocalizationKeys.deleteAccount.tr(),
+                child: const NextPage(
+                  id: 1,
+                )).animate().scaleXY(duration: .7.seconds, delay: .35.seconds)
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/bicycles/data/datasource/remote_bicycle_by_category_datasource.dart';
+import 'package:careem_app_clean/features/bicycles/data/datasource/remote_bicycle_by_id_datasource.dart';
 import 'package:careem_app_clean/features/bicycles/data/datasource/remote_categories_datasource.dart';
 import 'package:careem_app_clean/features/bicycles/data/repositories/categories_repo_imp.dart';
 import 'package:careem_app_clean/features/bicycles/domain/usecase/bicycle_by_category_usecase.dart';
@@ -33,6 +34,7 @@ class BicycleByCategoryPage extends StatelessWidget {
       create: (context) => BicycleByCategoryBloc(BicycleByCategoryUsecase(
           category: category,
           categoriesRepo: CategoriesRepoImp(
+            remoteBicycleByIdDatasource: RemoteBicycleByIdDatasource(dio: dio),
               remoteBicycleByCategoryDatasource:
                   RemoteBicycleByCategoryDatasource(dio: dio),
               remoteCategoriesDatasource: RemoteCategoriesDatasource(dio: dio),

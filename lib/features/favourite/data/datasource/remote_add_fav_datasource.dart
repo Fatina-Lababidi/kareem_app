@@ -35,7 +35,6 @@ class RemoteAddFavDatasource {
     } catch (e) {
       throw ServerException(
         errorModel: ErrorModel(
-          status: '',
           errorMessage: 'please try later ...',
         ),
       );

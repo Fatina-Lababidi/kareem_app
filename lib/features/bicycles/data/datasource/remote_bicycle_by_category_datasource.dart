@@ -33,7 +33,7 @@ class RemoteBicycleByCategoryDatasource {
     } catch (e) {
       throw ServerException(
         errorModel:
-            ErrorModel(status: '', errorMessage: 'please try later ...'),
+            ErrorModel( errorMessage: 'please try later ...'),
       );
     }
   }

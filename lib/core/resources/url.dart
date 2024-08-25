@@ -32,4 +32,9 @@ class EndPoint {
   static String getFavouritebyClientId(int clientId) {
     return 'https://rideshare.devscape.online/api/v1/favourite-bicycles/by-clientId/$clientId';
   }
+
+static String gethubContent(int hubId,String category){
+  return 'https://rideshare.devscape.online/api/v1/hub-content/$hubId?bicycleCategory=$category';
+}
+
 }

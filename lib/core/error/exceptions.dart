@@ -9,7 +9,7 @@ class ServerException implements Exception {
   });
   @override
   String toString() {
-    return 'ServerExeption:${errorModel.errorMessage}(Status:${errorModel.status})';
+    return 'ServerExeption:${errorModel.errorMessage}';
   }
 }
 

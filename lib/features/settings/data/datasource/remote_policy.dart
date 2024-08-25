@@ -37,7 +37,6 @@ class RemotePolicyDataSource {
     } catch (e) {
       throw ServerException(
         errorModel: ErrorModel(
-          status: '',
           errorMessage: 'Unexpected error occurred',
         ),
       );

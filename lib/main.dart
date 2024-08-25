@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     Dio dio=Dio();
+    Dio dio = Dio();
     final sharedPreferences = config<SharedPreferences>();
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
@@ -87,10 +87,16 @@ class MyApp extends StatelessWidget {
 // contact us :exist in back and ui
 
 class NextPage extends StatelessWidget {
-  const NextPage({super.key});
+  final int id;
+  const NextPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Text(id.toString()),
+      ),
+    );
   }
 }

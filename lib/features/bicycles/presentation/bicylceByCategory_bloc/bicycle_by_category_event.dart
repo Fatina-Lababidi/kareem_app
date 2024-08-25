@@ -5,8 +5,4 @@ part of 'bicycle_by_category_bloc.dart';
 sealed class BicycleByCategoryEvent {}
 
 class GetBicycleByCategor extends BicycleByCategoryEvent {
-  // final String category;
-  // GetBicycleByCategor({
-  //   required this.category,
-  // });
 }

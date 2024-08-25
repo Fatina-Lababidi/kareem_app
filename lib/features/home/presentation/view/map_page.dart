@@ -8,6 +8,7 @@ import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_imp
 import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
+import 'package:careem_app_clean/main.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +72,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   }
 
   void _moveToPosition(LatLng position) {
-    if(_isMapReady)
-    _mapController.move(position, 14);
+    if (_isMapReady) _mapController.move(position, 14);
   }
 
   Future<void> _checkAndRequestPermission() async {
@@ -189,7 +189,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     }
   }
 
-  List<Marker> _buildHubMarkers(List<PlaceEntity> places) {
+  List<Marker> _buildHubMarkers(
+      List<PlaceEntity> places, BuildContext context) {
     if (_locationCheck == true) {
       markers.value = [
         Marker(
@@ -203,13 +204,25 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     return places.map((place) {
       return Marker(
         point: LatLng(place.latitude.toDouble(), place.longitude.toDouble()),
-        child: Icon(Icons.pedal_bike, color: Colors.red, size: 40),
+        child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: CategoriesPage(
+                        id: place.id,
+                        dio: widget.dio,
+                        sharedPreferences: widget.sharedPreferences,
+                      ),
+                      type: PageTransitionType.fade));
+            },
+            child: Icon(Icons.pedal_bike, color: Colors.red, size: 40)),
       );
     }).toList();
   }
 
   void _updateHubMarkers(List<PlaceEntity> places) {
-    markers.value = _buildHubMarkers(places);
+    markers.value = _buildHubMarkers(places, context);
   }
 
   @override
@@ -273,7 +286,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                               if (state is AllHubSuccess)
                                 MarkerLayer(
                                     markers: _buildHubMarkers(
-                                        state.allHubEntity.body))
+                                        state.allHubEntity.body, context))
                             ],
                           ),
                         ),
@@ -392,7 +405,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                 PageTransition(
                     child: CategoriesPage(
                       sharedPreferences: widget.sharedPreferences,
-                      dio:widget.dio,
+                      dio: widget.dio,
                     ),
                     type: PageTransitionType.fade));
           },

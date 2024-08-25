@@ -43,11 +43,9 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
 
       throw ServerException(
         errorModel: ErrorModel(
-          status: '',
           errorMessage: 'Unexpected error occurred',
         ),
       );
-      //}
     }
   }
 
@@ -56,33 +54,43 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
     try {
       final response = await dio.post(EndPoint.loginUrl,
           data: {'phone': phone, 'password': password},
-          options: getHeader(false));
+          options: getHeader(false).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.data);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         log('log in done');
         // ? save the token: here ? or in the other place ?
         return response.data['body']['token'];
-      } //else if (response.statusCode == 400) {
-      //   final errorData = response.data;
-      //   ErrorModel errorModel = ErrorModel.fromJson(errorData);
-      //   throw ServerException(errorModel: errorModel);
-      // }
-       else {
-        print(response.data);
+      } else if (response.statusCode == 400) {
+        final errorData = response.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
+      } else {
         log("Unexpected status code: ${response.statusCode}");
         final errorData = response.data;
         ErrorModel errorModel = ErrorModel.fromJson(errorData);
         throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
-      log("Exception caught: $e");
-      throw ServerException(
-        errorModel: ErrorModel(
-          status: '',
-          errorMessage: 'please try later ...',
-        ),
-      );
-      //  }
+      if (e is DioException && e.response != null) {
+        log("DioError caught: ${e.message}");
+        final response = e.response;
+        final errorData = response!.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
+      } else if (e is ServerException) {
+        log("ServerException caught: ${e.errorModel.errorMessage}");
+        throw ServerException(errorModel: e.errorModel);
+      } else {
+        log("Unknown exception caught: $e");
+        throw ServerException(
+          errorModel: ErrorModel(
+            errorMessage: 'Please try later ...',
+          ),
+        );
+      }
     }
   }
 
@@ -110,19 +118,11 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
       }
     } catch (e) {
       log("Exception caught: $e");
-      // if (e is DioException && e.response != null) {
-      //   final errorData = e.response?.data;
-      //   ErrorModel errorModel = ErrorModel.fromJson(errorData);
-      //   throw ServerException(errorModel: errorModel);
-      // } else {
       throw ServerException(
         errorModel: ErrorModel(
-          status: '', // -1 for unexpected errors
           errorMessage: 'Unexpected error occurred',
         ),
       );
-
-      ///}
     }
   }
 }
