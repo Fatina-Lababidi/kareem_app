@@ -11,7 +11,10 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeLanguage extends StatefulWidget {
-  const ChangeLanguage({super.key});
+  final double screenHeight;
+  final double screenWidth;
+  const ChangeLanguage(
+      {super.key, required this.screenHeight, required this.screenWidth});
 
   @override
   State<ChangeLanguage> createState() => _ChangeLanguageState();
@@ -41,8 +44,6 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -52,7 +53,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      left: screenWidth * 0.02, top: screenHeight * 0.01),
+                      left: widget.screenWidth * 0.02,
+                      top: widget.screenHeight * 0.01),
                   child: const BackWidget(),
                 ),
                 Expanded(
@@ -75,7 +77,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               ],
             ).animate().fade(duration: .2.seconds, delay: .1.seconds),
             SizedBox(
-              height: screenHeight * 0.05,
+              height: widget.screenHeight * 0.05,
             ),
             GestureDetector(
               onTap: () async {
@@ -86,8 +88,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                width: screenWidth * 0.8, //362,
-                height: screenHeight * 0.09, //64,
+                width: widget.screenWidth * 0.8, //362,
+                height: widget.screenHeight * 0.09, //64,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   border: Border.all(
@@ -103,7 +105,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                       AppImages.englishLanguage,
                     ),
                     SizedBox(
-                      width: screenWidth * 0.02,
+                      width: widget.screenWidth * 0.02,
                     ),
                     Text(
                       LocalizationKeys.englishOption.tr(),
@@ -125,7 +127,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               ),
             ).animate().fade(duration: .3.seconds, delay: .2.seconds),
             SizedBox(
-              height: screenHeight * 0.02,
+              height: widget.screenHeight * 0.02,
             ),
             GestureDetector(
               onTap: () {
@@ -136,8 +138,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                width: screenWidth * 0.8, // 362,
-                height: screenHeight * 0.09, //64,
+                width: widget.screenWidth * 0.8, // 362,
+                height: widget.screenHeight * 0.09, //64,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   border: Border.all(
@@ -153,7 +155,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                       AppImages.arabicLanguage,
                     ),
                     SizedBox(
-                      width: screenWidth * 0.02,
+                      width: widget.screenWidth * 0.02,
                     ),
                     Text(
                       LocalizationKeys.arabicOption.tr(),
@@ -191,14 +193,14 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   ),
                 );
               },
-              screenHeight: screenHeight,
-              screenWidth: screenWidth,
+              screenHeight: widget.screenHeight,
+              screenWidth: widget.screenWidth,
               text: LocalizationKeys.save.tr(),
               textColor: AppColor.whiteColor,
               containerColor: AppColor.buttonColor,
             ).animate().fade(duration: .5.seconds, delay: .4.seconds),
             SizedBox(
-              height: screenHeight * 0.07,
+              height: widget.screenHeight * 0.07,
             )
           ],
         ),

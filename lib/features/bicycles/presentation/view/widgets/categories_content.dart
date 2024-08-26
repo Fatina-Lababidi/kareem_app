@@ -1,5 +1,6 @@
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/bicycle_by_category_page.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/hub_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -13,31 +14,55 @@ class CategoriesContainer extends StatelessWidget {
   final String categoryKey;
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final int? id;
   const CategoriesContainer({
     super.key,
     required this.screenHeight,
     required this.screenWidth,
     required this.catergory,
     // required this.imageUrl,
-    required this.categoryKey, required this.dio, required this.sharedPreferences,
+    required this.categoryKey,
+    required this.dio,
+    required this.sharedPreferences,
+    this.id,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            child: BicycleByCategoryPage(
-              //! we have to get this
-              sharedPreferences:sharedPreferences ,
-              dio: dio,
-              category: categoryKey,
+        print('Hub id:${id.toString()}');
+        if (id != null) {
+          //hub content page:
+          Navigator.push(
+              context,
+              PageTransition(
+                child: HubContentPage(
+                  sharedPreferences: sharedPreferences,
+                  dio: dio,
+                  hubId: id!,
+                  categroy: catergory,
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                ),
+                type: PageTransitionType.fade,
+              ));
+        } else {
+          Navigator.push(
+            context,
+            PageTransition(
+              child: BicycleByCategoryPage(
+                //! we have to get this
+                sharedPreferences: sharedPreferences,
+                dio: dio,
+                category: categoryKey,
+                screenHeight: screenHeight,
+                screenWidth: screenWidth,
+              ),
+              type: PageTransitionType.fade,
             ),
-            type: PageTransitionType.fade,
-          ),
-        );
+          );
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(8),

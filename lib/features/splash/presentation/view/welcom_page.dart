@@ -1,4 +1,3 @@
-
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
@@ -21,14 +20,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 class WelcomePage extends StatelessWidget {
   final SharedPreferences sharedPreferences;
   final Dio dio;
+  final double screenHeight;
+  final double screenWidth;
   const WelcomePage(
-      {super.key, required this.sharedPreferences, required this.dio});
+      {super.key,
+      required this.sharedPreferences,
+      required this.dio,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-    final double screenWidth = MediaQuery.sizeOf(context).width;
-
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: Center(
@@ -66,6 +68,8 @@ class WelcomePage extends StatelessWidget {
                       child: SignUpPage(
                         dio: dio,
                         sharedPreferences: sharedPreferences,
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
                       ),
                       type: PageTransitionType.fade));
             }, //navigate to sign up page
@@ -87,14 +91,20 @@ class WelcomePage extends StatelessWidget {
                               create: (context) => LoginBloc(
                                 LoginUserUseCase(
                                   repository: AuthRepositoryImpl(
-                                    internetConnectionChecker: InternetConnectionChecker(),
+                                    internetConnectionChecker:
+                                        InternetConnectionChecker(),
                                     remoteDataSource:
                                         RemoteUserDataSourceImpl(dio: dio),
                                     sharedPreferences: sharedPreferences,
                                   ),
                                 ),
                               ),
-                              child: LoginPage(dio: dio,sharedPreferences: sharedPreferences,),
+                              child: LoginPage(
+                                dio: dio,
+                                sharedPreferences: sharedPreferences,
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                              ),
                             ),
                             type: PageTransitionType.fade));
                   },

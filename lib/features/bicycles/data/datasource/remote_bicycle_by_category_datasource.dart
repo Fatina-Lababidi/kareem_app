@@ -15,7 +15,10 @@ class RemoteBicycleByCategoryDatasource {
   Future<BicycleByCategoryModel> getBicycleByCategor(String category) async {
     try {
       String url = EndPoint.bicyclesByCategoryUrl(category);
-      Response response = await dio.get(url, options: getHeader(true));
+      Response response = await dio.get(url,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.statusCode);
       print(response.data);
       if (response.statusCode == 200) {
@@ -32,8 +35,7 @@ class RemoteBicycleByCategoryDatasource {
       }
     } catch (e) {
       throw ServerException(
-        errorModel:
-            ErrorModel( errorMessage: 'please try later ...'),
+        errorModel: ErrorModel(errorMessage: 'please try later ...'),
       );
     }
   }

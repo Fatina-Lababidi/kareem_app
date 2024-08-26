@@ -24,7 +24,9 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
       final response = await dio.post(
         EndPoint.registerUrl,
         data: userModel.toJson(),
-        options: getHeader(false),
+        options: getHeader(false).copyWith(validateStatus: (int? status) {
+          return status != null && status < 500;
+        }),
       );
       log("Response received with status code: ${response.statusCode}");
       log("Response data: ${response.data}");
@@ -63,10 +65,6 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
         log('log in done');
         // ? save the token: here ? or in the other place ?
         return response.data['body']['token'];
-      } else if (response.statusCode == 400) {
-        final errorData = response.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
       } else {
         log("Unexpected status code: ${response.statusCode}");
         final errorData = response.data;
@@ -105,7 +103,9 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
           "newPassword": newPassword,
           "confirmPassword": confirmPassword,
         },
-        options: getHeader(true),
+        options: getHeader(true).copyWith(validateStatus: (int? status) {
+          return status != null && status < 500;
+        }),
       );
       if (response.statusCode == 202) {
         log('change password done! ');

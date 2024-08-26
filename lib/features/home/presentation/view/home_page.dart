@@ -15,10 +15,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomePage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final double screenHeight;
+  final double screenWidth;
   const HomePage({
     super.key,
     required this.dio,
     required this.sharedPreferences,
+    required this.screenHeight,
+    required this.screenWidth,
   });
 
   @override
@@ -37,10 +41,14 @@ class _HomePageState extends State<HomePage> {
       MapPage(
         sharedPreferences: widget.sharedPreferences,
         dio: widget.dio,
+        screenHeight: widget.screenHeight,
+        screenWidth: widget.screenWidth,
       ),
       FavouritePage(
         sharedPreferences: widget.sharedPreferences,
         dio: widget.dio,
+        screenHeight: widget.screenHeight,
+        screenWidth: widget.screenWidth,
       ),
       const WalletPage(),
       const OfferPage(),
@@ -62,8 +70,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-    final double screenWidth = MediaQuery.sizeOf(context).width;
     return WillPopScope(
       onWillPop: () async {
         // in order int to navigater back using the phone
@@ -91,8 +97,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: AppColor
-                           .progressBackgoundColor,
+                      color: AppColor.progressBackgoundColor,
                       // boxShadow: const [
                       //   BoxShadow(
                       //     color: Colors.black26,
@@ -105,7 +110,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              if (_isDrawerOpen) _buildDrawer(screenWidth, screenHeight),
+              if (_isDrawerOpen)
+                _buildDrawer(widget.screenWidth, widget.screenHeight),
             ],
           ),
         ),
@@ -271,8 +277,11 @@ class _HomePageState extends State<HomePage> {
                     context,
                     PageTransition(
                       child: SettingsPage(
-                          dio: widget.dio,
-                          sharedPreferences: widget.sharedPreferences),
+                        dio: widget.dio,
+                        sharedPreferences: widget.sharedPreferences,
+                        screenHeight: widget.screenHeight,
+                        screenWidth: widget.screenWidth,
+                      ),
                       type: PageTransitionType.fade,
                     ),
                   );

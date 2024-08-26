@@ -1,17 +1,11 @@
-
-
 import 'package:careem_app_clean/features/bicycles/domain/entities/bicycle_by_ctegory_entity.dart';
 
 class BicycleByCategoryModel extends BicycleByCtegoryEntity {
   BicycleByCategoryModel({
-    required String message,
-    required String status,
-    required List<BicycleModel> body,
-  }) : super(
-          message: message,
-          status: status,
-          body: body,
-        );
+    required super.message,
+    required super.status,
+    required List<BicycleModel> super.body,
+  });
 
   factory BicycleByCategoryModel.fromJson(Map<String, dynamic> json) {
     return BicycleByCategoryModel(
@@ -34,22 +28,14 @@ class BicycleByCategoryModel extends BicycleByCtegoryEntity {
 
 class BicycleModel extends BicyclesEntity {
   BicycleModel({
-    required int id,
-    required ModelPrice modelPrice,
-    required int size,
-    required String photoPath,
-    required String type,
-    required String note,
-    required List<dynamic> maintenance,
-  }) : super(
-          id: id,
-          modelPrice: modelPrice,
-          size: size,
-          photoPath: photoPath,
-          type: type,
-          note: note,
-          maintenance: maintenance,
-        );
+    required super.id,
+    required ModelPrice super.modelPrice,
+    required super.size,
+    required super.photoPath,
+    required super.type,
+    required super.note,
+    required super.maintenance,
+  });
 
   factory BicycleModel.fromJson(Map<String, dynamic> json) {
     return BicycleModel(
@@ -78,14 +64,10 @@ class BicycleModel extends BicyclesEntity {
 
 class ModelPrice extends ModelPriceEntity {
   ModelPrice({
-    required int id,
-    required double price,
-    required String model,
-  }) : super(
-          id: id,
-          price: price,
-          model: model,
-        );
+    required super.id,
+    required super.price,
+    required super.model,
+  });
 
   factory ModelPrice.fromJson(Map<String, dynamic> json) {
     return ModelPrice(

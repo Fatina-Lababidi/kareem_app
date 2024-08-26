@@ -27,14 +27,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsPage extends StatelessWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final double screenHeight;
+  final double screenWidth;
   const SettingsPage(
-      {super.key, required this.dio, required this.sharedPreferences});
+      {super.key,
+      required this.dio,
+      required this.sharedPreferences,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.sizeOf(context).width;
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -85,7 +88,10 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: const ChangePasswordPage(),
+                child: ChangePasswordPage(
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                ),
               ),
             ).animate().scaleXY(duration: .3.seconds, delay: .15.seconds),
             SizedBox(
@@ -97,7 +103,10 @@ class SettingsPage extends StatelessWidget {
               screenWidth: screenWidth,
               screenHeight: screenHeight,
               text: LocalizationKeys.changeLanguage.tr(),
-              child: const ChangeLanguage(),
+              child: ChangeLanguage(
+                screenHeight: screenHeight,
+                screenWidth: screenWidth,
+              ),
             ).animate().scaleXY(duration: .4.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.025,
@@ -119,7 +128,10 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 )..add(GetPolicy()),
-                child: const PolicyPage(),
+                child: PolicyPage(
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                ),
               ),
             ).animate().scaleXY(duration: .5.seconds, delay: .25.seconds),
             SizedBox(

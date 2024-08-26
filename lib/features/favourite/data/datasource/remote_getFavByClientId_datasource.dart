@@ -16,7 +16,10 @@ class RemoteGetfavbyclientidDatasource {
   Future<List<AddFavBodyResponseModel>> getFavByClientId(int clientId) async {
     try {
       String url = EndPoint.getFavouritebyClientId(clientId);
-      Response response = await dio.get(url, options: getHeader(true));
+      Response response = await dio.get(url,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.data);

@@ -37,7 +37,8 @@ class BicycleByIdPage extends StatelessWidget {
   final String? note;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-
+  final double screenHeight;
+  final double screenWidth;
   const BicycleByIdPage({
     super.key,
     required this.id,
@@ -49,14 +50,15 @@ class BicycleByIdPage extends StatelessWidget {
     this.note,
     required this.dio,
     required this.sharedPreferences,
+    required this.screenHeight,
+    required this.screenWidth,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.sizeOf(context).width;
-    final double screenHeight = MediaQuery.sizeOf(context).height;
     return BlocProvider(
-      create: (context) => BicycleByIdBloc(BicycleByIdUsecase(
+      create: (context) => BicycleByIdBloc(
+        BicycleByIdUsecase(
           categoriesRepo: CategoriesRepoImp(
               remoteBicycleByCategoryDatasource:
                   RemoteBicycleByCategoryDatasource(dio: dio),
@@ -65,7 +67,9 @@ class BicycleByIdPage extends StatelessWidget {
                   RemoteBicycleByIdDatasource(dio: dio),
               networkConnection: NetworkConnection(
                   internetConnectionChecker: InternetConnectionChecker())),
-          id: id)),
+          id: id,
+        ),
+      ),
       child: Builder(
         builder: (context) {
           if (price == null ||
@@ -241,19 +245,25 @@ class BicycleByIdPage extends StatelessWidget {
                               BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
                                 builder: (context, state) {
                                   if (state is AddFavouriteLoding) {
-                                    return CircularProgressIndicator(
-                                      color: AppColor.snackbarOfflineColor,
+                                    return const SizedBox(
+                                      width: 10,
+                                      height: 10,
+                                      child: CircularProgressIndicator(
+                                        color: AppColor.snackbarOfflineColor,
+                                      ),
                                     );
                                   } else {
                                     return IconButton(
-                                        onPressed: () {
-                                          context.read<AddFavouriteBloc>()
-                                            ..add(AddFav());
-                                        },
-                                        icon: Icon(
-                                          Icons.favorite_sharp,
-                                          color: AppColor.snackbarOfflineColor,
-                                        ));
+                                      onPressed: () {
+                                        context
+                                            .read<AddFavouriteBloc>()
+                                            .add(AddFav());
+                                      },
+                                      icon: const Icon(
+                                        Icons.favorite_sharp,
+                                        color: AppColor.snackbarOfflineColor,
+                                      ),
+                                    );
                                   }
                                 },
                               )
@@ -351,7 +361,10 @@ class BicycleByIdPage extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       PageTransition(
-                                          child: const ThanksPage(),
+                                          child: ThanksPage(
+                                            screenHeight: screenHeight,
+                                            screenWidth: screenWidth,
+                                          ),
                                           type: PageTransitionType.fade));
                                 },
                                 child: Container(
@@ -388,6 +401,8 @@ class BicycleByIdPage extends StatelessWidget {
                                             sharedPreferences:
                                                 sharedPreferences,
                                             dio: dio,
+                                            screenHeight: screenHeight,
+                                            screenWidth: screenWidth,
                                           ),
                                           type: PageTransitionType.fade));
                                 },

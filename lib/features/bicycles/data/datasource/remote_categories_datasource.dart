@@ -14,8 +14,10 @@ class RemoteCategoriesDatasource {
 
   Future<CategoriesModel> getCategories() async {
     try {
-      Response response =
-          await dio.get(EndPoint.bicycleCategories, options: getHeader(true));
+      Response response = await dio.get(EndPoint.bicycleCategories,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.data);
@@ -33,8 +35,7 @@ class RemoteCategoriesDatasource {
       }
     } catch (e) {
       throw ServerException(
-        errorModel:
-            ErrorModel( errorMessage: 'please try later ...'),
+        errorModel: ErrorModel(errorMessage: 'please try later ...'),
       );
     }
   }

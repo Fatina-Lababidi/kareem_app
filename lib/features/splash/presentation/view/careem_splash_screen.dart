@@ -7,7 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CareemSplashPage extends StatefulWidget {
   final SharedPreferences sharedPreferences;
   final Dio dio;
-  const CareemSplashPage({super.key, required this.sharedPreferences, required this.dio});
+  final double screenHeight;
+  final double screenWidth;
+  const CareemSplashPage(
+      {super.key,
+      required this.sharedPreferences,
+      required this.dio,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   State<CareemSplashPage> createState() => _CareemSplashPageState();
@@ -64,7 +71,12 @@ class _CareemSplashPageState extends State<CareemSplashPage>
     Navigator.of(context).pushReplacement(PageTransition(
       duration: const Duration(seconds: 1),
       type: PageTransitionType.leftToRight,
-      child:  OnBoarding(dio: widget.dio,sharedPreferences: widget.sharedPreferences,),
+      child: OnBoarding(
+        dio: widget.dio,
+        sharedPreferences: widget.sharedPreferences,
+        screenHeight: widget.screenHeight,
+        screenWidth: widget.screenWidth,
+      ),
     ));
   }
 

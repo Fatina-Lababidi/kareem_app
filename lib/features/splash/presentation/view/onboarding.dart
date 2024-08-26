@@ -1,4 +1,3 @@
-
 import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
@@ -15,7 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OnBoarding extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  const OnBoarding({super.key, required this.dio, required this.sharedPreferences});
+  final double screenHeight;
+  final double screenWidth;
+  const OnBoarding(
+      {super.key,
+      required this.dio,
+      required this.sharedPreferences,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   State<OnBoarding> createState() => _OnBoardingState();
@@ -58,7 +64,12 @@ class _OnBoardingState extends State<OnBoarding> {
         Navigator.push(
           context,
           PageTransition(
-            child:LocationPage(dio: widget.dio,sharedPreferences: widget.sharedPreferences,), // WelcomePage(dio: widget.dio,sharedPreferences: widget.sharedPreferences,),
+            child: LocationPage(
+              dio: widget.dio,
+              sharedPreferences: widget.sharedPreferences,
+              screenHeight: widget.screenHeight,
+              screenWidth: widget.screenWidth,
+            ),
             type: PageTransitionType.fade,
           ),
         );
@@ -68,9 +79,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-     bool isEng = isEnglish(context);
+    bool isEng = isEnglish(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -81,13 +90,18 @@ class _OnBoardingState extends State<OnBoarding> {
                 height: 2,
               ),
               Align(
-                alignment:isEng? Alignment.topRight:Alignment.topLeft,
+                alignment: isEng ? Alignment.topRight : Alignment.topLeft,
                 child: TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child:  WelcomePage(dio: widget.dio,sharedPreferences: widget.sharedPreferences,),
+                        child: WelcomePage(
+                          dio: widget.dio,
+                          sharedPreferences: widget.sharedPreferences,
+                          screenHeight: widget.screenHeight,
+                          screenWidth: widget.screenWidth,
+                        ),
                         type: PageTransitionType.fade,
                       ),
                     );
@@ -111,8 +125,8 @@ class _OnBoardingState extends State<OnBoarding> {
                 descriptionP1: descriptionP1[_currentIndex],
                 descriptionP2: descriptionP2[_currentIndex],
                 descriptionP3: descriptionP3[_currentIndex],
-                screenHeight: screenHeight,
-                screenWidth: screenWidth,
+                screenHeight: widget.screenHeight,
+                screenWidth: widget.screenWidth,
               ),
               const Spacer(
                 flex: 2,
@@ -123,8 +137,8 @@ class _OnBoardingState extends State<OnBoarding> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      width: screenWidth * 0.25,
-                      height: screenWidth * 0.25,
+                      width: widget.screenWidth * 0.25,
+                      height: widget.screenWidth * 0.25,
                       child: CircularProgressIndicator(
                         value: _progressValue,
                         strokeWidth: 4,
@@ -136,8 +150,8 @@ class _OnBoardingState extends State<OnBoarding> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      width: screenWidth * 0.2,
-                      height: screenWidth * 0.2,
+                      width: widget.screenWidth * 0.2,
+                      height: widget.screenWidth * 0.2,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),

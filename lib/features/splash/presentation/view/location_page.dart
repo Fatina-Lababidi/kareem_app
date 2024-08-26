@@ -9,8 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocationPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final double screenHeight;
+  final double screenWidth;
   const LocationPage(
-      {super.key, required this.dio, required this.sharedPreferences});
+      {super.key,
+      required this.dio,
+      required this.sharedPreferences,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   State<LocationPage> createState() => _LocationPageState();
@@ -69,10 +75,18 @@ class _LocationPageState extends State<LocationPage> {
     Navigator.push(
       context,
       PageTransition(
-         child: HomePage(
-             dio: widget.dio, sharedPreferences: widget.sharedPreferences),
-        //  WelcomePage(
-        // sharedPreferences: widget.sharedPreferences, dio: widget.dio),
+        child: HomePage(
+          dio: widget.dio,
+          sharedPreferences: widget.sharedPreferences,
+          screenHeight: widget.screenHeight,
+          screenWidth: widget.screenWidth,
+        ),
+        //     WelcomePage(
+        //   sharedPreferences: widget.sharedPreferences,
+        //   dio: widget.dio,
+        //   screenHeight: widget.screenHeight,
+        //   screenWidth: widget.screenWidth,
+        // ),
         type: PageTransitionType.fade,
       ),
     );

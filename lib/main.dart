@@ -14,9 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // final sharedPreferences = await SharedPreferences.getInstance();
-  // final dio = Dio();
-  // await init();
   await setupconfig();
   await config.allReady();
   runApp(EasyLocalization(
@@ -26,16 +23,11 @@ void main() async {
     ],
     path: 'assets/translation',
     fallbackLocale: const Locale('en'),
-    child: MyApp(
-        // sharedPreferences: sharedPreferences,
-        // dio: dio,
-        ),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  // final Dio dio;
-  // final SharedPreferences sharedPreferences;
   const MyApp({
     super.key,
   });
@@ -43,6 +35,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Dio dio = Dio();
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     final sharedPreferences = config<SharedPreferences>();
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
@@ -66,25 +60,24 @@ class MyApp extends StatelessWidget {
         child: CareemSplashPage(
           dio: dio,
           sharedPreferences: sharedPreferences,
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
         ),
       ),
     );
   }
 }
+//?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
 
-//! log in :
+//log in :
 // 0222222222 //paPa12@121212
-//work:
-//0444444444 //saSA@11112222
-//emoliter:
-//0111111111// Satasa!111111
+
 //? what business logic means ??
 //! the interlPhoneField packge not validate ....
 //kotlen ??
 
 //TODO:
 // don't have an account in log in so navigate to sign up
-// contact us :exist in back and ui
 
 class NextPage extends StatelessWidget {
   final int id;

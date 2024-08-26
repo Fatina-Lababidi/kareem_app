@@ -16,7 +16,10 @@ class RemoteAllHubDataSource {
     try {
       String url = EndPoint.getAllHubsUrl(latitude, longitude);
       print(url);
-      Response response = await dio.get(url, options: getHeader(true));
+      Response response = await dio.get(url,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.statusCode);
       if (response.statusCode == 200) {
         AllHubModel allHubModel = AllHubModel.formJson(response.data);

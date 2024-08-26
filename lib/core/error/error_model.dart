@@ -1,4 +1,5 @@
 class ErrorModel {
+  //final String status;
   final String errorMessage;
   ErrorModel({
     required this.errorMessage,

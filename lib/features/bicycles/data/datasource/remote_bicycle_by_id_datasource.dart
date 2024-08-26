@@ -15,7 +15,10 @@ class RemoteBicycleByIdDatasource {
   Future<BicycleByIdModel> getBicycleById(int id) async {
     try {
       String url = EndPoint.bicycleByIdUrl(id);
-      Response response = await dio.get(url, options: getHeader(true));
+      Response response = await dio.get(url,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.statusCode);
       print(response.data);
       if (response.statusCode == 200) {

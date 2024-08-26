@@ -16,7 +16,7 @@ class BicycleByIdBloc extends Bloc<BicycleByIdEvent, BicycleByIdState> {
       failureOrEntity.fold((failure) {
         String message = '';
         switch (failure.runtimeType) {
-          case ServerFailure():
+          case ServerFailure:
             message = failure.message ?? 'Please try again later ..';
             break;
           default:

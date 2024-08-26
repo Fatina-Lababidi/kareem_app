@@ -4,11 +4,11 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/categories_page.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
-import 'package:careem_app_clean/main.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +24,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MapPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final double screenHeight;
+  final double screenWidth;
   const MapPage(
-      {super.key, required this.dio, required this.sharedPreferences});
+      {super.key,
+      required this.dio,
+      required this.sharedPreferences,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -213,6 +219,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                         id: place.id,
                         dio: widget.dio,
                         sharedPreferences: widget.sharedPreferences,
+                        screenHeight: widget.screenHeight,
+                        screenWidth: widget.screenWidth,
                       ),
                       type: PageTransitionType.fade));
             },
@@ -227,13 +235,14 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final double screenwidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
         create: (context) {
           final lat = _savedPosition?.latitude ?? _initialPosition.latitude;
           final lng = _savedPosition?.longitude ?? _initialPosition.longitude;
           return AllHubBloc(AllHubUsecase(
               hubRepo: AllHubRepoImp(
+                  remoteHubContentDatasource:
+                      RemoteHubContentDatasource(dio: widget.dio),
                   remoteAllHubDataSource:
                       RemoteAllHubDataSource(dio: widget.dio),
                   networkConnection: NetworkConnection(
@@ -332,7 +341,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     if (isSearchBarVisible) _buildSearchBar(),
                     Positioned(
                       top: 10,
-                      left: screenwidth / 1.2,
+                      left: widget.screenWidth / 1.2,
                       right: 0,
                       child: _buildSearchAndLocationBar(),
                     ),
@@ -406,6 +415,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     child: CategoriesPage(
                       sharedPreferences: widget.sharedPreferences,
                       dio: widget.dio,
+                      screenHeight: widget.screenHeight,
+                      screenWidth: widget.screenWidth,
                     ),
                     type: PageTransitionType.fade));
           },

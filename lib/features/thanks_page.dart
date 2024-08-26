@@ -8,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class ThanksPage extends StatelessWidget {
-  const ThanksPage({super.key});
+    final double screenHeight;
+  final double screenWidth;
+  const ThanksPage({super.key, required this.screenHeight, required this.screenWidth});
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-    final double screenWidth = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(

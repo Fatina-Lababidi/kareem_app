@@ -6,6 +6,7 @@ import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
@@ -31,8 +32,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HubPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final double screenHeight;
+  final double screenWidth;
   const HubPage(
-      {super.key, required this.dio, required this.sharedPreferences});
+      {super.key,
+      required this.dio,
+      required this.sharedPreferences,
+      required this.screenHeight,
+      required this.screenWidth});
 
   @override
   State<HubPage> createState() => _HubPageState();
@@ -118,8 +125,6 @@ class _HubPageState extends State<HubPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.sizeOf(context).width;
-    final double screenHeight = MediaQuery.sizeOf(context).height;
     return FutureBuilder<Map<String, num>?>(
       future: getLatAndLon(),
       builder: (context, snapshot) {
@@ -145,8 +150,8 @@ class _HubPageState extends State<HubPage> {
                           ),
                           const SizedBox(height: 16),
                           AppButton(
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
+                            screenHeight: widget.screenHeight,
+                            screenWidth: widget.screenWidth,
                             text: 'Enable Location',
                             textColor: AppColor.whiteColor,
                             containerColor: AppColor.buttonColor,
@@ -159,6 +164,8 @@ class _HubPageState extends State<HubPage> {
                       create: (context) => AllHubBloc(
                         AllHubUsecase(
                           hubRepo: AllHubRepoImp(
+                            remoteHubContentDatasource:
+                                RemoteHubContentDatasource(dio: widget.dio),
                             remoteAllHubDataSource:
                                 RemoteAllHubDataSource(dio: widget.dio),
                             networkConnection: NetworkConnection(
@@ -178,8 +185,8 @@ class _HubPageState extends State<HubPage> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        left: screenWidth * 0.02,
-                                        top: screenHeight * 0.01),
+                                        left: widget.screenWidth * 0.02,
+                                        top: widget.screenHeight * 0.01),
                                     child: const BackWidget(),
                                   ),
                                   Expanded(
@@ -194,7 +201,7 @@ class _HubPageState extends State<HubPage> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: screenWidth * 0.06),
+                                  SizedBox(width: widget.screenWidth * 0.06),
                                 ],
                               ),
                               HubSelector(

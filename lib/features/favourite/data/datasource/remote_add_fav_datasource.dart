@@ -13,10 +13,13 @@ class RemoteAddFavDatasource {
 
   Future<AddFavBodyResponseModel> addFav(int bicycleId) async {
     try {
-      Response response = await dio
-          .post(EndPoint.addFavouriteUrl, options: getHeader(true), data: {
-        "bicycleId": bicycleId,
-      });
+      Response response = await dio.post(EndPoint.addFavouriteUrl,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }),
+          data: {
+            "bicycleId": bicycleId,
+          });
       print(response.statusCode);
       if (response.statusCode == 201) {
         print(response.data);

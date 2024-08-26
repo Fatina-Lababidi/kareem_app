@@ -15,8 +15,10 @@ class RemotePolicyDataSource {
 
   Future<PolicyModel> getPolicy() async {
     try {
-      Response response =
-          await dio.get(EndPoint.getPolicyUrl, options: getHeader(true));
+      Response response = await dio.get(EndPoint.getPolicyUrl,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
+            return status != null && status < 500;
+          }));
       print(response.data);
       if (response.statusCode == 200) {
         print(response.data['body']);

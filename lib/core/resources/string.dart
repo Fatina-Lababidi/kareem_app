@@ -124,4 +124,5 @@ class LocalizationKeys {
       "Your_booking_has_been_placed_sent";
   static const String thankYou = "thank_you";
   static const String confirmRide = 'confrim_ride';
+  static const String hubContent = 'hub_content';
 }
