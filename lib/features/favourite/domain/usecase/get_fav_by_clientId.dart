@@ -6,13 +6,13 @@ import 'package:dartz/dartz.dart';
 
 class GetFavByClientidUsecase {
   final FavouriteRepo favouriteRepo;
-  final int clientId;
+ // final int clientId;
   GetFavByClientidUsecase({
     required this.favouriteRepo,
-    required this.clientId,
+   // required this.clientId,
   });
 
   Future<Either<Failures, List<AddFavResponseEntity>>> call() async {
-    return await favouriteRepo.getFavByClientId(clientId);
+    return await favouriteRepo.getFavByClientId();
   }
 }

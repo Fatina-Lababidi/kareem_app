@@ -1,4 +1,3 @@
-
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,8 +5,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 class ProgressContent extends StatelessWidget {
   final String image;
   final String title;
-  final double screenHeight;
-  final double screenWidth;
   final String descriptionP1;
   final String descriptionP2;
   final String descriptionP3;
@@ -19,12 +16,12 @@ class ProgressContent extends StatelessWidget {
     required this.descriptionP1,
     required this.descriptionP2,
     required this.descriptionP3,
-    required this.screenHeight,
-    required this.screenWidth,
   });
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Column(
       children: [
         SizedBox(

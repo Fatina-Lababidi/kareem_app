@@ -24,14 +24,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MapPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  const MapPage(
-      {super.key,
-      required this.dio,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+  const MapPage({
+    super.key,
+    required this.dio,
+    required this.sharedPreferences,
+  });
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -219,8 +216,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                         id: place.id,
                         dio: widget.dio,
                         sharedPreferences: widget.sharedPreferences,
-                        screenHeight: widget.screenHeight,
-                        screenWidth: widget.screenWidth,
                       ),
                       type: PageTransitionType.fade));
             },
@@ -235,6 +230,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+
     return BlocProvider(
         create: (context) {
           final lat = _savedPosition?.latitude ?? _initialPosition.latitude;
@@ -341,7 +338,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     if (isSearchBarVisible) _buildSearchBar(),
                     Positioned(
                       top: 10,
-                      left: widget.screenWidth / 1.2,
+                      left: screenWidth / 1.2,
                       right: 0,
                       child: _buildSearchAndLocationBar(),
                     ),
@@ -415,8 +412,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     child: CategoriesPage(
                       sharedPreferences: widget.sharedPreferences,
                       dio: widget.dio,
-                      screenHeight: widget.screenHeight,
-                      screenWidth: widget.screenWidth,
                     ),
                     type: PageTransitionType.fade));
           },

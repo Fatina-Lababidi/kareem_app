@@ -23,15 +23,12 @@ class CategoriesPage extends StatelessWidget {
   final int? id;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  CategoriesPage(
-      {super.key,
-      required this.dio,
-      required this.sharedPreferences,
-      this.id,
-      required this.screenHeight,
-      required this.screenWidth});
+  CategoriesPage({
+    super.key,
+    required this.dio,
+    required this.sharedPreferences,
+    this.id,
+  });
 
   // final Map<String, String> categoryImages = {
   //   "Road_bikes": AppImages.roadBikes,
@@ -49,6 +46,8 @@ class CategoriesPage extends StatelessWidget {
   // final String defultText = LocalizationKeys.defaultBike.tr();
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
       create: (context) => CategoriesBloc(GetCategoriesUsecase(
           categoriesRepo: CategoriesRepoImp(
@@ -142,8 +141,7 @@ class CategoriesPage extends StatelessWidget {
                               categoryKey: category,
                               // imageUrl: imageUrl,
                               catergory: category,
-                              screenHeight: screenHeight,
-                              screenWidth: screenWidth,
+
                               id: id,
                             ).animate().fade(
                                 duration: (0.2 * index).seconds,

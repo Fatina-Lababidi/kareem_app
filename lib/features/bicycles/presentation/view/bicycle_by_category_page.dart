@@ -21,18 +21,18 @@ class BicycleByCategoryPage extends StatelessWidget {
   final String category;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  const BicycleByCategoryPage(
-      {super.key,
-      required this.category,
-      required this.dio,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+
+  const BicycleByCategoryPage({
+    super.key,
+    required this.category,
+    required this.dio,
+    required this.sharedPreferences,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
       create: (context) => BicycleByCategoryBloc(BicycleByCategoryUsecase(
           category: category,
@@ -85,8 +85,6 @@ class BicycleByCategoryPage extends StatelessWidget {
                         switch (state) {
                           case BicycleByCategorySuccess():
                             return BicycleByCategorySuccessUi(
-                              screenHeight: screenHeight,
-                              screenWidth: screenWidth,
                               sharedPreferences: sharedPreferences,
                               dio: dio,
                               bicycleByCtegoryEntity:

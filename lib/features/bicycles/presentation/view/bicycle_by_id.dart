@@ -37,8 +37,7 @@ class BicycleByIdPage extends StatelessWidget {
   final String? note;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
+
   const BicycleByIdPage({
     super.key,
     required this.id,
@@ -50,12 +49,12 @@ class BicycleByIdPage extends StatelessWidget {
     this.note,
     required this.dio,
     required this.sharedPreferences,
-    required this.screenHeight,
-    required this.screenWidth,
   });
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
       create: (context) => BicycleByIdBloc(
         BicycleByIdUsecase(

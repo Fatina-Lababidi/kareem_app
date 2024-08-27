@@ -6,6 +6,7 @@ import 'package:careem_app_clean/features/home/presentation/view/map_page.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/hexagonal.dart';
 import 'package:careem_app_clean/features/offer.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/settings_page.dart';
+import 'package:careem_app_clean/features/wallet/presentation/view/wallet_info_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +16,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomePage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
+
   const HomePage({
     super.key,
     required this.dio,
     required this.sharedPreferences,
-    required this.screenHeight,
-    required this.screenWidth,
   });
 
   @override
@@ -41,16 +39,14 @@ class _HomePageState extends State<HomePage> {
       MapPage(
         sharedPreferences: widget.sharedPreferences,
         dio: widget.dio,
-        screenHeight: widget.screenHeight,
-        screenWidth: widget.screenWidth,
       ),
       FavouritePage(
         sharedPreferences: widget.sharedPreferences,
         dio: widget.dio,
-        screenHeight: widget.screenHeight,
-        screenWidth: widget.screenWidth,
       ),
-      const WalletPage(),
+      WalletInfoPage(
+        dio: widget.dio,
+      ),
       const OfferPage(),
       const ProfilePage(),
     ];
@@ -70,6 +66,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return WillPopScope(
       onWillPop: () async {
         // in order int to navigater back using the phone
@@ -110,8 +108,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              if (_isDrawerOpen)
-                _buildDrawer(widget.screenWidth, widget.screenHeight),
+              if (_isDrawerOpen) _buildDrawer(screenWidth, screenHeight),
             ],
           ),
         ),
@@ -279,8 +276,6 @@ class _HomePageState extends State<HomePage> {
                       child: SettingsPage(
                         dio: widget.dio,
                         sharedPreferences: widget.sharedPreferences,
-                        screenHeight: widget.screenHeight,
-                        screenWidth: widget.screenWidth,
                       ),
                       type: PageTransitionType.fade,
                     ),

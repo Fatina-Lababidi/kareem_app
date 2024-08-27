@@ -101,5 +101,20 @@
   "Your_booking_has_been_placed_sent": "Your booking has been placed sent",
   "thank_you": "Thank you",
   "confrim_ride": "Confirm Ride ",
-  "hub_content":"Hub content"
+  "hub_content": "Hub content",
+  "add_money": "Add Money",
+  "available_balance": "Available Balance",
+  "total_expend": "Total Expend",
+  "transections": "Transections",
+  "enter_your_security_code": "Enter your security code",
+  "enter_your_confirm_security_code": "Enter your confirm security code",
+  "security_code_validate": "please enter your securityCode!",
+  "confirm_security_code_validate": "please confirm your securityCode !",
+  "security_code_too_short": "SecurityCode must be at least 8 characters long!",
+  "securit_code_invalid": "SecurityCode must contain at least one letter and one number!",
+  "security_code_mis_mathch": "SecurityCode do not match!",
+  "enter_your_bank_account": "Enter your bank account",
+  "bank_account_validate": "please enter your bank account!",
+  "create": "Create",
+  "create_new_wallet": "Create New Wallet"
 }

@@ -29,12 +29,22 @@ class EndPoint {
   static String addFavouriteUrl =
       "https://rideshare.devscape.online/api/v1/favourite-bicycles";
 
-  static String getFavouritebyClientId(int clientId) {
-    return 'https://rideshare.devscape.online/api/v1/favourite-bicycles/by-clientId/$clientId';
+  // static String getFavouritebyClientId(int clientId) {
+  //   return 'https://rideshare.devscape.online/api/v1/favourite-bicycles/by-clientId/$clientId';
+  // }
+
+  static String getFavouriteBikesForClient =
+      'https://rideshare.devscape.online/api/v1/favourite-bicycles/clientFavourite';
+  static String gethubContentUrl(int hubId, String category) {
+    return 'https://rideshare.devscape.online/api/v1/hub-content/$hubId?bicycleCategory=$category';
   }
 
-static String gethubContentUrl(int hubId,String category){
-  return 'https://rideshare.devscape.online/api/v1/hub-content/$hubId?bicycleCategory=$category';
-}
+  static String getMyWalletInfo =
+      'https://rideshare.devscape.online/api/v1/wallet';
+  static String createNewWallet =
+      'https://rideshare.devscape.online/api/v1/wallet';
+  static String addMoney = 'https://rideshare.devscape.online/api/v1/wallet';
 
+  static String allCode =
+      'https://rideshare.devscape.online/api/v1/wallet/All-valid-codes';
 }

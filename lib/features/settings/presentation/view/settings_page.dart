@@ -27,17 +27,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsPage extends StatelessWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  const SettingsPage(
-      {super.key,
-      required this.dio,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+  const SettingsPage({
+    super.key,
+    required this.dio,
+    required this.sharedPreferences,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -75,8 +74,6 @@ class SettingsPage extends StatelessWidget {
             SettingsOption(
               dio: dio,
               sharedPreferences: sharedPreferences,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
               text: LocalizationKeys.changePasswordTitle.tr(),
               child: BlocProvider(
                 create: (context) => ChangePasswordBloc(
@@ -88,10 +85,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: ChangePasswordPage(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                ),
+                child: ChangePasswordPage(),
               ),
             ).animate().scaleXY(duration: .3.seconds, delay: .15.seconds),
             SizedBox(
@@ -100,13 +94,8 @@ class SettingsPage extends StatelessWidget {
             SettingsOption(
               dio: dio,
               sharedPreferences: sharedPreferences,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
               text: LocalizationKeys.changeLanguage.tr(),
-              child: ChangeLanguage(
-                screenHeight: screenHeight,
-                screenWidth: screenWidth,
-              ),
+              child: ChangeLanguage(),
             ).animate().scaleXY(duration: .4.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.025,
@@ -114,8 +103,6 @@ class SettingsPage extends StatelessWidget {
             SettingsOption(
               dio: dio,
               sharedPreferences: sharedPreferences,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
               text: LocalizationKeys.privacyPolicy.tr(),
               child: BlocProvider<PolicyBloc>(
                 create: (context) => PolicyBloc(
@@ -128,10 +115,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 )..add(GetPolicy()),
-                child: PolicyPage(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                ),
+                child: PolicyPage(),
               ),
             ).animate().scaleXY(duration: .5.seconds, delay: .25.seconds),
             SizedBox(
@@ -140,8 +124,6 @@ class SettingsPage extends StatelessWidget {
             SettingsOption(
               dio: dio,
               sharedPreferences: sharedPreferences,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
               text: LocalizationKeys.contactUs.tr(),
               child: const NextPage(
                 id: 1,
@@ -153,8 +135,6 @@ class SettingsPage extends StatelessWidget {
             SettingsOption(
                 dio: dio,
                 sharedPreferences: sharedPreferences,
-                screenWidth: screenWidth,
-                screenHeight: screenHeight,
                 text: LocalizationKeys.deleteAccount.tr(),
                 child: const NextPage(
                   id: 1,

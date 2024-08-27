@@ -19,4 +19,5 @@ class AppColor {
   static const Color snackbarOfflineColor = Color.fromARGB(255, 65, 62, 62);
   static const Color dividerColor = Color(0xffE8E8E8);
   static const Color checkColor = Color(0xff43A048);
+  static const Color hintColor = Color(0xffD0D0D0);
 }

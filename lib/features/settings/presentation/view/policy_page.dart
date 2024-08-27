@@ -10,13 +10,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PolicyPage extends StatelessWidget {
-  final double screenHeight;
-  final double screenWidth;
-  const PolicyPage(
-      {super.key, required this.screenHeight, required this.screenWidth});
+  const PolicyPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(

@@ -29,19 +29,17 @@ class PasswordPage extends StatefulWidget {
   final String userName;
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  const PasswordPage(
-      {super.key,
-      required this.firstName,
-      required this.lastName,
-      required this.phone,
-      required this.birthDate,
-      required this.userName,
-      required this.dio,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+
+  const PasswordPage({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.birthDate,
+    required this.userName,
+    required this.dio,
+    required this.sharedPreferences,
+  });
 
   @override
   State<PasswordPage> createState() => _PasswordPageState();
@@ -65,6 +63,8 @@ class _PasswordPageState extends State<PasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocConsumer<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
@@ -81,8 +81,6 @@ class _PasswordPageState extends State<PasswordPage> {
                   child: HomePage(
                     dio: widget.dio,
                     sharedPreferences: widget.sharedPreferences,
-                    screenHeight: widget.screenHeight,
-                    screenWidth: widget.screenWidth,
                   ),
                   type: PageTransitionType.fade));
         } else if (state is RegisterFailure) {
@@ -114,13 +112,13 @@ class _PasswordPageState extends State<PasswordPage> {
                       children: [
                         Padding(
                                 padding: EdgeInsets.only(
-                                    left: widget.screenWidth * 0.02,
-                                    top: widget.screenHeight * 0.01),
+                                    left: screenWidth * 0.02,
+                                    top: screenHeight * 0.01),
                                 child: const BackWidget())
                             .animate()
                             .fade(duration: .2.seconds, delay: .1.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.04,
+                          height: screenHeight * 0.04,
                         ),
                         Text(
                           LocalizationKeys.setPassword.tr(),
@@ -133,12 +131,12 @@ class _PasswordPageState extends State<PasswordPage> {
                             .animate()
                             .fade(duration: .3.seconds, delay: .15.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         Text(
                           LocalizationKeys.setYourPassword.tr(),
                           style: TextStyle(
-                            fontSize: widget.screenWidth * 0.04, //16,
+                            fontSize: screenWidth * 0.04, //16,
                             color: AppColor.detailsTextColor,
                             fontWeight: FontWeight.w400,
                           ),
@@ -146,7 +144,7 @@ class _PasswordPageState extends State<PasswordPage> {
                             .animate()
                             .fade(duration: .4.seconds, delay: .2.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.03,
+                          height: screenHeight * 0.03,
                         ),
                         AppTextFormField(
                           //focusNode: _passwordFocusNode,
@@ -162,8 +160,8 @@ class _PasswordPageState extends State<PasswordPage> {
                                 : const Icon(Icons.visibility),
                             color: AppColor.detailsTextColor,
                           ),
-                          screenWidth: widget.screenWidth,
-                          screenHeight: widget.screenHeight,
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                           hintText: LocalizationKeys.enterYourPassword.tr(),
                           textColor: Colors.black,
                           hintColor: Colors.grey,
@@ -185,7 +183,7 @@ class _PasswordPageState extends State<PasswordPage> {
                             .animate()
                             .fade(duration: .5.seconds, delay: .25.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         AppTextFormField(
                           // enable: _passwordController.text.isNotEmpty,
@@ -204,8 +202,8 @@ class _PasswordPageState extends State<PasswordPage> {
                                 : const Icon(Icons.visibility),
                             color: AppColor.detailsTextColor,
                           ),
-                          screenWidth: widget.screenWidth,
-                          screenHeight: widget.screenHeight,
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                           hintText: LocalizationKeys.confirmPassword.tr(),
                           textColor: Colors.black,
                           hintColor: Colors.grey,
@@ -224,11 +222,10 @@ class _PasswordPageState extends State<PasswordPage> {
                             .animate()
                             .fade(duration: .6.seconds, delay: .3.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.01,
+                          height: screenHeight * 0.01,
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: widget.screenWidth * 0.04),
+                          padding: EdgeInsets.only(left: screenWidth * 0.04),
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: Text(
@@ -245,7 +242,7 @@ class _PasswordPageState extends State<PasswordPage> {
                             .animate()
                             .fade(duration: .7.seconds, delay: .35.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.25,
+                          height: screenHeight * 0.25,
                         ),
                         // Spacer(),
                         BlocBuilder<RegisterBloc, RegisterState>(
@@ -259,8 +256,8 @@ class _PasswordPageState extends State<PasswordPage> {
                                 );
                               default:
                                 return AppButton(
-                                  screenHeight: widget.screenHeight,
-                                  screenWidth: widget.screenWidth,
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                   onTap: () async {
                                     if (_formKey.currentState!.validate()) {
                                       print('Form is valid');
@@ -288,7 +285,7 @@ class _PasswordPageState extends State<PasswordPage> {
                           },
                         ),
                         SizedBox(
-                          height: widget.screenHeight * 0.04,
+                          height: screenHeight * 0.04,
                         ),
                         Padding(
                           padding: isEnglish(context)
@@ -327,8 +324,6 @@ class _PasswordPageState extends State<PasswordPage> {
                                               dio: widget.dio,
                                               sharedPreferences:
                                                   widget.sharedPreferences,
-                                              screenHeight: widget.screenHeight,
-                                              screenWidth: widget.screenWidth,
                                             ),
                                           ),
                                           type: PageTransitionType.fade));

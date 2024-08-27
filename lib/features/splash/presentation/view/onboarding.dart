@@ -14,14 +14,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OnBoarding extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  const OnBoarding(
-      {super.key,
-      required this.dio,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+  const OnBoarding({
+    super.key,
+    required this.dio,
+    required this.sharedPreferences,
+  });
 
   @override
   State<OnBoarding> createState() => _OnBoardingState();
@@ -67,8 +64,6 @@ class _OnBoardingState extends State<OnBoarding> {
             child: LocationPage(
               dio: widget.dio,
               sharedPreferences: widget.sharedPreferences,
-              screenHeight: widget.screenHeight,
-              screenWidth: widget.screenWidth,
             ),
             type: PageTransitionType.fade,
           ),
@@ -79,6 +74,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     bool isEng = isEnglish(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
@@ -99,8 +95,6 @@ class _OnBoardingState extends State<OnBoarding> {
                         child: WelcomePage(
                           dio: widget.dio,
                           sharedPreferences: widget.sharedPreferences,
-                          screenHeight: widget.screenHeight,
-                          screenWidth: widget.screenWidth,
                         ),
                         type: PageTransitionType.fade,
                       ),
@@ -125,8 +119,6 @@ class _OnBoardingState extends State<OnBoarding> {
                 descriptionP1: descriptionP1[_currentIndex],
                 descriptionP2: descriptionP2[_currentIndex],
                 descriptionP3: descriptionP3[_currentIndex],
-                screenHeight: widget.screenHeight,
-                screenWidth: widget.screenWidth,
               ),
               const Spacer(
                 flex: 2,
@@ -137,8 +129,8 @@ class _OnBoardingState extends State<OnBoarding> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      width: widget.screenWidth * 0.25,
-                      height: widget.screenWidth * 0.25,
+                      width: screenWidth * 0.25,
+                      height: screenWidth * 0.25,
                       child: CircularProgressIndicator(
                         value: _progressValue,
                         strokeWidth: 4,
@@ -150,8 +142,8 @@ class _OnBoardingState extends State<OnBoarding> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      width: widget.screenWidth * 0.2,
-                      height: widget.screenWidth * 0.2,
+                      width: screenWidth * 0.2,
+                      height: screenWidth * 0.2,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),

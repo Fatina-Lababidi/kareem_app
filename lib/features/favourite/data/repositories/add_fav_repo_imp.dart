@@ -41,12 +41,12 @@ class AddFavRepoImp implements FavouriteRepo {
 
   @override
   Future<Either<Failures, List<AddFavResponseEntity>>> getFavByClientId(
-      int clientId) async {
+    ) async {
     if (await networkConnection.isConnected) {
       print('there is internet');
       try {
         List<AddFavResponseEntity> fav =
-            await remoteGetfavbyclientidDatasource.getFavByClientId(clientId);
+            await remoteGetfavbyclientidDatasource.getFavByClientId();
         return Right(fav);
       } on ServerException catch(e){
         print('here');

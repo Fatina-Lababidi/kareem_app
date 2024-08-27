@@ -13,22 +13,25 @@ class RemoteGetfavbyclientidDatasource {
     required this.dio,
   });
 
-  Future<List<AddFavBodyResponseModel>> getFavByClientId(int clientId) async {
+  Future<List<AddFavBodyResponseModel>> getFavByClientId() async {
     try {
-      String url = EndPoint.getFavouritebyClientId(clientId);
+      String url = EndPoint.getFavouriteBikesForClient;
       Response response = await dio.get(url,
           options: getHeader(true).copyWith(validateStatus: (int? status) {
             return status != null && status < 500;
           }));
       print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200) {
         print(response.data);
         List<dynamic> bodyList = response.data['body'];
         List<AddFavBodyResponseModel> favList = bodyList
             .map((item) => AddFavBodyResponseModel.fromJson(item))
             .toList();
-
         return favList;
+      } else if (response.statusCode == 403) {
+        throw ServerException(
+            errorModel: ErrorModel(errorMessage: 'forbiddeen'));
       } else {
         final errorData = response.data;
         ErrorModel errorModel = ErrorModel.fromJson(errorData);
@@ -36,13 +39,23 @@ class RemoteGetfavbyclientidDatasource {
         throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
-      log("Exception caught: $e");
-
-      throw ServerException(
-        errorModel: ErrorModel(
-          errorMessage: 'Unexpected error occurred',
-        ),
-      );
+      if (e is DioException && e.response != null) {
+        log("DioError caught: ${e.message}");
+        final response = e.response;
+        final errorData = response!.data;
+        ErrorModel errorModel = ErrorModel.fromJson(errorData);
+        throw ServerException(errorModel: errorModel);
+      } else if (e is ServerException) {
+        log("ServerException caught: ${e.errorModel.errorMessage}");
+        throw ServerException(errorModel: e.errorModel);
+      } else {
+        log("Unknown exception caught: $e");
+        throw ServerException(
+          errorModel: ErrorModel(
+            errorMessage: 'Please try later ...',
+          ),
+        );
+      }
     }
   }
 }

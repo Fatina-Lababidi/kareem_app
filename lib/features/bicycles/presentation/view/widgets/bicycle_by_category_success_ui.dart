@@ -8,24 +8,22 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class BicycleByCategorySuccessUi extends StatelessWidget {
   const BicycleByCategorySuccessUi({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
     required this.sharedPreferences,
-    required this.dio,required this.bicycleByCtegoryEntity,
+    required this.dio,
+    required this.bicycleByCtegoryEntity,
   });
 
-  final double screenHeight;
-  final double screenWidth;
   final SharedPreferences sharedPreferences;
   final Dio dio;
-  final  bicycleByCtegoryEntity;
+  final bicycleByCtegoryEntity;
 
   @override
   Widget build(BuildContext context) {
+     final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Column(
       children: [
         Text(
@@ -59,8 +57,8 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                             bicycleByCtegoryEntity.body[index]
-                                  .modelPrice.model,
+                              bicycleByCtegoryEntity
+                                  .body[index].modelPrice.model,
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -120,8 +118,6 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                                     photoPath: bike.photoPath,
                                     type: bike.type,
                                     note: bike.note,
-                                    screenHeight: screenHeight,
-                                    screenWidth: screenWidth,
                                   ),
                                   type: PageTransitionType.fade));
                         },

@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,7 +8,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 class FailureUi extends StatelessWidget {
   final void Function()? onTap;
   const FailureUi({
-    super.key, this.onTap,
+    super.key,
+    this.onTap,
   });
 
   @override
@@ -16,7 +18,7 @@ class FailureUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          'assets/images/sad.png',
+          AppImages.failureImage,
           width: 200,
         ).animate(
           onComplete: (controller) {
@@ -24,7 +26,7 @@ class FailureUi extends StatelessWidget {
           },
         ).slideY(delay: 0.1.seconds, duration: 5.seconds),
         GestureDetector(
-          onTap:onTap,
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(

@@ -7,14 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CareemSplashPage extends StatefulWidget {
   final SharedPreferences sharedPreferences;
   final Dio dio;
-  final double screenHeight;
-  final double screenWidth;
   const CareemSplashPage(
       {super.key,
       required this.sharedPreferences,
       required this.dio,
-      required this.screenHeight,
-      required this.screenWidth});
+      });
 
   @override
   State<CareemSplashPage> createState() => _CareemSplashPageState();
@@ -28,6 +25,9 @@ class _CareemSplashPageState extends State<CareemSplashPage>
   late Animation<double> _bikegrowAnimation;
   late Animation<double> _textOpacityAnimation;
   late Animation<Offset> _bikeMoveRightAnimation;
+
+
+
   @override
   void initState() {
     super.initState();
@@ -74,8 +74,7 @@ class _CareemSplashPageState extends State<CareemSplashPage>
       child: OnBoarding(
         dio: widget.dio,
         sharedPreferences: widget.sharedPreferences,
-        screenHeight: widget.screenHeight,
-        screenWidth: widget.screenWidth,
+
       ),
     ));
   }

@@ -10,12 +10,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  final double screenHeight;
-  final double screenWidth;
   const ChangePasswordPage({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
   });
 
   @override
@@ -44,6 +40,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
       listener: (context, state) {
         if (state is ChangePasswordSuccess) {
@@ -88,13 +86,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       children: [
                         Padding(
                                 padding: EdgeInsets.only(
-                                    left: widget.screenWidth * 0.02,
-                                    top: widget.screenHeight * 0.01),
+                                    left: screenWidth * 0.02,
+                                    top: screenHeight * 0.01),
                                 child: const BackWidget())
                             .animate()
                             .fade(duration: .2.seconds, delay: .1.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.04,
+                          height: screenHeight * 0.04,
                         ),
                         Text(
                           LocalizationKeys.changePasswordTitle.tr(),
@@ -107,7 +105,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             .animate()
                             .fade(duration: .3.seconds, delay: .15.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
 
                         // SizedBox(
@@ -129,8 +127,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 : const Icon(Icons.visibility),
                             color: AppColor.detailsTextColor,
                           ),
-                          screenWidth: widget.screenWidth,
-                          screenHeight: widget.screenHeight,
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                           hintText: LocalizationKeys.enterYourPassword.tr(),
                           textColor: Colors.black,
                           hintColor: Colors.grey,
@@ -152,7 +150,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             .animate()
                             .fade(duration: .5.seconds, delay: .25.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         AppTextFormField(
                           //focusNode: _passwordFocusNode,
@@ -168,8 +166,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 : const Icon(Icons.visibility),
                             color: AppColor.detailsTextColor,
                           ),
-                          screenWidth: widget.screenWidth,
-                          screenHeight: widget.screenHeight,
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                           hintText: LocalizationKeys.enterYourPassword.tr(),
                           textColor: Colors.black,
                           hintColor: Colors.grey,
@@ -191,7 +189,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             .animate()
                             .fade(duration: .5.seconds, delay: .25.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         AppTextFormField(
                           // enable: _passwordController.text.isNotEmpty,
@@ -210,8 +208,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 : const Icon(Icons.visibility),
                             color: AppColor.detailsTextColor,
                           ),
-                          screenWidth: widget.screenWidth,
-                          screenHeight: widget.screenHeight,
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                           hintText: LocalizationKeys.confirmPassword.tr(),
                           textColor: Colors.black,
                           hintColor: Colors.grey,
@@ -231,7 +229,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             .fade(duration: .6.seconds, delay: .3.seconds),
 
                         SizedBox(
-                          height: widget.screenHeight * 0.1,
+                          height: screenHeight * 0.1,
                         ),
                         // Spacer(),
                         BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
@@ -245,8 +243,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 );
                               default:
                                 return AppButton(
-                                  screenHeight: widget.screenHeight,
-                                  screenWidth: widget.screenWidth,
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                   onTap: () async {
                                     if (_formKey.currentState!.validate()) {
                                       print('Form is valid');

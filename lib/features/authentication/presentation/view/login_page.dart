@@ -17,14 +17,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
-  const LoginPage(
-      {super.key,
-      required this.dio,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+
+  const LoginPage({
+    super.key,
+    required this.dio,
+    required this.sharedPreferences,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -45,6 +43,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
@@ -61,8 +61,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: HomePage(
                     dio: widget.dio,
                     sharedPreferences: widget.sharedPreferences,
-                    screenHeight: widget.screenHeight,
-                    screenWidth: widget.screenWidth,
                   )
                   // child:  BlocProvider(
                   //           create: (context) => ChangePasswordBloc(
@@ -105,13 +103,13 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Padding(
                                 padding: EdgeInsets.only(
-                                    left: widget.screenWidth * 0.02,
-                                    top: widget.screenHeight * 0.01),
+                                    left: screenWidth * 0.02,
+                                    top: screenHeight * 0.01),
                                 child: const BackWidget())
                             .animate()
                             .fade(duration: .2.seconds, delay: .1.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.04,
+                          height: screenHeight * 0.04,
                         ),
                         Text(
                           LocalizationKeys.logintitle.tr(),
@@ -124,10 +122,10 @@ class _LoginPageState extends State<LoginPage> {
                             .animate()
                             .fade(duration: .3.seconds, delay: .15.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         SizedBox(
-                          height: widget.screenHeight * 0.03,
+                          height: screenHeight * 0.03,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -147,13 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               hintText: LocalizationKeys.phoneNumber.tr(),
                               hintStyle: TextStyle(
-                                fontSize: widget.screenWidth * 0.04, // 16,
+                                fontSize: screenWidth * 0.04, // 16,
                                 color: Colors.grey,
                               ),
                               filled: true,
                               fillColor: Colors.white,
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: widget.screenHeight * 0.025,
+                                  vertical: screenHeight * 0.025,
                                   horizontal: 12.0),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -187,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                               .fade(duration: .4.seconds, delay: .20.seconds),
                         ),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         AppTextFormField(
                           obscurepassword: obscurepassword,
@@ -202,8 +200,8 @@ class _LoginPageState extends State<LoginPage> {
                                 : const Icon(Icons.visibility),
                             color: AppColor.detailsTextColor,
                           ),
-                          screenWidth: widget.screenWidth,
-                          screenHeight: widget.screenHeight,
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                           hintText: LocalizationKeys.enterYourPassword.tr(),
                           textColor: Colors.black,
                           hintColor: Colors.grey,
@@ -225,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                             .animate()
                             .fade(duration: .5.seconds, delay: .25.seconds),
                         SizedBox(
-                          height: widget.screenHeight * 0.08,
+                          height: screenHeight * 0.08,
                         ),
                         BlocBuilder<LoginBloc, LoginState>(
                           builder: (context, state) {
@@ -238,8 +236,8 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               default:
                                 return AppButton(
-                                  screenHeight: widget.screenHeight,
-                                  screenWidth: widget.screenWidth,
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                   onTap: () async {
                                     if (_formKey.currentState!.validate()) {
                                       print('Form is valid');

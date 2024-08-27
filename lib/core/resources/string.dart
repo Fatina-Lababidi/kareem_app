@@ -125,4 +125,24 @@ class LocalizationKeys {
   static const String thankYou = "thank_you";
   static const String confirmRide = 'confrim_ride';
   static const String hubContent = 'hub_content';
+  static const String addMoney = 'add_money';
+  static const String availableBalance = 'available_balance';
+  static const String totalExpend = 'total_expend';
+  static const String transections = 'transections';
+  static const String enterYourSecurityCode = 'enter_your_security_code';
+  static const String enterYourConfirmSecurityCode =
+      'enter_your_confirm_security_code';
+
+  static const String securityValidate = 'security_code_validate';
+  static const String confirmSecurityValidate =
+      'confirm_security_code_validate';
+  static const String securityCodeTooShort = 'security_code_too_short';
+  static const String securityCodeInvalid = 'securit_code_invalid';
+  static const String securityCodeMisMatch = 'security_code_mis_mathch';
+
+  static const String enterYourBankAccount = 'enter_your_bank_account';
+  static const String bankAccountValidate = 'bank_account_validate';
+
+  static const String create = 'create';
+  static const String createNewWallet = 'create_new_wallet';
 }

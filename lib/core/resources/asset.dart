@@ -13,4 +13,6 @@ class AppImages {
   static const String englishLanguage = 'assets/images/English.png';
   static const String arabicLanguage = 'assets/images/Arabic_l.png';
   static const String thinkStart = 'assets/images/star.png';
+  static const String walletImage = 'assets/images/wallet.png';
+  static const String failureImage = 'assets/images/sad.png';
 }

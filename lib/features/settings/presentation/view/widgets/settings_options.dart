@@ -9,20 +9,19 @@ class SettingsOption extends StatelessWidget {
     super.key,
     required this.dio,
     required this.sharedPreferences,
-    required this.screenWidth,
-    required this.screenHeight,
     required this.child,
     required this.text,
   });
 
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenWidth;
-  final double screenHeight;
+
   final Widget child;
   final String text;
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return GestureDetector(
       onTap: () {
         Navigator.push(

@@ -24,16 +24,14 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage(
-      {super.key,
-      required this.sharedPreferences,
-      required this.dio,
-      required this.screenHeight,
-      required this.screenWidth});
+  SignUpPage({
+    super.key,
+    required this.sharedPreferences,
+    required this.dio,
+  });
   final SharedPreferences sharedPreferences;
   final Dio dio;
-  final double screenHeight;
-  final double screenWidth;
+
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
@@ -63,6 +61,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -73,16 +73,15 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 Padding(
                         padding: EdgeInsets.only(
-                            left: widget.screenWidth * 0.02,
-                            top: widget.screenHeight * 0.01),
+                            left: screenWidth * 0.02, top: screenHeight * 0.01),
                         child: const BackWidget())
                     .animate()
                     .fade(duration: .2.seconds, delay: .1.seconds),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: widget.screenWidth * 0.02),
+                  padding: EdgeInsets.only(left: screenWidth * 0.02),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -96,7 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ).animate().fade(duration: .3.seconds, delay: .15.seconds),
                 Padding(
-                  padding: EdgeInsets.only(left: widget.screenWidth * 0.02),
+                  padding: EdgeInsets.only(left: screenWidth * 0.02),
                   child: Align(
                     alignment: isEnglish(context)
                         ? Alignment.topLeft
@@ -112,11 +111,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ).animate().fade(duration: .3.seconds, delay: .2.seconds),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 AppTextFormField(
-                  screenWidth: widget.screenWidth,
-                  screenHeight: widget.screenHeight,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
                   hintText: LocalizationKeys.firstName.tr(),
                   textColor: Colors.black,
                   hintColor: Colors.grey,
@@ -130,11 +129,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: firstNameController,
                 ).animate().fade(duration: .4.seconds, delay: .25.seconds),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 AppTextFormField(
-                  screenWidth: widget.screenWidth,
-                  screenHeight: widget.screenHeight,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
                   hintText: LocalizationKeys.lastName.tr(),
                   textColor: Colors.black,
                   hintColor: Colors.grey,
@@ -148,11 +147,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: lastNameController,
                 ).animate().fade(duration: .5.seconds, delay: .3.seconds),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 AppTextFormField(
-                  screenWidth: widget.screenWidth,
-                  screenHeight: widget.screenHeight,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
                   hintText: LocalizationKeys.userName.tr(),
                   textColor: Colors.black,
                   hintColor: Colors.grey,
@@ -166,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: userNameController,
                 ).animate().fade(duration: .6.seconds, delay: .35.seconds),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 GestureDetector(
                   onTap: () async {
@@ -192,8 +191,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                   child: AbsorbPointer(
                     child: AppTextFormField(
-                      screenWidth: widget.screenWidth,
-                      screenHeight: widget.screenHeight,
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
                       hintText: LocalizationKeys.birthDate.tr(),
                       textColor: Colors.black,
                       hintColor: Colors.grey,
@@ -209,7 +208,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -225,14 +224,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                       hintText: LocalizationKeys.phoneNumber.tr(),
                       hintStyle: TextStyle(
-                        fontSize: widget.screenWidth * 0.04, // 16,
+                        fontSize: screenWidth * 0.04, // 16,
                         color: Colors.grey,
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: widget.screenHeight * 0.025,
-                          horizontal: 12.0),
+                          vertical: screenHeight * 0.025, horizontal: 12.0),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: AppColor.skipTextColor),
@@ -262,7 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ).animate().fade(duration: .8.seconds, delay: .45.seconds),
                 ),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 Row(
                   children: [
@@ -297,7 +295,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ).animate().fade(duration: .9.seconds, delay: .5.seconds),
                 Padding(
-                  padding: EdgeInsets.only(left: widget.screenWidth * 0.07),
+                  padding: EdgeInsets.only(left: screenWidth * 0.07),
                   child: Align(
                     alignment: isEnglish(context)
                         ? Alignment.topLeft
@@ -312,11 +310,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(
-                  height: widget.screenHeight * 0.02,
+                  height: screenHeight * 0.02,
                 ),
                 AppButton(
-                  screenHeight: widget.screenHeight,
-                  screenWidth: widget.screenWidth,
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       print('Form is valid');
@@ -343,8 +341,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               birthDate: birthDateController.text,
                               dio: widget.dio,
                               sharedPreferences: widget.sharedPreferences,
-                              screenHeight: widget.screenHeight,
-                              screenWidth: widget.screenWidth,
                             ),
                           ),
                           type: PageTransitionType.fade,
@@ -357,7 +353,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   containerColor: AppColor.buttonColor,
                 ).animate().fade(duration: 1.2.seconds, delay: .6.seconds),
                 SizedBox(
-                  height: widget.screenHeight * 0.04,
+                  height: screenHeight * 0.04,
                 ),
                 Padding(
                   padding: isEnglish(context)
@@ -396,8 +392,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                       dio: widget.dio,
                                       sharedPreferences:
                                           widget.sharedPreferences,
-                                      screenHeight: widget.screenHeight,
-                                      screenWidth: widget.screenWidth,
                                     ),
                                   ),
                                   type: PageTransitionType.fade));

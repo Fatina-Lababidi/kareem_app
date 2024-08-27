@@ -4,6 +4,8 @@ import 'package:careem_app_clean/features/authentication/data/repositories/auth_
 import 'package:careem_app_clean/features/authentication/domain/usecases/register_user.dart';
 import 'package:careem_app_clean/features/authentication/presentation/register_bloc/register_bloc_bloc.dart';
 import 'package:careem_app_clean/features/splash/presentation/view/careem_splash_screen.dart';
+import 'package:careem_app_clean/features/wallet/presentation/view/add_money_page.dart';
+import 'package:careem_app_clean/features/wallet/presentation/view/create_new_wallet_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +18,16 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await setupconfig();
   await config.allReady();
-  runApp(EasyLocalization(
-    supportedLocales: const [
-      Locale('en'),
-      Locale('ar'),
-    ],
-    path: 'assets/translation',
-    fallbackLocale: const Locale('en'),
-    child: const MyApp(),
-  ));
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ar'),
+        ],
+        path: 'assets/translation',
+        fallbackLocale: const Locale('en'),
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,8 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Dio dio = Dio();
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-    final double screenWidth = MediaQuery.sizeOf(context).width;
+
     final sharedPreferences = config<SharedPreferences>();
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
@@ -60,8 +62,6 @@ class MyApp extends StatelessWidget {
         child: CareemSplashPage(
           dio: dio,
           sharedPreferences: sharedPreferences,
-          screenHeight: screenHeight,
-          screenWidth: screenWidth,
         ),
       ),
     );
@@ -93,3 +93,7 @@ class NextPage extends StatelessWidget {
     );
   }
 }
+
+//0111111111// Satasa!111111// have wallet
+
+//0444444444 //saSA@11112222

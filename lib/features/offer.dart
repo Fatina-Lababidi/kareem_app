@@ -25,17 +25,6 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class WalletPage extends StatelessWidget {
-  const WalletPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColor.whiteColor,
-      body: Center(child: Text('wallet page')),
-    );
-  }
-}
 
 // class MapPage extends StatelessWidget {
 //   const MapPage({super.key});

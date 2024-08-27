@@ -23,19 +23,18 @@ class HubContentPage extends StatelessWidget {
   final Dio dio;
   final int hubId;
   final String categroy;
-  final double screenHeight;
-  final double screenWidth;
-  const HubContentPage(
-      {super.key,
-      required this.dio,
-      required this.hubId,
-      required this.categroy,
-      required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth});
+  const HubContentPage({
+    super.key,
+    required this.dio,
+    required this.hubId,
+    required this.categroy,
+    required this.sharedPreferences,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
       create: (context) => HubContentBloc(HubContentUsecase(
           hubRepo: AllHubRepoImp(
@@ -196,10 +195,6 @@ class HubContentPage extends StatelessWidget {
                                                               .toString(), //!!
                                                           type: bike.type,
                                                           note: bike.note,
-                                                          screenHeight:
-                                                              screenHeight,
-                                                          screenWidth:
-                                                              screenWidth,
                                                         ),
                                                         type: PageTransitionType
                                                             .fade));

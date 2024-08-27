@@ -19,19 +19,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FavouritePage extends StatelessWidget {
   final SharedPreferences sharedPreferences;
   final Dio dio;
-  final double screenHeight;
-  final double screenWidth;
-  const FavouritePage(
-      {super.key,
-      required this.sharedPreferences,
-      required this.dio,
-      required this.screenHeight,
-      required this.screenWidth});
+
+  const FavouritePage({
+    super.key,
+    required this.sharedPreferences,
+    required this.dio,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final clientId = sharedPreferences.getInt('client_Id') ?? 0;
-
+  //  final clientId = sharedPreferences.getInt('client_Id') ?? 0;
+    final double screenHeight = MediaQuery.sizeOf(context).height;
     return BlocProvider(
       create: (context) => FavByClientIdBloc(GetFavByClientidUsecase(
           favouriteRepo: AddFavRepoImp(
@@ -41,7 +39,7 @@ class FavouritePage extends StatelessWidget {
               remoteGetfavbyclientidDatasource:
                   RemoteGetfavbyclientidDatasource(dio: dio),
               remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio)),
-          clientId: clientId))
+        ))
         ..add(GetFavByClientid()),
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
@@ -103,8 +101,6 @@ class FavouritePage extends StatelessWidget {
                                           id: bike.id,
                                           dio: dio,
                                           sharedPreferences: sharedPreferences,
-                                          screenHeight: screenHeight,
-                                          screenWidth: screenWidth,
                                         ),
                                         type: PageTransitionType.fade));
                               },

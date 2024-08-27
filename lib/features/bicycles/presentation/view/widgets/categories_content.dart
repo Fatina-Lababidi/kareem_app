@@ -7,8 +7,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesContainer extends StatelessWidget {
-  final double screenHeight;
-  final double screenWidth;
   final String catergory;
   // final String imageUrl;
   final String categoryKey;
@@ -17,8 +15,6 @@ class CategoriesContainer extends StatelessWidget {
   final int? id;
   const CategoriesContainer({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
     required this.catergory,
     // required this.imageUrl,
     required this.categoryKey,
@@ -42,8 +38,6 @@ class CategoriesContainer extends StatelessWidget {
                   dio: dio,
                   hubId: id!,
                   categroy: catergory,
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
                 ),
                 type: PageTransitionType.fade,
               ));
@@ -56,8 +50,6 @@ class CategoriesContainer extends StatelessWidget {
                 sharedPreferences: sharedPreferences,
                 dio: dio,
                 category: categoryKey,
-                screenHeight: screenHeight,
-                screenWidth: screenWidth,
               ),
               type: PageTransitionType.fade,
             ),
