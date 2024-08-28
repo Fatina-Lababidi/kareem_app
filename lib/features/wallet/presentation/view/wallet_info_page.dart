@@ -3,6 +3,7 @@ import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
+import 'package:careem_app_clean/features/wallet/data/datasource/remote_add_money_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_create_wallet_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_getWalletInfo_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_valid_code_datasource.dart';
@@ -30,6 +31,7 @@ class WalletInfoPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => WalletInfoBloc(GetWalletInfoUsecase(
           walletRepo: WalletRepoImp(
+              remoteAddMoneyDatasource: RemoteAddMoneyDatasource(dio: dio),
               remoteValidCodeDatasource: RemoteValidCodeDatasource(dio: dio),
               remoteCreateWalletDatasource:
                   RemoteCreateWalletDatasource(dio: dio),

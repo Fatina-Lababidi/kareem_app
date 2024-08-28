@@ -8,4 +8,15 @@ abstract class WalletRepo {
   Future<Either<Failures, WalletInfoEntity>> getMyWalletInfo();
   Future<Either<Failures, String>> createWallet(CreateWalletEntity wallet);
   Future<Either<Failures, ValidCodeEntity>> getValidCode();
+  Future<Either<Failures, String>> addMoney(String code);
 }
+
+//from put :
+//{
+//   "message": "Money Added To Wallet Successfully",
+//   "status": "ACCEPTED",
+//   "localDateTime": "2024-08-28T08:08:16.6794657",
+//   "body": {
+//     "balance": 200000
+//   }
+// }

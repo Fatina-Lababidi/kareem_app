@@ -1,18 +1,27 @@
 import 'package:careem_app_clean/core/network/network_connection.dart';
+import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
+import 'package:careem_app_clean/features/wallet/data/datasource/remote_add_money_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_create_wallet_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_getWalletInfo_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_valid_code_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/repositories/wallet_repo_imp.dart';
+import 'package:careem_app_clean/features/wallet/domain/usecase/add_money_usecase.dart';
 import 'package:careem_app_clean/features/wallet/domain/usecase/get_valid_code_usecase.dart';
+import 'package:careem_app_clean/features/wallet/presentation/addMoney_bloc/add_money_bloc.dart';
 import 'package:careem_app_clean/features/wallet/presentation/validCode_bloc/valid_code_bloc.dart';
+import 'package:careem_app_clean/features/wallet/presentation/view/wallet_info_page.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:page_transition/page_transition.dart';
 
 class AddMoneyPage extends StatefulWidget {
   final Dio dio;
@@ -31,18 +40,39 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.sizeOf(context).height;
     final double screenWidth = MediaQuery.sizeOf(context).width;
-    return BlocProvider(
-      create: (context) => ValidCodeBloc(GetValidCodeUsecase(
-          walletRepo: WalletRepoImp(
-              remoteGetwalletinfoDatasource:
-                  RemoteGetwalletinfoDatasource(dio: widget.dio),
-              remoteCreateWalletDatasource:
-                  RemoteCreateWalletDatasource(dio: widget.dio),
-              remoteValidCodeDatasource:
-                  RemoteValidCodeDatasource(dio: widget.dio),
-              networkConnection: NetworkConnection(
-                  internetConnectionChecker: InternetConnectionChecker()))))
-        ..add(GetValidCode()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ValidCodeBloc>(
+          create: (context) => ValidCodeBloc(GetValidCodeUsecase(
+              walletRepo: WalletRepoImp(
+                  remoteAddMoneyDatasource:
+                      RemoteAddMoneyDatasource(dio: widget.dio),
+                  remoteGetwalletinfoDatasource:
+                      RemoteGetwalletinfoDatasource(dio: widget.dio),
+                  remoteCreateWalletDatasource:
+                      RemoteCreateWalletDatasource(dio: widget.dio),
+                  remoteValidCodeDatasource:
+                      RemoteValidCodeDatasource(dio: widget.dio),
+                  networkConnection: NetworkConnection(
+                      internetConnectionChecker: InternetConnectionChecker()))))
+            ..add(GetValidCode()),
+        ),
+        BlocProvider<AddMoneyBloc>(
+          create: (context) => AddMoneyBloc(AddMoneyUsecase(
+              walletRepo: WalletRepoImp(
+                  remoteGetwalletinfoDatasource:
+                      RemoteGetwalletinfoDatasource(dio: widget.dio),
+                  remoteCreateWalletDatasource:
+                      RemoteCreateWalletDatasource(dio: widget.dio),
+                  remoteValidCodeDatasource:
+                      RemoteValidCodeDatasource(dio: widget.dio),
+                  remoteAddMoneyDatasource:
+                      RemoteAddMoneyDatasource(dio: widget.dio),
+                  networkConnection: NetworkConnection(
+                      internetConnectionChecker:
+                          InternetConnectionChecker())))),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
         body: SafeArea(
@@ -165,90 +195,313 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
                             AppColor.buttonDetailsColor.withOpacity(0.4),
                         barrierDismissible: false,
                         builder: (context) {
-                          return Dialog(
-                            backgroundColor: AppColor.whiteColor,
-                            child: Container(
-                                width: 200,
-                                height: 300,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  child: Column(
-                                    children: [
-                                      const Icon(
-                                        Icons.question_mark_rounded,
-                                        color: AppColor.buttonColor,
-                                        size: 80,
-                                      ),
-                                      const Text(
-                                        'Are you sure you need to add:',
-                                        style: TextStyle(
-                                            color: AppColor.buttonDetailsColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      Text(
-                                        '$finalAmount',
-                                        style: const TextStyle(
-                                            color: AppColor.buttonDetailsColor,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                      const Text(
-                                        'from:',
-                                        style: TextStyle(
-                                            color: AppColor.buttonDetailsColor,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16),
-                                      ),
-                                      Text(
-                                        text,
-                                        style: const TextStyle(
-                                            color: AppColor.buttonDetailsColor,
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            //here will be the put bloc...
-                                            Container(
-                                              height: 40,
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color: AppColor.buttonColor),
-                                              child: const Center(
-                                                child: Text(
-                                                  'confirm',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color:
-                                                          AppColor.whiteColor),
+                          return BlocProvider(
+                            create: (context) => AddMoneyBloc(AddMoneyUsecase(
+                                walletRepo: WalletRepoImp(
+                                    remoteGetwalletinfoDatasource:
+                                        RemoteGetwalletinfoDatasource(
+                                            dio: widget.dio),
+                                    remoteCreateWalletDatasource:
+                                        RemoteCreateWalletDatasource(
+                                            dio: widget.dio),
+                                    remoteValidCodeDatasource:
+                                        RemoteValidCodeDatasource(
+                                            dio: widget.dio),
+                                    remoteAddMoneyDatasource:
+                                        RemoteAddMoneyDatasource(
+                                            dio: widget.dio),
+                                    networkConnection: NetworkConnection(
+                                        internetConnectionChecker:
+                                            InternetConnectionChecker())))),
+                            child: Builder(builder: (context) {
+                              return Dialog(
+                                backgroundColor: AppColor.whiteColor,
+                                child: BlocBuilder<AddMoneyBloc, AddMoneyState>(
+                                  builder: (context, state) {
+                                    if (state is AddMoneyInitial) {
+                                      return Container(
+                                          width: 200,
+                                          height: 300,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: Column(
+                                              children: [
+                                                const Icon(
+                                                  Icons.question_mark_rounded,
+                                                  color: AppColor.buttonColor,
+                                                  size: 80,
                                                 ),
-                                              ),
+                                                const Text(
+                                                  'Are you sure you need to add:',
+                                                  style: TextStyle(
+                                                      color: AppColor
+                                                          .buttonDetailsColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  '$finalAmount',
+                                                  style: const TextStyle(
+                                                      color: AppColor
+                                                          .buttonDetailsColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 16),
+                                                ),
+                                                const Text(
+                                                  'from:',
+                                                  style: TextStyle(
+                                                      color: AppColor
+                                                          .buttonDetailsColor,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  text,
+                                                  style: const TextStyle(
+                                                      color: AppColor
+                                                          .buttonDetailsColor,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontSize: 16),
+                                                ),
+                                                Expanded(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      //here will be the put bloc...
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          context
+                                                              .read<
+                                                                  AddMoneyBloc>()
+                                                              .add(AddMoney(
+                                                                  code: text));
+                                                        },
+                                                        child: Container(
+                                                          height: 40,
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              color: AppColor
+                                                                  .buttonColor),
+                                                          child: const Center(
+                                                            child: Text(
+                                                              'confirm',
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: AppColor
+                                                                      .whiteColor),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width:
+                                                            screenWidth * 0.04,
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                          'cancel',
+                                                          style: TextStyle(
+                                                              color: AppColor
+                                                                  .buttonColor,
+                                                              fontSize: 15),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                            SizedBox(width: screenWidth*0.04,),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                'cancel',
-                                                style: TextStyle(
-                                                    color: AppColor.buttonColor,
-                                                    fontSize: 15),
+                                          ));
+                                    } else if (state is AddMoneySuccess) {
+                                      return Container(
+                                        width: 200,
+                                        height: 300,
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.close_rounded,
+                                                    color: AppColor
+                                                        .buttonDetailsColor,
+                                                  )),
+                                            ),
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  AppImages.thinkStart,
+                                                ).animate(
+                                                  onComplete: (controller) {
+                                                    controller.repeat();
+                                                  },
+                                                ).rotate(
+                                                    duration: 3.seconds,
+                                                    delay: 1.seconds),
+                                                const Center(
+                                                  child: Icon(
+                                                    Icons.check_rounded,
+                                                    color: AppColor.checkColor,
+                                                    size: 80,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const Text(
+                                              'Add Success',
+                                              style: TextStyle(
+                                                  color: AppColor
+                                                      .buttonDetailsColor,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const Text(
+                                              'your money has been add successfully',
+                                              style: TextStyle(
+                                                  color: AppColor.addTextColor,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            Text(
+                                              '$finalAmount',
+                                              style: const TextStyle(
+                                                  color: AppColor
+                                                      .buttonDetailsColor,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            SizedBox(
+                                              height: screenHeight * 0.01,
+                                            ),
+                                            AppButton(
+                                                onTap: () {
+                                                  //navigate to home? or to the wallet info??
+                                                  Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                        child: WalletInfoPage(
+                                                          dio: widget.dio,
+                                                        ),
+                                                        type: PageTransitionType
+                                                            .fade),
+                                                  );
+                                                },
+                                                screenWidth: screenWidth / 1.2,
+                                                screenHeight:
+                                                    screenHeight / 1.1,
+                                                text: 'Back Home',
+                                                textColor: AppColor.whiteColor,
+                                                containerColor:
+                                                    AppColor.buttonColor),
+                                            SizedBox(
+                                              height: screenHeight * 0.01,
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    } else if (state is AddMoneyFailure) {
+                                      return SizedBox(
+                                        width: 200,
+                                        height: 300,
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.close_rounded,
+                                                    color: AppColor
+                                                        .buttonDetailsColor,
+                                                  )),
+                                            ),
+                                            Text(
+                                              state.message,
+                                              style: const TextStyle(
+                                                  color: AppColor
+                                                      .buttonDetailsColor,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            Expanded(
+                                              child: Center(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    context
+                                                        .read<AddMoneyBloc>()
+                                                        .add(AddMoney(
+                                                            code: text));
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColor.baseColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: Text(
+                                                      LocalizationKeys.tryAgain
+                                                          .tr(),
+                                                      style: const TextStyle(
+                                                        color:
+                                                            AppColor.whiteColor,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                )),
+                                        // child: FailureUi(
+                                        //   onTap: () {
+                                        //     context
+                                        //         .read<AddMoneyBloc>()
+                                        //         .add(AddMoney(code: text));
+                                        //   },
+                                        // ),
+                                      );
+                                    } else {
+                                      return const SizedBox(
+                                        width: 200,
+                                        height: 300,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            color: AppColor.baseColor,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              );
+                            }),
                           );
                         },
                       );

@@ -4,6 +4,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/app_textFormField.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:careem_app_clean/features/wallet/data/datasource/remote_add_money_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_create_wallet_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_getWalletInfo_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_valid_code_datasource.dart';
@@ -54,6 +55,7 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
     return BlocProvider(
       create: (context) => CreateWalletBloc(CreateWalletUsecase(
           walletRepo: WalletRepoImp(
+             remoteAddMoneyDatasource: RemoteAddMoneyDatasource(dio: widget.dio),
             remoteValidCodeDatasource: RemoteValidCodeDatasource(dio: widget.dio),
               remoteGetwalletinfoDatasource:
                   RemoteGetwalletinfoDatasource(dio: widget.dio),
