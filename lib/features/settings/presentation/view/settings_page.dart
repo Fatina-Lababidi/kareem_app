@@ -87,7 +87,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 child: ChangePasswordPage(),
               ),
-            ).animate().scaleXY(duration: .3.seconds, delay: .15.seconds),
+            ).animate().scaleXY(duration: .25.seconds, delay: .15.seconds),
             SizedBox(
               height: screenHeight * 0.025,
             ),
@@ -96,7 +96,7 @@ class SettingsPage extends StatelessWidget {
               sharedPreferences: sharedPreferences,
               text: LocalizationKeys.changeLanguage.tr(),
               child: ChangeLanguage(),
-            ).animate().scaleXY(duration: .4.seconds, delay: .2.seconds),
+            ).animate().scaleXY(duration: .3.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.025,
             ),
@@ -117,18 +117,18 @@ class SettingsPage extends StatelessWidget {
                 )..add(GetPolicy()),
                 child: PolicyPage(),
               ),
-            ).animate().scaleXY(duration: .5.seconds, delay: .25.seconds),
-            SizedBox(
-              height: screenHeight * 0.025,
-            ),
-            SettingsOption(
-              dio: dio,
-              sharedPreferences: sharedPreferences,
-              text: LocalizationKeys.contactUs.tr(),
-              child: const NextPage(
-                id: 1,
-              ),
-            ).animate().scaleXY(duration: .6.seconds, delay: .3.seconds),
+            ).animate().scaleXY(duration: .35.seconds, delay: .25.seconds),
+            // SizedBox(
+            //   height: screenHeight * 0.025,
+            // ),
+            // SettingsOption(
+            //   dio: dio,
+            //   sharedPreferences: sharedPreferences,
+            //   text: LocalizationKeys.contactUs.tr(),
+            //   child: const NextPage(
+            //     id: 1,
+            //   ),
+            // ).animate().scaleXY(duration: .6.seconds, delay: .3.seconds),
             SizedBox(
               height: screenHeight * 0.025,
             ),
@@ -138,7 +138,7 @@ class SettingsPage extends StatelessWidget {
                 text: LocalizationKeys.deleteAccount.tr(),
                 child: const NextPage(
                   id: 1,
-                )).animate().scaleXY(duration: .7.seconds, delay: .35.seconds)
+                )).animate().scaleXY(duration: .4.seconds, delay: .35.seconds)
           ],
         ),
       ),

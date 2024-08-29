@@ -18,14 +18,18 @@ class RemoteGetwalletinfoDatasource {
       Response response =
           await dio.get(EndPoint.getMyWalletInfo, options: getHeader(true));
       print(response.statusCode);
-      // print(response.data);
+      print(response.data);
 
       if (response.statusCode == 200) {
         WalletInfoModel walletInfoModel =
             WalletInfoModel.fromJson(response.data);
         print(walletInfoModel);
         return walletInfoModel;
-      } else {
+      } else if (response.statusCode == 403) {
+        throw ServerException(
+            errorModel: ErrorModel(errorMessage: 'forbiddeen'));
+      }
+       else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         throw ServerException(errorModel: errorModel);
       }

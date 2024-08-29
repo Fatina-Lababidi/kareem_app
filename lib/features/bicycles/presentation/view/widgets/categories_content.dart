@@ -13,6 +13,8 @@ class CategoriesContainer extends StatelessWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
   final int? id;
+  final String? name;
+  final String? hubDescription;
   const CategoriesContainer({
     super.key,
     required this.catergory,
@@ -21,6 +23,8 @@ class CategoriesContainer extends StatelessWidget {
     required this.dio,
     required this.sharedPreferences,
     this.id,
+    this.name,
+    this.hubDescription,
   });
 
   @override
@@ -34,6 +38,8 @@ class CategoriesContainer extends StatelessWidget {
               context,
               PageTransition(
                 child: HubContentPage(
+                  name: name!,
+                  hubDescription: hubDescription!,
                   sharedPreferences: sharedPreferences,
                   dio: dio,
                   hubId: id!,

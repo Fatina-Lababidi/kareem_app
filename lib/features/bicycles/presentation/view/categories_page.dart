@@ -21,13 +21,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoriesPage extends StatelessWidget {
   final int? id;
+  final String? name;
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final String? hubDescription;
   CategoriesPage({
     super.key,
     required this.dio,
     required this.sharedPreferences,
     this.id,
+    this.name, this.hubDescription,
   });
 
   // final Map<String, String> categoryImages = {
@@ -143,6 +146,8 @@ class CategoriesPage extends StatelessWidget {
                               catergory: category,
 
                               id: id,
+                              name: name,
+                              hubDescription: hubDescription,
                             ).animate().fade(
                                 duration: (0.2 * index).seconds,
                                 delay: .2.seconds);

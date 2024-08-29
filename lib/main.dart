@@ -4,8 +4,6 @@ import 'package:careem_app_clean/features/authentication/data/repositories/auth_
 import 'package:careem_app_clean/features/authentication/domain/usecases/register_user.dart';
 import 'package:careem_app_clean/features/authentication/presentation/register_bloc/register_bloc_bloc.dart';
 import 'package:careem_app_clean/features/splash/presentation/view/careem_splash_screen.dart';
-import 'package:careem_app_clean/features/wallet/presentation/view/add_money_page.dart';
-import 'package:careem_app_clean/features/wallet/presentation/view/create_new_wallet_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

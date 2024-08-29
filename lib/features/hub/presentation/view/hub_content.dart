@@ -3,12 +3,12 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
-import 'package:careem_app_clean/features/bicycles/presentation/view/bicycle_by_id.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/hub_content_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/hubContent_bloc/hub_content_bloc.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/hub_bicycleById_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +23,15 @@ class HubContentPage extends StatelessWidget {
   final Dio dio;
   final int hubId;
   final String categroy;
+  final String name;
+  final String hubDescription;
   const HubContentPage({
     super.key,
     required this.dio,
     required this.hubId,
     required this.categroy,
     required this.sharedPreferences,
+    required this.name, required this.hubDescription,
   });
 
   @override
@@ -180,7 +183,11 @@ class HubContentPage extends StatelessWidget {
                                                 Navigator.push(
                                                     context,
                                                     PageTransition(
-                                                        child: BicycleByIdPage(
+                                                        child:
+                                                            HubBicyclebyidPage(
+                                                          hubId:hubId,
+                                                          hubName:name ,
+                                                        hubDescription:hubDescription,
                                                           sharedPreferences:
                                                               sharedPreferences,
                                                           dio: dio,
