@@ -13,9 +13,10 @@ import 'package:careem_app_clean/features/settings/data/repositories/policy_repo
 import 'package:careem_app_clean/features/settings/domain/usecase/get_policy.dart';
 import 'package:careem_app_clean/features/settings/presentation/policy_bloc/policy_bloc.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/change_language.dart';
+import 'package:careem_app_clean/features/settings/presentation/view/delete_page.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/policy_page.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/widgets/settings_options.dart';
-import 'package:careem_app_clean/main.dart';
+// import 'package:careem_app_clean/main.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -136,8 +137,11 @@ class SettingsPage extends StatelessWidget {
                 dio: dio,
                 sharedPreferences: sharedPreferences,
                 text: LocalizationKeys.deleteAccount.tr(),
-                child: const NextPage(
-                  id: 1,
+                // child: const NextPage(
+                //   id: 1,
+                // )
+                child: DeletePage(
+                  sharedPreferences: sharedPreferences,
                 )).animate().scaleXY(duration: .4.seconds, delay: .35.seconds)
           ],
         ),
@@ -145,6 +149,3 @@ class SettingsPage extends StatelessWidget {
     );
   }
 }
-
-
-//change the child :

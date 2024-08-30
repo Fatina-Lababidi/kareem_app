@@ -29,23 +29,19 @@ class RemoteHubContentDatasource {
         HubContentResponseModel hubContentResponseModel =
             HubContentResponseModel.fromJson(response.data);
         return hubContentResponseModel;
-      } else if (response.statusCode == 400) {
-        print(response.data);
-        final errorData = response.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         throw ServerException(errorModel: errorModel);
       }
+    } on DioException catch (e) {
+      handleDioExceptions(e);
+      throw ServerException(
+        errorModel: ErrorModel(
+          errorMessage: 'Unhandled Dio exception occurred',
+        ),
+      );
     } catch (e) {
-      if (e is DioException && e.response != null) {
-        log("DioError caught: ${e.message}");
-        final response = e.response;
-        final errorData = response!.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
-      } else if (e is ServerException) {
+      if (e is ServerException) {
         log("ServerException caught: ${e.errorModel.errorMessage}");
         throw ServerException(errorModel: e.errorModel);
       } else {

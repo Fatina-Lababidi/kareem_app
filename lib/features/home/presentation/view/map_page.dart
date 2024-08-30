@@ -214,8 +214,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                   PageTransition(
                       child: CategoriesPage(
                         id: place.id,
-                      name:  place.name,
-                      hubDescription: place.description,
+                        name: place.name,
+                        hubDescription: place.description,
                         dio: widget.dio,
                         sharedPreferences: widget.sharedPreferences,
                       ),
@@ -256,6 +256,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               listener: (context, state) {
                 if (state is AllHubSuccess) {
                   _updateHubMarkers(state.allHubEntity.body);
+                } else if (state is AllHubFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: AppColor.snackbarOfflineColor,
+                  ));
                 }
               },
               builder: (context, state) {

@@ -1,17 +1,20 @@
+import 'package:careem_app_clean/core/app_bloc/app_maneger_bloc.dart';
+import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
 import 'package:careem_app_clean/features/splash/presentation/view/onboarding.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CareemSplashPage extends StatefulWidget {
   final SharedPreferences sharedPreferences;
   final Dio dio;
-  const CareemSplashPage(
-      {super.key,
-      required this.sharedPreferences,
-      required this.dio,
-      });
+  const CareemSplashPage({
+    super.key,
+    required this.sharedPreferences,
+    required this.dio,
+  });
 
   @override
   State<CareemSplashPage> createState() => _CareemSplashPageState();
@@ -25,8 +28,6 @@ class _CareemSplashPageState extends State<CareemSplashPage>
   late Animation<double> _bikegrowAnimation;
   late Animation<double> _textOpacityAnimation;
   late Animation<Offset> _bikeMoveRightAnimation;
-
-
 
   @override
   void initState() {
@@ -71,10 +72,20 @@ class _CareemSplashPageState extends State<CareemSplashPage>
     Navigator.of(context).pushReplacement(PageTransition(
       duration: const Duration(seconds: 1),
       type: PageTransitionType.leftToRight,
-      child: OnBoarding(
-        dio: widget.dio,
-        sharedPreferences: widget.sharedPreferences,
-
+      child: BlocProvider(
+        create: (context) => AppManegerBloc()..add(CheckAuthStatus()),
+        child: BlocBuilder<AppManegerBloc, AppManegerState>(
+            builder: (context, state) {
+          if (state is Authenticated) {
+            return HomePage(
+                dio: widget.dio, sharedPreferences: widget.sharedPreferences);
+          } else {
+            return OnBoarding(
+              dio: widget.dio,
+              sharedPreferences: widget.sharedPreferences,
+            );
+          }
+        }),
       ),
     ));
   }

@@ -18,7 +18,9 @@ class BookingButtonsRow extends StatelessWidget {
     required this.hubId,
     required this.hubName,
     required this.hubDescription,
-    required this.bikeId, required this.photoPath, required this.bikeModel,
+    required this.bikeId,
+    required this.photoPath,
+    required this.bikeModel,
   });
 
   final double screenHeight;
@@ -87,8 +89,6 @@ class BookingButtonsRow extends StatelessWidget {
                       bikeId: bikeId,
                       sharedPreferences: sharedPreferences,
                       dio: dio,
-                      screenHeight: screenHeight,
-                      screenWidth: screenWidth,
                     ),
                     type: PageTransitionType.fade));
           },

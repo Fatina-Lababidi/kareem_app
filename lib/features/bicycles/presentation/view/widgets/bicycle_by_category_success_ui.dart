@@ -95,7 +95,7 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                             );
                           },
                           'https://${bicycleByCtegoryEntity.body[index].photoPath}',
-                          width: 80,
+                          width:screenWidth*0.2, //80,
                           colorBlendMode: BlendMode.colorBurn,
                         ),
                       ],

@@ -91,8 +91,8 @@ class CategoriesPage extends StatelessWidget {
                       child: Center(
                         child: Padding(
                           padding: isEnglish(context)
-                              ? const EdgeInsets.only(right: 50)
-                              : const EdgeInsets.only(left: 50),
+                              ?  EdgeInsets.only(right: 50, top: screenHeight * 0.01)
+                              :  EdgeInsets.only(left: 50, top: screenHeight * 0.01),
                           child: Text(
                             LocalizationKeys.allBicycleCategories.tr(),
                             style: const TextStyle(

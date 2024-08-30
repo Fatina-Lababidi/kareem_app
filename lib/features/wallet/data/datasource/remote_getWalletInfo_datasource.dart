@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
@@ -27,20 +26,35 @@ class RemoteGetwalletinfoDatasource {
         return walletInfoModel;
       } else if (response.statusCode == 403) {
         throw ServerException(
-            errorModel: ErrorModel(errorMessage: 'forbiddeen'));
-      }
-       else {
+            errorModel: ErrorModel(errorMessage: 'Forbidden'));
+      } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
-      if (e is DioException && e.response != null) {
-        log("DioError caught: ${e.message}");
-        final response = e.response;
-        final errorData = response!.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
-      } else if (e is ServerException) {
+      // if (e is DioException && e.response != null) {
+      //   log("DioError caught: ${e.message}");
+      //   final response = e.response;
+      //   final errorData = response!.data;
+
+      //   if (errorData is Map<String, dynamic>) {
+      //     ErrorModel errorModel = ErrorModel.fromJson(errorData);
+      //     throw ServerException(errorModel: errorModel);
+      //   } else if (errorData is String) {
+      //     throw ServerException(
+      //       errorModel: ErrorModel(
+      //         errorMessage: errorData,
+      //       ),
+      //     );
+      //   } else {
+      //     throw ServerException(
+      //       errorModel: ErrorModel(
+      //         errorMessage: 'Unexpected error format received from server.',
+      //       ),
+      //     );
+      //   }
+      // } else
+      if (e is ServerException) {
         log("ServerException caught: ${e.errorModel.errorMessage}");
         throw ServerException(errorModel: e.errorModel);
       } else {
@@ -54,3 +68,5 @@ class RemoteGetwalletinfoDatasource {
     }
   }
 }
+
+

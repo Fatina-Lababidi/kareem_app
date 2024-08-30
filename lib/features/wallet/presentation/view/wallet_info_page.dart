@@ -46,6 +46,7 @@ class WalletInfoPage extends StatelessWidget {
           child: BlocConsumer<WalletInfoBloc, WalletInfoState>(
             listener: (context, state) {
               if (state is WalletInfoFailure) {
+                print("message: ${state.message}");
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.message),
@@ -185,50 +186,50 @@ class WalletInfoPage extends StatelessWidget {
                 );
               } else if (state is WalletInfoFailure) {
                 if (state.message == 'PLEASE CREATE WALLET FIRST') {
-                  return Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppImages.walletImage,
-                            width: 100,
-                          )
-                              .animate()
-                              .shake(duration: .5.seconds, delay: .1.seconds),
-                          SizedBox(
-                            height: screenHeight * 0.04,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: CreateNewWalletPage(dio: dio),
-                                      type: PageTransitionType.fade));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: AppColor.baseColor,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                'create wallet',
-                                style: const TextStyle(
-                                  color: AppColor.whiteColor,
-                                  fontSize: 20,
-                                ),
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          AppImages.walletImage,
+                          width: 100,
+                        )
+                            .animate()
+                            .shake(duration: .5.seconds, delay: .1.seconds),
+                        SizedBox(
+                          height: screenHeight * 0.04,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: CreateNewWalletPage(dio: dio),
+                                    type: PageTransitionType.fade));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColor.baseColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'create wallet',
+                              style: const TextStyle(
+                                color: AppColor.whiteColor,
+                                fontSize: 20,
                               ),
                             ),
                           ),
-                        ]),
-                  );
+                        ),
+                      ]);
                 } else {
-                  return Center(child: Expanded(child: FailureUi(
-                    onTap: () {
-                      context.read<WalletInfoBloc>().add(GetWalletInfo());
-                    },
-                  )));
+                  return Center(
+                    child: FailureUi(
+                      onTap: () {
+                        context.read<WalletInfoBloc>().add(GetWalletInfo());
+                      },
+                    ),
+                  );
                 }
               } else {
                 return const Center(

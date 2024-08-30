@@ -37,6 +37,7 @@ class WalletRepoImp implements WalletRepo {
             await remoteGetwalletinfoDatasource.getMyWalletInfo();
         return Right(walletInfoModel);
       } on ServerException catch (e) {
+         print("ServerException caught in repository with message: ${e.errorModel.errorMessage}");
         return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {

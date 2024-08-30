@@ -64,9 +64,10 @@ class HubContentPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        left: screenWidth * 0.02, top: screenHeight * 0.01),
+                        left: screenWidth * 0.02, top: screenHeight * 0.012),
                     child: const BackWidget(),
                   ),
+                  SizedBox(height: 20,),
                   Text(
                     LocalizationKeys.hubContent.tr(),
                     style: const TextStyle(

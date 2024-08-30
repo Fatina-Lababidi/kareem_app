@@ -24,8 +24,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RentPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  final double screenHeight;
-  final double screenWidth;
+  // final double screenHeight;
+  // final double screenWidth;
   final int hubId;
   final String hubName;
   final String hubDescription;
@@ -36,8 +36,8 @@ class RentPage extends StatefulWidget {
       {super.key,
       required this.dio,
       required this.sharedPreferences,
-      required this.screenHeight,
-      required this.screenWidth,
+      // required this.screenHeight,
+      // required this.screenWidth,
       required this.hubId,
       required this.hubName,
       required this.hubDescription,
@@ -177,8 +177,8 @@ class _RentPageState extends State<RentPage> {
                           ),
                           const SizedBox(height: 16),
                           AppButton(
-                            screenHeight: widget.screenHeight,
-                            screenWidth: widget.screenWidth,
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
                             text: 'Enable Location',
                             textColor: AppColor.whiteColor,
                             containerColor: AppColor.buttonColor,
@@ -193,14 +193,14 @@ class _RentPageState extends State<RentPage> {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: widget.screenWidth * 0.02,
-                                  top: widget.screenHeight * 0.01),
+                                  left: screenWidth * 0.02,
+                                  top: screenHeight * 0.012),
                               child: const BackWidget(),
                             ),
                             Expanded(
                               child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 10),
+                                  padding:  EdgeInsets.only(right: 10,  top:screenHeight * 0.012),
                                   child: Text(
                                     LocalizationKeys.requestForRent.tr(),
                                     style: const TextStyle(
@@ -212,11 +212,11 @@ class _RentPageState extends State<RentPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: widget.screenWidth * 0.06),
+                            SizedBox(width:screenWidth * 0.06),
                           ],
                         ),
                         SizedBox(
-                          height: widget.screenHeight * 0.02,
+                          height:screenHeight * 0.02,
                         ),
                         Row(
                           children: [
