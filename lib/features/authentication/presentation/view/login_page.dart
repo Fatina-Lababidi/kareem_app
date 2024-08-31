@@ -49,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
       listener: (context, state) {
         if (state is LoginSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('success log in ..'),
+            SnackBar(
+              content: Text(LocalizationKeys.success.tr()),
               backgroundColor: AppColor.baseColor,
             ),
           );
@@ -61,18 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: HomePage(
                     dio: widget.dio,
                     sharedPreferences: widget.sharedPreferences,
-                  )
-                  // child:  BlocProvider(
-                  //           create: (context) => ChangePasswordBloc(
-                  //             ChangePasswordUseCase(
-                  //               repository: AuthRepositoryImpl(
-                  //                 remoteDataSource:
-                  //                     RemoteUserDataSourceImpl(dio:widget.dio),
-                  //                 sharedPreferences:widget.sharedPreferences ,
-                  //               ),
-                  //             ),
-                  //        ) , child: const ChangePasswordPage(),)
-                  ,
+                  ),
                   type: PageTransitionType.fade));
         } else if (state is LoginFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -83,8 +72,8 @@ class _LoginPageState extends State<LoginPage> {
           );
         } else if (state is LoginOffline) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Offline'),
+            SnackBar(
+              content: Text(LocalizationKeys.offline.tr()),
               backgroundColor: AppColor.snackbarOfflineColor,
             ),
           );
@@ -113,9 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Text(
                           LocalizationKeys.logintitle.tr(),
-                          style: const TextStyle(
+                          style:  TextStyle(
                             color: AppColor.contentSecondaryTextColor,
-                            fontSize: 24,
+                            fontSize:screenWidth*0.06 ,//24,
                             fontWeight: FontWeight.w500,
                           ),
                         )
@@ -123,9 +112,6 @@ class _LoginPageState extends State<LoginPage> {
                             .fade(duration: .3.seconds, delay: .15.seconds),
                         SizedBox(
                           height: screenHeight * 0.02,
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.03,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),

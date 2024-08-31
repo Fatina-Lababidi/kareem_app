@@ -31,7 +31,8 @@ class HubContentPage extends StatelessWidget {
     required this.hubId,
     required this.categroy,
     required this.sharedPreferences,
-    required this.name, required this.hubDescription,
+    required this.name,
+    required this.hubDescription,
   });
 
   @override
@@ -67,11 +68,11 @@ class HubContentPage extends StatelessWidget {
                         left: screenWidth * 0.02, top: screenHeight * 0.012),
                     child: const BackWidget(),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: screenHeight * 0.03),
                   Text(
                     LocalizationKeys.hubContent.tr(),
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.045, //18,
                       color: AppColor.buttonDetailsColor,
                       fontWeight: FontWeight.w500,
                     ),
@@ -84,9 +85,9 @@ class HubContentPage extends StatelessWidget {
                             children: [
                               Text(
                                 '${state.hubContentResponseEntity.body.bicycleList.length} ${LocalizationKeys.bikesFound.tr()}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColor.skipTextColor,
-                                    fontSize: 14,
+                                    fontSize: screenWidth * 0.035, //14,
                                     fontWeight: FontWeight.w500),
                               ),
                               Expanded(
@@ -95,7 +96,7 @@ class HubContentPage extends StatelessWidget {
                                       .bicycleList.length,
                                   itemBuilder: (context, index) {
                                     return Container(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       height: screenHeight * 0.2, //170,
                                       width: screenWidth * 0.9, //363,
                                       decoration: BoxDecoration(
@@ -105,7 +106,8 @@ class HubContentPage extends StatelessWidget {
                                               color: AppColor.baseColor),
                                           borderRadius:
                                               BorderRadius.circular(8)),
-                                      margin: EdgeInsets.all(10),
+                                      margin:
+                                          EdgeInsets.all(screenWidth * 0.025),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -127,8 +129,9 @@ class HubContentPage extends StatelessWidget {
                                                         .bicycleList[index]
                                                         .modelPrice
                                                         .model,
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
+                                                    style: TextStyle(
+                                                        fontSize: screenWidth *
+                                                            0.04, // 16,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color: AppColor
@@ -136,13 +139,22 @@ class HubContentPage extends StatelessWidget {
                                                   ),
                                                   Text(
                                                     'id:${state.hubContentResponseEntity.body.bicycleList[index].id} | size:${state.hubContentResponseEntity.body.bicycleList[index].size} | price:${state.hubContentResponseEntity.body.bicycleList[index].modelPrice.price}',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       color: AppColor
                                                           .skipTextColor,
+                                                      fontSize:
+                                                          screenWidth * 0.035,
                                                     ),
                                                   ),
                                                   Text(
-                                                      'note :${state.hubContentResponseEntity.body.bicycleList[index].note}')
+                                                    'note :${state.hubContentResponseEntity.body.bicycleList[index].note}',
+                                                    style: TextStyle(
+                                                      color: AppColor
+                                                          .skipTextColor,
+                                                      fontSize:
+                                                          screenWidth * 0.035,
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                               Image.network(
@@ -152,22 +164,26 @@ class HubContentPage extends StatelessWidget {
                                                     children: [
                                                       Image.asset(
                                                         'assets/images/bicycle.png',
-                                                        width: 50,
+                                                        width: screenWidth *
+                                                            0.12, //50,
                                                       ),
                                                       Text(
-                                                        'enable to fetch image',
-                                                        style: TextStyle(
+                                                          'enable to fetch image',
+                                                          style: TextStyle(
                                                             color: AppColor
                                                                 .snackbarFaildColor,
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            fontSize: 10),
-                                                      ), //! localization
+                                                            fontSize:
+                                                                screenWidth *
+                                                                    0.025,
+                                                          ) //10),
+                                                          ), //! localization
                                                     ],
                                                   );
                                                 },
                                                 'https://${state.hubContentResponseEntity.body.bicycleList[index]}', //!! we don't have imgage!
-                                                width: 80,
+                                                width: screenWidth * 0.2, //80,
                                                 colorBlendMode:
                                                     BlendMode.colorBurn,
                                               ),
@@ -177,35 +193,41 @@ class HubContentPage extends StatelessWidget {
                                             alignment: Alignment.center,
                                             child: GestureDetector(
                                               onTap: () {
-                                                final bike = state
-                                                    .hubContentResponseEntity
-                                                    .body
-                                                    .bicycleList[index];
-                                                Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                        child:
-                                                            HubBicyclebyidPage(
-                                                          hubId:hubId,
-                                                          hubName:name ,
-                                                        hubDescription:hubDescription,
-                                                          sharedPreferences:
-                                                              sharedPreferences,
-                                                          dio: dio,
-                                                          id: bike.id,
-                                                          price: bike
-                                                              .modelPrice.price,
-                                                          model: bike
-                                                              .modelPrice.model,
-                                                          size: bike.size,
-                                                          photoPath: bike
-                                                              .photo_id
-                                                              .toString(), //!!
-                                                          type: bike.type,
-                                                          note: bike.note,
-                                                        ),
-                                                        type: PageTransitionType
-                                                            .fade));
+
+                                                  final bike = state
+                                                      .hubContentResponseEntity
+                                                      .body
+                                                      .bicycleList[index];
+                                                  Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                          child:
+                                                              HubBicyclebyidPage(
+                                                            hubId: hubId,
+                                                            hubName: name,
+                                                            hubDescription:
+                                                                hubDescription,
+                                                            sharedPreferences:
+                                                                sharedPreferences,
+                                                            dio: dio,
+                                                            id: bike.id,
+                                                            price: bike
+                                                                .modelPrice
+                                                                .price,
+                                                            model: bike
+                                                                .modelPrice
+                                                                .model,
+                                                            size: bike.size,
+                                                            photoPath: bike
+                                                                .photo_id
+                                                                .toString(), //!!
+                                                            type: bike.type,
+                                                            note: bike.note,
+                                                          ),
+                                                          type:
+                                                              PageTransitionType
+                                                                  .fade));
+
                                               },
                                               child: Container(
                                                 width:
@@ -226,8 +248,9 @@ class HubContentPage extends StatelessWidget {
                                                     LocalizationKeys
                                                         .viewBikeList
                                                         .tr(),
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
+                                                    style: TextStyle(
+                                                        fontSize: screenWidth *
+                                                            0.04, //16,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color:
@@ -259,12 +282,12 @@ class HubContentPage extends StatelessWidget {
                                 },
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(screenWidth * 0.02),
                                 child: Text(
                                   state.message,
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 15,
+                                  style: TextStyle(
+                                      fontSize: screenWidth * 0.04, //15,
                                       color: AppColor.buttonDetailsColor,
                                       fontWeight: FontWeight.w500),
                                 ),

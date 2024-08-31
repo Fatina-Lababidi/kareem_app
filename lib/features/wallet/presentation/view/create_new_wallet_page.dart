@@ -96,8 +96,8 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                   ),
                   Text(
                     LocalizationKeys.createNewWallet.tr(),
-                    style: const TextStyle(
-                        fontSize: 24,
+                    style:  TextStyle(
+                        fontSize:screenWidth/375*24, //24,
                         fontWeight: FontWeight.w600,
                         color: AppColor.buttonDetailsColor),
                   ).animate().fade(duration: .2.seconds, delay: .1.seconds),

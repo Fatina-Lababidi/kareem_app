@@ -75,16 +75,16 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
+    final double screenHeight = MediaQuery.sizeOf(context).height;
     bool isEng = isEnglish(context);
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
-        child: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.02, vertical: screenHeight * 0.02),
           child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 2,
-              ),
+            children: [
               Align(
                 alignment: isEng ? Alignment.topRight : Alignment.topLeft,
                 child: TextButton(
@@ -102,9 +102,9 @@ class _OnBoardingState extends State<OnBoarding> {
                   },
                   child: Text(
                     LocalizationKeys.skip.tr(),
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
-                        fontSize: 16,
+                        fontSize: screenWidth * 0.05, // 16,
                         fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -152,16 +152,16 @@ class _OnBoardingState extends State<OnBoarding> {
                         ),
                         onPressed: _updateProgress,
                         child: (_currentIndex < 2)
-                            ? const Icon(
+                            ?  Icon(
                                 Icons.arrow_forward,
                                 color: AppColor.buttonDetailsColor,
-                                size: 24,
+                                size:screenWidth*0.06// 24,
                               )
                             : Text(
                                 LocalizationKeys.go.tr(),
-                                style: const TextStyle(
+                                style:  TextStyle(
                                   color: AppColor.buttonDetailsColor,
-                                  fontSize: 16,
+                                  fontSize:screenWidth*0.05 //16,
                                 ),
                               ),
                       ),

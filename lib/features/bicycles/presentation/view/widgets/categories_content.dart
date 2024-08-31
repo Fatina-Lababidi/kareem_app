@@ -29,6 +29,7 @@ class CategoriesContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return InkWell(
       onTap: () {
         print('Hub id:${id.toString()}');
@@ -72,18 +73,11 @@ class CategoriesContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Flexible(
-            //   child: Image.asset(
-            //     imageUrl,
-            //     height: screenHeight * 0.15,
-            //     fit: BoxFit.contain,
-            //   ),
-            // ),
             const SizedBox(height: 8),
             Text(
               catergory,
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: screenWidth * 0.04, // 16,
                 fontWeight: FontWeight.w500,
               ),
             ),

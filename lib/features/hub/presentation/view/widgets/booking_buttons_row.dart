@@ -41,6 +41,7 @@ class BookingButtonsRow extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
+
             Navigator.push(
                 context,
                 PageTransition(
@@ -63,8 +64,8 @@ class BookingButtonsRow extends StatelessWidget {
             child: Center(
               child: Text(
                 LocalizationKeys.bookLater.tr(),
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.04, //16,
                   color: AppColor.buttonColor,
                   fontWeight: FontWeight.w500,
                 ),
@@ -103,8 +104,8 @@ class BookingButtonsRow extends StatelessWidget {
             child: Center(
               child: Text(
                 LocalizationKeys.rideNow.tr(),
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.04, //16,
                   color: AppColor.whiteColor,
                   fontWeight: FontWeight.w500,
                 ),

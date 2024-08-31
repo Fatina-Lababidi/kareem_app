@@ -12,17 +12,14 @@ class HexagonPainter extends CustomPainter {
 
     double width = size.width;
     double height = size.height;
+    double verticalStretch = 0.3;
 
-    // Calculate the vertical stretch
-    double verticalStretch = 0.3; // Adjust this value to stretch vertically more or less
-
-    // Define hexagon points with vertical stretch
-    path.moveTo(width * 0.5, 0);                         // Top center
+    path.moveTo(width * 0.5, 0); // Top center
     path.lineTo(width, height * (0.5 - verticalStretch)); // Top right
     path.lineTo(width, height * (0.5 + verticalStretch)); // Bottom right
-    path.lineTo(width * 0.5, height);                    // Bottom center
-    path.lineTo(0, height * (0.5 + verticalStretch));    // Bottom left
-    path.lineTo(0, height * (0.5 - verticalStretch));    // Top left
+    path.lineTo(width * 0.5, height); // Bottom center
+    path.lineTo(0, height * (0.5 + verticalStretch)); // Bottom left
+    path.lineTo(0, height * (0.5 - verticalStretch)); // Top left
     path.close();
 
     canvas.drawPath(path, paint);

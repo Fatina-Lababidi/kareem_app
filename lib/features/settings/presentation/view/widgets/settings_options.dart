@@ -44,16 +44,16 @@ class SettingsOption extends StatelessWidget {
           children: [
             Text(
               text,
-              style: const TextStyle(
-                fontSize: 14,
+              style: TextStyle(
+                fontSize: screenWidth * 0.035, //14,
                 fontWeight: FontWeight.w500,
                 color: AppColor.contentSecondaryTextColor,
               ),
             ),
-            const Icon(
+            Icon(
               Icons.arrow_forward_ios_rounded,
               color: AppColor.contentSecondaryTextColor,
-              size: 20,
+              size: screenWidth * 0.05, // 20,
             )
           ],
         ),

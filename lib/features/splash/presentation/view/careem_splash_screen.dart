@@ -98,6 +98,8 @@ class _CareemSplashPageState extends State<CareemSplashPage>
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       body: AnimatedBuilder(
         animation: _scaffoldColorAnimation,
@@ -116,8 +118,8 @@ class _CareemSplashPageState extends State<CareemSplashPage>
                           duration: const Duration(seconds: 0),
                           opacity: _bikeOpacityAnimation.value,
                           child: SizedBox(
-                            width: 200,
-                            height: 200,
+                            width:screenWidth*0.5, //200,
+                            height:screenWidth*0.4,// 200,
                             child: Image.asset(
                               'assets/images/bike_anim.png',
                               fit: BoxFit.fill,
@@ -128,13 +130,13 @@ class _CareemSplashPageState extends State<CareemSplashPage>
                   AnimatedOpacity(
                     duration: const Duration(seconds: 0),
                     opacity: _textOpacityAnimation.value,
-                    child: const Text(
+                    child: Text(
                       'CAREEM APP',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 35,
+                          fontSize: screenWidth * 0.08, // 35,
                           fontWeight: FontWeight.bold,
-                          shadows: [
+                          shadows: const [
                             Shadow(color: Colors.grey, offset: Offset(-3, 2))
                           ]),
                     ),

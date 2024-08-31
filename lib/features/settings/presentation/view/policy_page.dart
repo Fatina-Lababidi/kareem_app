@@ -33,12 +33,16 @@ class PolicyPage extends StatelessWidget {
                   child: Center(
                     child: Padding(
                       padding: isEnglish(context)
-                          ? const EdgeInsets.only(right: 50)
-                          : const EdgeInsets.only(left: 50),
+                          ? EdgeInsets.only(
+                              right: screenWidth * 0.125,
+                              top: screenHeight * 0.01)
+                          : EdgeInsets.only(
+                              left: screenWidth * 0.125,
+                              top: screenHeight * 0.01),
                       child: Text(
                         LocalizationKeys.privacyPolicy.tr(),
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.045, //18,
                           color: AppColor.settingsTitleColor,
                           fontWeight: FontWeight.w500,
                         ),
@@ -73,30 +77,32 @@ class PolicyPage extends StatelessWidget {
                 if (state is PolicySuccess) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          state.policy.title,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.contentSecondaryTextColor,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            state.policy.title,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.045, //18,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.contentSecondaryTextColor,
+                            ),
                           ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 20,
-                          state.policy.description,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.policydescColor,
-                          ),
-                        )
-                      ],
+                          Text(
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 20,
+                            state.policy.description,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.04, //16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.policydescColor,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 } else if (state is PolicyFailure || state is PolicyOffline) {

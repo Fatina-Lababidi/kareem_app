@@ -61,12 +61,16 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   child: Center(
                     child: Padding(
                       padding: isEnglish(context)
-                          ? const EdgeInsets.only(right: 50)
-                          : const EdgeInsets.only(left: 50),
+                          ? EdgeInsets.only(
+                              right: screenWidth * 0.125,
+                              top: screenHeight * 0.01)
+                          : EdgeInsets.only(
+                              left: screenWidth * 0.125,
+                              top: screenHeight * 0.01),
                       child: Text(
                         LocalizationKeys.changeLanguage.tr(),
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style:  TextStyle(
+                          fontSize:screenWidth*0.045, //18,
                           color: AppColor.settingsTitleColor,
                           fontWeight: FontWeight.w500,
                         ),
@@ -109,8 +113,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     ),
                     Text(
                       LocalizationKeys.englishOption.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style:  TextStyle(
+                        fontSize:screenWidth*0.04, //16,
                         fontWeight: FontWeight.w500,
                         color: AppColor.buttonDetailsColor,
                       ),
@@ -159,8 +163,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     ),
                     Text(
                       LocalizationKeys.arabicOption.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style:  TextStyle(
+                        fontSize: screenWidth*0.04,//16,
                         fontWeight: FontWeight.w500,
                         color: AppColor.buttonDetailsColor,
                       ),

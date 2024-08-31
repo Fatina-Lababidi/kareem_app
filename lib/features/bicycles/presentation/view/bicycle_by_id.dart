@@ -86,9 +86,13 @@ class BicycleByIdPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              right: screenWidth * 0.02,
-                              top: screenHeight * 0.01),
+                          padding: isEnglish(context)
+                              ? EdgeInsets.only(
+                                  right: screenWidth * 0.02,
+                                  left: screenHeight * 0.01)
+                              : EdgeInsets.only(
+                                  right: screenWidth * 0.02,
+                                  top: screenHeight * 0.01),
                           child: const BackWidget(),
                         ),
                         const Expanded(
@@ -108,13 +112,16 @@ class BicycleByIdPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              right: screenWidth * 0.02,
-                              top: screenHeight * 0.01),
+                          padding: isEnglish(context)
+                              ? EdgeInsets.only(
+                                  right: screenWidth * 0.02,
+                                  top: screenHeight * 0.0125)
+                              : EdgeInsets.only(
+                                  left: screenWidth * 0.02,
+                                  top: screenHeight * 0.0125),
                           child: const BackWidget(),
                         ),
                         Text(state.message),
-                        // Expanded(child: Center(child: Text(state.message))),
                         Expanded(
                           child: Center(child: FailureUi(
                             onTap: () {
@@ -155,9 +162,13 @@ class BicycleByIdPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              right: screenWidth * 0.02,
-                              top: screenHeight * 0.01),
+                          padding: isEnglish(context)
+                              ? EdgeInsets.only(
+                                  right: screenWidth * 0.02,
+                                  top: screenHeight * 0.0125)
+                              : EdgeInsets.only(
+                                  right: screenWidth * 0.02,
+                                  top: screenHeight * 0.0125),
                           child: const BackWidget(),
                         ),
                         Expanded(
@@ -237,10 +248,10 @@ class BicycleByIdPage extends StatelessWidget {
                               BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
                                 builder: (context, state) {
                                   if (state is AddFavouriteLoding) {
-                                    return const SizedBox(
-                                      width: 10,
-                                      height: 10,
-                                      child: CircularProgressIndicator(
+                                    return SizedBox(
+                                      width: screenWidth * 0.03, //10,
+                                      height: screenWidth * 0.03,
+                                      child: const CircularProgressIndicator(
                                         color: AppColor.snackbarOfflineColor,
                                       ),
                                     );
@@ -251,10 +262,10 @@ class BicycleByIdPage extends StatelessWidget {
                                             .read<AddFavouriteBloc>()
                                             .add(AddFav());
                                       },
-                                      icon: const Icon(
-                                        Icons.favorite_sharp,
-                                        color: AppColor.snackbarOfflineColor,
-                                      ),
+                                      icon: Icon(Icons.favorite_sharp,
+                                          color: AppColor.snackbarOfflineColor,
+                                          size: screenWidth * 0.07 //30,
+                                          ),
                                     );
                                   }
                                 },
@@ -265,16 +276,16 @@ class BicycleByIdPage extends StatelessWidget {
                               ),
                           Text(
                             model,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColor.buttonDetailsColor,
-                              fontSize: 24,
+                              fontSize: screenWidth * 0.06, //24,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
                             type,
-                            style: const TextStyle(
-                                fontSize: 14,
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.035, //14,
                                 color: AppColor.skipTextColor,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -283,16 +294,15 @@ class BicycleByIdPage extends StatelessWidget {
                               errorBuilder: (context, error, stackTrace) {
                                 return Column(
                                   children: [
-                                    Image.asset(
-                                      'assets/images/bicycle.png',
-                                      width: 50,
-                                    ),
+                                    Image.asset('assets/images/bicycle.png',
+                                        width: screenWidth * 0.2 //50,
+                                        ),
                                     Text('enable to fetch '), //! localization
                                   ],
                                 );
                               },
                               'https://$photoPath',
-                              width: 200,
+                              width: screenWidth * 0.5, //200,
                               colorBlendMode: BlendMode.colorBurn,
                             ),
                           ),
@@ -300,8 +310,8 @@ class BicycleByIdPage extends StatelessWidget {
                               ),
                           Text(
                             LocalizationKeys.specifications.tr(),
-                            style: const TextStyle(
-                                fontSize: 18,
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.045, //18,
                                 fontWeight: FontWeight.w500,
                                 color: AppColor.buttonDetailsColor),
                           ), //! Localization
@@ -313,8 +323,8 @@ class BicycleByIdPage extends StatelessWidget {
                             height: screenHeight * 0.02, //5,
                           ),
                           Text(LocalizationKeys.bicycleFeatures.tr(),
-                              style: const TextStyle(
-                                  fontSize: 18,
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.045, //18,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.buttonDetailsColor)),
                           SizedBox(height: screenHeight * 0.02 //5,

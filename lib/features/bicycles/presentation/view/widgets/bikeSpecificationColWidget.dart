@@ -14,10 +14,12 @@ class BikeSpecificationColWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15),
-      padding: EdgeInsets.all(5),
-      height:50,
+      padding: const EdgeInsets.all(5),
+      height: screenHeight * 0.1, //50,
       decoration: BoxDecoration(
           color: AppColor.categoriesContainerColor,
           border: Border.all(
@@ -34,21 +36,23 @@ class BikeSpecificationColWidget extends StatelessWidget {
                 color: AppColor.buttonDetailsColor,
               ),
               SizedBox(
-                width: 5,
+                width: screenWidth * 0.02,
               ),
               Text(
                 title,
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: AppColor.buttonDetailsColor),
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.buttonDetailsColor,
+                  fontSize: screenWidth * 0.035,
+                ),
               ),
             ],
           ),
           Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColor.buttonDetailsColor,
-                fontSize: 14,
+                fontSize: screenWidth * 0.035, //14,
                 fontWeight: FontWeight.w500),
           ),
         ],

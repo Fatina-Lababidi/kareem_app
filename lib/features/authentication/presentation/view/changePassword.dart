@@ -51,12 +51,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               backgroundColor: AppColor.baseColor,
             ),
           );
-          //  Navigator to the next page
+          //  Navigator to the settings page
           Navigator.pop(context);
-          // Navigator.push(
-          //     context,
-          //     PageTransition(
-          //         child: const NextPage(), type: PageTransitionType.fade));
         } else if (state is ChangePasswordFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -66,8 +62,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           );
         } else if (state is ChangePasswordOffline) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('offline'),
+            SnackBar(
+              content: Text(LocalizationKeys.offline.tr()),
               backgroundColor: AppColor.snackbarOfflineColor,
             ),
           );
@@ -96,9 +92,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         ),
                         Text(
                           LocalizationKeys.changePasswordTitle.tr(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColor.contentSecondaryTextColor,
-                            fontSize: 24,
+                            fontSize: screenWidth * 0.06, //24,
                             fontWeight: FontWeight.w500,
                           ),
                         )
@@ -108,12 +104,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           height: screenHeight * 0.02,
                         ),
 
-                        // SizedBox(
-                        //   height: screenHeight * 0.03,
-                        // ),
-
                         AppTextFormField(
-                          //focusNode: _passwordFocusNode,
                           obscurepassword: obscureCurrentpassword,
                           secretPasswordIcon: IconButton(
                             onPressed: () {

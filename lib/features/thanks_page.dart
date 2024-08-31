@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
@@ -8,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class ThanksPage extends StatelessWidget {
-    final double screenHeight;
+  final double screenHeight;
   final double screenWidth;
-  const ThanksPage({super.key, required this.screenHeight, required this.screenWidth});
+  const ThanksPage(
+      {super.key, required this.screenHeight, required this.screenWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,11 @@ class ThanksPage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  left: screenWidth * 0.02, top: screenHeight * 0.01),
+              padding: isEnglish(context)
+                  ? EdgeInsets.only(
+                      left: screenWidth * 0.02, top: screenHeight * 0.01)
+                  : EdgeInsets.only(
+                      right: screenWidth * 0.02, top: screenHeight * 0.01),
               child: const BackWidget(),
             ),
             Spacer(),
@@ -36,11 +41,11 @@ class ThanksPage extends StatelessWidget {
                     controller.repeat();
                   },
                 ).rotate(duration: 3.seconds, delay: 1.seconds),
-                const Center(
+                 Center(
                   child: Icon(
                     Icons.check_rounded,
                     color: AppColor.checkColor,
-                    size: 80,
+                    size:screenWidth*0.2 //80,
                   ),
                 ),
               ],
@@ -50,10 +55,10 @@ class ThanksPage extends StatelessWidget {
             ),
             Text(
               LocalizationKeys.thankYou.tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 color: AppColor.buttonDetailsColor,
                 fontWeight: FontWeight.w500,
-                fontSize: 20,
+                fontSize:screenWidth*0.05 //20,
               ),
             ),
             SizedBox(
@@ -61,10 +66,10 @@ class ThanksPage extends StatelessWidget {
             ),
             Text(
               LocalizationKeys.yourBookingHasBeenPlacedSent.tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 color: AppColor.buttonDetailsColor,
                 fontWeight: FontWeight.w500,
-                fontSize: 12,
+                fontSize:screenWidth*0.03 //12,
               ),
             ),
             Spacer(),

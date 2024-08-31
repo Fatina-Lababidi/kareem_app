@@ -39,7 +39,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   final markers = ValueNotifier<List<Marker>>([]);
   final List<dynamic> searchResults = [];
   late final MapController _mapController;
-  LatLng _initialPosition = LatLng(33.5138, 36.2765); //damascus
+  final LatLng _initialPosition = const LatLng(33.5138, 36.2765); //damascus
   LatLng? _savedPosition;
   bool isSearchBarVisible = false;
   bool _locationCheck = false;
@@ -50,7 +50,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     super.initState();
     _mapController = MapController();
     _loadSavedLocation();
-    //  _initalizeBloc();
   }
 
   Future<void> _loadSavedLocation() async {
@@ -83,9 +82,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
 
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-
       if (permission == LocationPermission.denied) {
-        _savedLocation(LatLng(0.0, 0.0));
+        _savedLocation(const LatLng(0.0, 0.0));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Location permission denied.'),
@@ -94,9 +92,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         return;
       }
     }
-
     if (permission == LocationPermission.deniedForever) {
-      _savedLocation(LatLng(0.0, 0.0));
+      _savedLocation(const LatLng(0.0, 0.0));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -111,7 +108,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                 },
                 child: Text(
                   'Open Settings',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.whiteColor),
                 ),
               ),
             ],
@@ -120,7 +117,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       );
       return;
     }
-
     if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
       try {
@@ -139,11 +135,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to get location.'),
-            //set defualt one?
+            //! ?set defualt one? or just move it to the initial point?
           ),
         );
         _mapController.move(_initialPosition, 15);
-        _savedLocation(LatLng(0.0, 0.0));
+        _savedLocation(const LatLng(0.0, 0.0));
       }
     }
   }
@@ -151,8 +147,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
 // //? saved new current location to use it in hub:
 
   Future<void> _savedLocation(LatLng position) async {
-    // final prefs = await SharedPreferences.getInstance();
-
     await widget.sharedPreferences.setDouble('latitude2', position.latitude);
     await widget.sharedPreferences.setDouble('longitude2', position.longitude);
     ;
@@ -191,6 +185,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       print('Failed to load data: $e');
     }
   }
+//? for the hubs:
 
   List<Marker> _buildHubMarkers(
       List<PlaceEntity> places, BuildContext context) {
@@ -203,7 +198,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         ),
       ];
     }
-
     return places.map((place) {
       return Marker(
         point: LatLng(place.latitude.toDouble(), place.longitude.toDouble()),
@@ -221,7 +215,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                       ),
                       type: PageTransitionType.fade));
             },
-            child: Icon(Icons.pedal_bike, color: Colors.red, size: 40)),
+            child: const Icon(Icons.pedal_bike, color: Colors.red, size: 40)),
       );
     }).toList();
   }
@@ -280,7 +274,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                               initialCenter: _initialPosition,
                               onLongPress: (point, latLng) =>
                                   _addMarker(latLng),
-                              //  onMapReady: () {},
                             ),
                             children: [
                               TileLayer(
@@ -306,7 +299,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                         if (searchResults.isNotEmpty)
                           Expanded(
                             child: Container(
-                              color: Colors.white,
+                              color: AppColor.whiteColor,
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 separatorBuilder: (context, index) =>
@@ -387,12 +380,9 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
           onTap: () async {
             log('location');
             await _checkAndRequestPermission();
-            // setState(() {
-            //   // _updateMapWithCurrentPosition();
-            // });
           },
           child: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: AppColor.whiteColor,
@@ -404,10 +394,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            child: Icon(Icons.location_on, color: Colors.black),
+            child: const Icon(Icons.location_on, color: Colors.black),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         GestureDetector(
@@ -449,14 +439,14 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       right: 20,
       child: Container(
         height: 39,
-        margin: EdgeInsets.symmetric(horizontal: 40),
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        margin: const EdgeInsets.symmetric(horizontal: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: Color(0xffE2F5ED),
+          color: AppColor.categoriesContainerColor,
           borderRadius: BorderRadius.circular(5),
           boxShadow: const [
             BoxShadow(
-              color: Color(0xff08B783),
+              color: AppColor.baseColor,
               blurRadius: 4.0,
               spreadRadius: 1.0,
             ),
@@ -489,7 +479,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     markers.value = [
       Marker(
         point: point,
-        child: Icon(Icons.location_pin, color: Colors.blue, size: 40),
+        child: const Icon(Icons.location_pin, color: Colors.blue, size: 40),
       ),
     ];
   }

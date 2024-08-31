@@ -69,10 +69,9 @@ class _HomePageState extends State<HomePage> {
     final double screenHeight = MediaQuery.sizeOf(context).height;
     final double screenWidth = MediaQuery.sizeOf(context).width;
     return WillPopScope(
-      onWillPop: () async {
-        // in order int to navigater back using the phone
-        return false;
-      },
+      onWillPop: () async => false,
+      // in order to privent navigater back using the phone
+
       child: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -84,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: _buildCustomNavigationBar(),
+                child: _buildCustomNavigationBar(screenHeight),
               ),
               Positioned(
                 top: 10,
@@ -96,15 +95,8 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: AppColor.progressBackgoundColor,
-                      // boxShadow: const [
-                      //   BoxShadow(
-                      //     color: Colors.black26,
-                      //     blurRadius: 4.0,
-                      //     spreadRadius: 1.0,
-                      //   ),
-                      // ],
                     ),
-                    child: Icon(Icons.menu, color: Colors.black),
+                    child: const Icon(Icons.menu, color: Colors.black),
                   ),
                 ),
               ),
@@ -116,16 +108,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCustomNavigationBar() {
+  Widget _buildCustomNavigationBar(double screenHeight) {
     return Container(
-      height: 80,
+      height: screenHeight * 0.1, //80,
       decoration: BoxDecoration(
         color: _isDrawerOpen ? Colors.white.withOpacity(0.5) : Colors.white,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30.0),
           topRight: Radius.circular(30.0),
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             blurRadius: 10.0,
@@ -143,11 +135,12 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: CustomPaint(
                 size: const Size(70, 70),
-                painter: HexagonPainter(Color(0xff08B783)),
-                child: Container(
+                painter: HexagonPainter(AppColor.baseColor),
+                child: const SizedBox(
+                  //! have we change this? or its good??
                   width: 70,
                   height: 70,
-                  child: const Center(
+                  child: Center(
                     child: Icon(Icons.wallet, color: Colors.white, size: 35),
                   ),
                 ),
@@ -159,7 +152,7 @@ class _HomePageState extends State<HomePage> {
             left: 0,
             right: 0,
             child: BottomNavigationBar(
-              selectedItemColor: Color(0xff08B783),
+              selectedItemColor: AppColor.baseColor,
               onTap: _onItemTapped,
               currentIndex: _currentIndex,
               type: BottomNavigationBarType.fixed,
@@ -167,24 +160,24 @@ class _HomePageState extends State<HomePage> {
               elevation: 0,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home_rounded),
+                  icon: const Icon(Icons.home_rounded),
                   label: LocalizationKeys.home.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_outline_outlined),
+                  icon: const Icon(Icons.favorite_outline_outlined),
                   label: LocalizationKeys.favourite.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.wallet,
+                  icon: const Icon(Icons.wallet,
                       color: Colors.transparent), // SizedBox.shrink(),
                   label: LocalizationKeys.wallet.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.money_off_csred_rounded),
+                  icon: const Icon(Icons.money_off_csred_rounded),
                   label: LocalizationKeys.offer.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_2_outlined),
+                  icon: const Icon(Icons.person_2_outlined),
                   label: LocalizationKeys.profile.tr(),
                 ),
               ],
@@ -201,7 +194,7 @@ class _HomePageState extends State<HomePage> {
       bottom: 0,
       // left: isEnglish(context)?0:screenWidth-230,
       left: 0,
-      width: 230, //query
+      width: screenWidth * 0.6, //230,
       child: GestureDetector(
         onPanUpdate: (details) {
           if (details.delta.dx < -5) {
@@ -239,34 +232,17 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         LocalizationKeys.back.tr(),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: AppColor.contentSecondaryTextColor,
-                            fontSize: 16,
+                            fontSize: screenWidth * 0.04, //16,
                             fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // Container(
-              //   margin: EdgeInsets.only(right: 125), //! must have better way ?!
-              //   decoration: BoxDecoration(
-              //       color: AppColor.circularRipple2,
-              //       border: Border.all(color: AppColor.baseColor),
-              //       shape: BoxShape.circle),
-              //   child: const Center(
-              //     child: Icon(
-              //       Icons.person,
-              //       color: AppColor.baseColor,
-              //       size: 65,
-              //     ),
-              //   ),
-              // ),
               SizedBox(
-                height: 100,
+                height: screenHeight * 0.2,
               ),
               GestureDetector(
                 onTap: () {
@@ -287,13 +263,13 @@ class _HomePageState extends State<HomePage> {
                       Icons.settings,
                       color: AppColor.contentSecondaryTextColor,
                     ),
-                    const SizedBox(
-                      width: 10,
+                    SizedBox(
+                      width: screenWidth * 0.02,
                     ),
                     Text(
                       LocalizationKeys.settingsTitle.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.04, //16,
                         color: AppColor.contentSecondaryTextColor,
                         fontWeight: FontWeight.w500,
                       ),

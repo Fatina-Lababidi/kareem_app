@@ -69,8 +69,8 @@ class _PasswordPageState extends State<PasswordPage> {
       listener: (context, state) {
         if (state is RegisterSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('success sign up'),
+            SnackBar(
+              content: Text(LocalizationKeys.success.tr()),
               backgroundColor: AppColor.baseColor,
             ),
           );
@@ -92,8 +92,8 @@ class _PasswordPageState extends State<PasswordPage> {
           );
         } else if (state is RegisterOffline) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Offline'),
+            SnackBar(
+              content: Text(LocalizationKeys.offline.tr()),
               backgroundColor: AppColor.snackbarOfflineColor,
             ),
           );
@@ -122,9 +122,9 @@ class _PasswordPageState extends State<PasswordPage> {
                         ),
                         Text(
                           LocalizationKeys.setPassword.tr(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColor.contentSecondaryTextColor,
-                            fontSize: 24,
+                            fontSize: screenWidth * 0.06, //24,
                             fontWeight: FontWeight.w500,
                           ),
                         )
@@ -232,8 +232,8 @@ class _PasswordPageState extends State<PasswordPage> {
                               LocalizationKeys
                                   .atleastOneNumberOrSpecialCharacter
                                   .tr(),
-                              style: const TextStyle(
-                                  fontSize: 14,
+                              style:  TextStyle(
+                                  fontSize: screenWidth*0.035,//14,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.textColor),
                             ),
@@ -295,8 +295,8 @@ class _PasswordPageState extends State<PasswordPage> {
                             children: [
                               Text(
                                 LocalizationKeys.alreadyHaveAccount.tr(),
-                                style: const TextStyle(
-                                  fontSize: 16,
+                                style:  TextStyle(
+                                  fontSize: screenWidth*0.04,//16,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.buttonDetailsColor,
                                 ),
@@ -330,8 +330,8 @@ class _PasswordPageState extends State<PasswordPage> {
                                 },
                                 child: Text(
                                   LocalizationKeys.logIn.tr(),
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                                  style:  TextStyle(
+                                    fontSize:screenWidth*0.04, //16,
                                     fontWeight: FontWeight.w500,
                                     color: AppColor.buttonColor,
                                   ),

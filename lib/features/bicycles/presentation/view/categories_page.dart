@@ -25,12 +25,13 @@ class CategoriesPage extends StatelessWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
   final String? hubDescription;
-  CategoriesPage({
+  const CategoriesPage({
     super.key,
     required this.dio,
     required this.sharedPreferences,
     this.id,
-    this.name, this.hubDescription,
+    this.name,
+    this.hubDescription,
   });
 
   // final Map<String, String> categoryImages = {
@@ -91,12 +92,15 @@ class CategoriesPage extends StatelessWidget {
                       child: Center(
                         child: Padding(
                           padding: isEnglish(context)
-                              ?  EdgeInsets.only(right: 50, top: screenHeight * 0.01)
-                              :  EdgeInsets.only(left: 50, top: screenHeight * 0.01),
+                              ? EdgeInsets.only(
+                                  right: 50, top: screenHeight * 0.01)
+                              : EdgeInsets.only(
+                                  left: 50, top: screenHeight * 0.01),
                           child: Text(
+                            textAlign: TextAlign.center,
                             LocalizationKeys.allBicycleCategories.tr(),
-                            style: const TextStyle(
-                              fontSize: 18,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.05, //18,
                               color: AppColor.settingsTitleColor,
                               fontWeight: FontWeight.w500,
                             ),
@@ -110,8 +114,8 @@ class CategoriesPage extends StatelessWidget {
                 Center(
                   child: Text(
                     LocalizationKeys.allBicycleCategories.tr(),
-                    style: const TextStyle(
-                        fontSize: 24,
+                    style: TextStyle(
+                        fontSize: screenWidth * 0.07, //24,
                         fontWeight: FontWeight.w600,
                         color: AppColor.buttonDetailsColor),
                   ),
@@ -125,7 +129,6 @@ class CategoriesPage extends StatelessWidget {
                         padding: const EdgeInsets.all(16),
                         child: GridView.builder(
                           itemCount: state.categories.body.length,
-                          // 4,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -142,9 +145,7 @@ class CategoriesPage extends StatelessWidget {
                               sharedPreferences: sharedPreferences,
                               dio: dio,
                               categoryKey: category,
-                              // imageUrl: imageUrl,
                               catergory: category,
-
                               id: id,
                               name: name,
                               hubDescription: hubDescription,
@@ -165,8 +166,8 @@ class CategoriesPage extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return Expanded(
-                      child: const Center(
+                    return const Expanded(
+                      child: Center(
                         child: CircularProgressIndicator(
                           color: AppColor.baseColor,
                         ),

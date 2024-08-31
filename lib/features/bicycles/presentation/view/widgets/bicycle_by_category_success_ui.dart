@@ -22,15 +22,16 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenHeight = MediaQuery.sizeOf(context).height;
     final double screenWidth = MediaQuery.sizeOf(context).width;
     return Column(
       children: [
         Text(
           '${bicycleByCtegoryEntity.body.length} ${LocalizationKeys.bikesFound.tr()}',
-          style: const TextStyle(
+          textAlign: TextAlign.center,
+          style: TextStyle(
               color: AppColor.skipTextColor,
-              fontSize: 14,
+              fontSize: screenWidth * 0.035, //14,
               fontWeight: FontWeight.w500),
         ),
         Expanded(
@@ -38,14 +39,14 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
             itemCount: bicycleByCtegoryEntity.body.length,
             itemBuilder: (context, index) {
               return Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 height: screenHeight * 0.2, //170,
                 width: screenWidth * 0.9, //363,
                 decoration: BoxDecoration(
                     color: AppColor.categoriesContainerColor,
                     border: Border.all(color: AppColor.baseColor),
                     borderRadius: BorderRadius.circular(8)),
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(screenWidth * 0.025),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,19 +60,24 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                             Text(
                               bicycleByCtegoryEntity
                                   .body[index].modelPrice.model,
-                              style: const TextStyle(
-                                  fontSize: 16,
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.04, //16,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.buttonDetailsColor),
                             ),
                             Text(
                               'id:${bicycleByCtegoryEntity.body[index].id} | size:${bicycleByCtegoryEntity.body[index].size} | price:${bicycleByCtegoryEntity.body[index].modelPrice.price}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColor.skipTextColor,
+                                fontSize: screenWidth * 0.035,
                               ),
                             ),
                             Text(
-                                'note :${bicycleByCtegoryEntity.body[index].note}')
+                              'note :${bicycleByCtegoryEntity.body[index].note}',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.035,
+                              ),
+                            )
                           ],
                         ),
                         Image.network(
@@ -88,14 +94,19 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                               children: [
                                 Image.asset(
                                   'assets/images/bicycle.png',
-                                  width: 50,
+                                  width: screenWidth * 0.12, //50,
                                 ),
-                                Text('enable to fetch image'), //! localization
+                                Text(
+                                  'enable to fetch image',
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.12,
+                                  ),
+                                ), //! localization
                               ],
                             );
                           },
                           'https://${bicycleByCtegoryEntity.body[index].photoPath}',
-                          width:screenWidth*0.2, //80,
+                          width: screenWidth * 0.2, //80,
                           colorBlendMode: BlendMode.colorBurn,
                         ),
                       ],
@@ -131,8 +142,8 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                           child: Center(
                             child: Text(
                               LocalizationKeys.viewBikeList.tr(),
-                              style: const TextStyle(
-                                  fontSize: 16,
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.04, //16,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.baseColor),
                             ),

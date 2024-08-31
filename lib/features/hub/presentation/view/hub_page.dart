@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
@@ -49,14 +50,20 @@ class HubPage extends StatelessWidget {
                         left: screenWidth * 0.02, top: screenHeight * 0.01),
                     child: const BackWidget(),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 50),
+                        padding: isEnglish(context)
+                            ? EdgeInsets.only(
+                                right: screenWidth * 0.2,
+                                top: screenHeight * 0.01)
+                            : EdgeInsets.only(
+                                left: screenWidth * 0.2,
+                                top: screenHeight * 0.01),
                         child: Text(
                           'Hubs',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045, // 18,
                             color: AppColor.settingsTitleColor,
                             fontWeight: FontWeight.w500,
                           ),
@@ -86,23 +93,30 @@ class HubPage extends StatelessWidget {
                               });
                             },
                             child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 25),
-                              padding: EdgeInsets.all(16),
+                              margin: EdgeInsets.symmetric(
+                                vertical: screenHeight * 0.01,
+                                horizontal: screenWidth * 0.05,
+                              ),
+                              padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                  //  color: AppColor.categoriesContainerColor,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
                                     color: AppColor.circularRipple2,
                                     width: 1,
                                   )),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(Icons.pedal_bike_outlined,color: AppColor.baseColor,),
+                                  const Icon(
+                                    Icons.pedal_bike_outlined,
+                                    color: AppColor.baseColor,
+                                  ),
                                   Text(
                                     item.name,
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.04,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -117,7 +131,7 @@ class HubPage extends StatelessWidget {
                         },
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(
                           color: AppColor.baseColor,
                         ),

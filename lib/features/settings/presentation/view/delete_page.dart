@@ -23,65 +23,67 @@ class DeletePage extends StatelessWidget {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: screenWidth * 0.02, top: screenHeight * 0.01),
-                child: const BackWidget(),
-              ),
-              Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: isEnglish(context)
-                        ? EdgeInsets.only(right: 50, top: screenHeight * 0.01)
-                        : EdgeInsets.only(left: 50, top: screenHeight * 0.01),
-                    child: Text(
-                      LocalizationKeys.deleteAccount.tr(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: AppColor.settingsTitleColor,
-                        fontWeight: FontWeight.w500,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: screenWidth * 0.02, top: screenHeight * 0.01),
+                  child: const BackWidget(),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: isEnglish(context)
+                          ? EdgeInsets.only(right: 50, top: screenHeight * 0.01)
+                          : EdgeInsets.only(left: 50, top: screenHeight * 0.01),
+                      child: Text(
+                        LocalizationKeys.deleteAccount.tr(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: AppColor.settingsTitleColor,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ).animate().fade(duration: .2.seconds, delay: .1.seconds),
-          Text(
-            'Are you sure you want to delete your token?',
-            style: TextStyle(
-                color: AppColor.policydescColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w400),
-          ),
-          Center(
-            child: AppButton(
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
-              text: 'Delete token',
-              textColor: AppColor.whiteColor,
-              containerColor: AppColor.snackbarFaildColor,
-              borderColor: AppColor.snackbarFaildColor,
-              onTap: () {
-                deleteToken().then((_) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Token has been deleted'),
-                    ),
-                  );
-                });
-              },
+              ],
+            ).animate().fade(duration: .2.seconds, delay: .1.seconds),
+            Text(
+              'Are you sure you want to delete your token?',
+              style: TextStyle(
+                  color: AppColor.policydescColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400),
             ),
-          ),
-          SizedBox(
-            height: screenHeight * 0.02,
-          )
-        ],
+            Center(
+              child: AppButton(
+                screenWidth: screenWidth,
+                screenHeight: screenHeight,
+                text: 'Delete token',
+                textColor: AppColor.whiteColor,
+                containerColor: AppColor.snackbarFaildColor,
+                borderColor: AppColor.snackbarFaildColor,
+                onTap: () {
+                  deleteToken().then((_) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Token has been deleted'),
+                      ),
+                    );
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              height: screenHeight * 0.02,
+            )
+          ],
+        ),
       ),
     );
   }

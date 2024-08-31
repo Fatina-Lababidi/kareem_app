@@ -28,143 +28,154 @@ class FavouritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  //  final clientId = sharedPreferences.getInt('client_Id') ?? 0;
+    //  final clientId = sharedPreferences.getInt('client_Id') ?? 0;
     final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
       create: (context) => FavByClientIdBloc(GetFavByClientidUsecase(
-          favouriteRepo: AddFavRepoImp(
-              networkConnection: NetworkConnection(
-                  internetConnectionChecker: InternetConnectionChecker()),
-              sharedPreferences: sharedPreferences,
-              remoteGetfavbyclientidDatasource:
-                  RemoteGetfavbyclientidDatasource(dio: dio),
-              remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio)),
-        ))
+        favouriteRepo: AddFavRepoImp(
+            networkConnection: NetworkConnection(
+                internetConnectionChecker: InternetConnectionChecker()),
+            sharedPreferences: sharedPreferences,
+            remoteGetfavbyclientidDatasource:
+                RemoteGetfavbyclientidDatasource(dio: dio),
+            remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio)),
+      ))
         ..add(GetFavByClientid()),
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
-        body: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: screenHeight * 0.03,
-              ),
-              Text(
-                LocalizationKeys.favourite.tr(),
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: AppColor.settingsTitleColor,
-                  fontWeight: FontWeight.w500,
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: screenHeight * 0.03,
                 ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.05,
-              ),
-              BlocConsumer<FavByClientIdBloc, FavByClientIdState>(
-                  listener: (context, state) {
-                if (state is FavByClientIdSuccess) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('success'),
-                    backgroundColor: AppColor.baseColor,
-                  ));
-                } else if (state is FavByClientIdFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: AppColor.snackbarOfflineColor,
-                  ));
-                }
-              }, builder: (context, state) {
-                if (state is FavByClientIdSuccess) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: state.addFavResponseEntity.length,
-                      itemBuilder: (context, index) {
-                        final bike = state.addFavResponseEntity[index].bicycle;
+                Text(
+                  LocalizationKeys.favourite.tr(),
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.05, //18,
+                    color: AppColor.settingsTitleColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.05,
+                ),
+                BlocConsumer<FavByClientIdBloc, FavByClientIdState>(
+                    listener: (context, state) {
+                  if (state is FavByClientIdSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('success'),
+                      backgroundColor: AppColor.baseColor,
+                    ));
+                  } else if (state is FavByClientIdFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: AppColor.snackbarOfflineColor,
+                    ));
+                  }
+                }, builder: (context, state) {
+                  if (state is FavByClientIdSuccess) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: state.addFavResponseEntity.length,
+                        itemBuilder: (context, index) {
+                          final bike =
+                              state.addFavResponseEntity[index].bicycle;
 
-                        return Container(
-                            height: screenHeight * 0.095,
-                            padding: const EdgeInsets.all(2),
-                            margin: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: AppColor.circularRipple2,
-                                width: 1,
+                          return Container(
+                              height: screenHeight * 0.12,
+                              padding: EdgeInsets.all(3),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 15),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColor.circularRipple2,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: BicycleByIdPage(
-                                          id: bike.id,
-                                          dio: dio,
-                                          sharedPreferences: sharedPreferences,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          child: BicycleByIdPage(
+                                            id: bike.id,
+                                            dio: dio,
+                                            sharedPreferences:
+                                                sharedPreferences,
+                                          ),
+                                          type: PageTransitionType.fade));
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.pedal_bike,
+                                          color: AppColor.snackbarOfflineColor,
+                                          size: screenWidth * 0.08,
                                         ),
-                                        type: PageTransitionType.fade));
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.pedal_bike,
-                                        color: AppColor.snackbarOfflineColor,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        bike.modelPrice.model,
-                                      ),
-                                      const Spacer(),
-                                      IconButton(
-                                          onPressed: () {
-                                            //delete event
-                                          },
-                                          icon: const Icon(
-                                            Icons.stop_circle,
-                                            color: AppColor.snackbarFaildColor,
-                                          ))
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "${bike.type}|${bike.modelPrice.price}|${bike.note}",
-                                        style: const TextStyle(
-                                            fontSize: 10,
-                                            color: AppColor.skipTextColor,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ));
-                      },
-                    ),
-                  );
-                } else if (state is FavByClientIdFailure) {
-                  return Expanded(child: Center(child: FailureUi(
-                    onTap: () {
-                      context.read<FavByClientIdBloc>()
-                        ..add(GetFavByClientid());
-                    },
-                  )));
-                } else {
-                  return const Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: AppColor.baseColor,
+                                        SizedBox(
+                                          width: screenWidth * 0.02,
+                                        ),
+                                        Text(
+                                          bike.modelPrice.model,
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                            onPressed: () {
+                                              //delete event
+                                            },
+                                            icon: Icon(
+                                              Icons.stop_circle,
+                                              color:
+                                                  AppColor.snackbarFaildColor,
+                                              size: screenWidth * 0.08,
+                                            ))
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${bike.type}|${bike.modelPrice.price}|${bike.note}",
+                                          style: TextStyle(
+                                              fontSize:
+                                                  screenWidth * 0.025, //10,
+                                              color: AppColor.skipTextColor,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ));
+                        },
                       ),
-                    ),
-                  );
-                }
-              })
-            ],
+                    );
+                  } else if (state is FavByClientIdFailure) {
+                    return Expanded(child: Center(child: FailureUi(
+                      onTap: () {
+                        context
+                            .read<FavByClientIdBloc>()
+                            .add(GetFavByClientid());
+                      },
+                    )));
+                  } else {
+                    return const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: AppColor.baseColor,
+                        ),
+                      ),
+                    );
+                  }
+                })
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,5 @@
 {
-    "offline": "لايوجد انترنت",
+    "offline": "....لايوجد انترنت",
     "SKIP": "تخطي",
     "GO": "انطلق",
     "onboardingTilte1": "أينما كنت",
@@ -116,5 +116,6 @@
     "enter_your_bank_account": "أدخل حسابك المصرفي",
     "bank_account_validate": "الرجاء إدخال حسابك المصرفي!",
     "create": "أنشأ",
-    "create_new_wallet": "أنشأ محفظة جديدة"
+    "create_new_wallet": "أنشأ محفظة جديدة",
+    "success":"نجح.... "
 }

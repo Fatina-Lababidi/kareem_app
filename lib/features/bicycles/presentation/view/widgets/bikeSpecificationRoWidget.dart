@@ -12,11 +12,12 @@ class BikeSpecificationRoWidget extends StatelessWidget {
   final IconData icon;
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       alignment: Alignment.center,
       //! query
-      width: 80,
-      height: 80,
+      width: screenWidth * 0.3, //80,
+      height: screenWidth * 0.3, //80,
       decoration: BoxDecoration(
           color: AppColor.categoriesContainerColor,
           border: Border.all(
@@ -32,9 +33,9 @@ class BikeSpecificationRoWidget extends StatelessWidget {
           ),
           Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColor.buttonDetailsColor,
-                fontSize: 10,
+                fontSize: screenWidth * 0.035, //10,
                 fontWeight: FontWeight.w500),
           ),
         ],

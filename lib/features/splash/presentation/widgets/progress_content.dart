@@ -26,7 +26,7 @@ class ProgressContent extends StatelessWidget {
       children: [
         SizedBox(
           height: screenHeight * 0.3,
-          width: screenWidth * 1,
+          width: screenWidth,
           child: Image.asset(
             image,
           ).animate().scaleXY(duration: .4.seconds, delay: .2.seconds),
@@ -36,8 +36,9 @@ class ProgressContent extends StatelessWidget {
         ),
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 24,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: screenWidth * 0.06, //24,
             color: Colors.black,
             fontWeight: FontWeight.w500,
           ),
@@ -47,24 +48,24 @@ class ProgressContent extends StatelessWidget {
         ),
         Text(
           descriptionP1,
-          style: const TextStyle(
-            fontSize: 14,
+          style: TextStyle(
+            fontSize: screenWidth * 0.035, //14,
             color: AppColor.detailsTextColor,
             fontWeight: FontWeight.w500,
           ),
         ).animate().fade(duration: .4.seconds, delay: .3.seconds),
         Text(
           descriptionP2,
-          style: const TextStyle(
-            fontSize: 14,
+          style: TextStyle(
+            fontSize: screenWidth * 0.035, // 14,
             color: AppColor.detailsTextColor,
             fontWeight: FontWeight.w500,
           ),
         ).animate().fade(duration: .4.seconds, delay: .4.seconds),
         Text(
           descriptionP3,
-          style: const TextStyle(
-            fontSize: 14,
+          style: TextStyle(
+            fontSize: screenWidth * 0.035, // 14,
             color: AppColor.detailsTextColor,
             fontWeight: FontWeight.w500,
           ),

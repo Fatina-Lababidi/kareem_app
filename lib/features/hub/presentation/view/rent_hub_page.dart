@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
@@ -21,11 +22,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 //   "startTime": "2024-08-29T14:54:50.152Z",
 //   "paymentMethod": "Wallet"
 // }
+
 class RentPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  // final double screenHeight;
-  // final double screenWidth;
   final int hubId;
   final String hubName;
   final String hubDescription;
@@ -36,8 +36,6 @@ class RentPage extends StatefulWidget {
       {super.key,
       required this.dio,
       required this.sharedPreferences,
-      // required this.screenHeight,
-      // required this.screenWidth,
       required this.hubId,
       required this.hubName,
       required this.hubDescription,
@@ -175,7 +173,7 @@ class _RentPageState extends State<RentPage> {
                             'Location is not enabled. Please enable your location services.',
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: screenHeight * 0.02),
                           AppButton(
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
@@ -200,11 +198,17 @@ class _RentPageState extends State<RentPage> {
                             Expanded(
                               child: Center(
                                 child: Padding(
-                                  padding:  EdgeInsets.only(right: 10,  top:screenHeight * 0.012),
+                                  padding: isEnglish(context)
+                                      ? EdgeInsets.only(
+                                          right: screenWidth * 0.03,
+                                          top: screenHeight * 0.012)
+                                      : EdgeInsets.only(
+                                          left: screenWidth * 0.03,
+                                          top: screenHeight * 0.012),
                                   child: Text(
                                     LocalizationKeys.requestForRent.tr(),
-                                    style: const TextStyle(
-                                      fontSize: 18,
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.045, //18,
                                       fontWeight: FontWeight.w500,
                                       color: AppColor.settingsTitleColor,
                                     ),
@@ -212,11 +216,11 @@ class _RentPageState extends State<RentPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(width:screenWidth * 0.06),
+                            SizedBox(width: screenWidth * 0.06),
                           ],
                         ),
                         SizedBox(
-                          height:screenHeight * 0.02,
+                          height: screenHeight * 0.02,
                         ),
                         Row(
                           children: [
@@ -228,15 +232,15 @@ class _RentPageState extends State<RentPage> {
                               children: [
                                 Text(
                                   widget.hubName,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: AppColor.buttonDetailsColor,
-                                      fontSize: 16,
+                                      fontSize: screenWidth * 0.04, // 16,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   widget.hubDescription,
-                                  style: const TextStyle(
-                                      fontSize: 12,
+                                  style: TextStyle(
+                                      fontSize: screenWidth * 0.04, //12,
                                       fontWeight: FontWeight.w400,
                                       color: AppColor.skipTextColor),
                                 )
@@ -281,13 +285,13 @@ class _RentPageState extends State<RentPage> {
                                     selectedHubName,
                                     style: TextStyle(
                                         color: selectedTextColor,
-                                        fontSize: 16,
+                                        fontSize: screenWidth * 0.04, //16,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
                                     descriptionText,
-                                    style: const TextStyle(
-                                        fontSize: 12,
+                                    style: TextStyle(
+                                        fontSize: screenWidth * 0.03, //12,
                                         fontWeight: FontWeight.w400,
                                         color: AppColor.skipTextColor),
                                   )
@@ -315,9 +319,9 @@ class _RentPageState extends State<RentPage> {
                               children: [
                                 Text(
                                   widget.bikeModel,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: AppColor.buttonDetailsColor,
-                                      fontSize: 16,
+                                      fontSize: screenWidth * 0.04, //16,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Center(
@@ -327,7 +331,7 @@ class _RentPageState extends State<RentPage> {
                                         children: [
                                           Image.asset(
                                             'assets/images/bicycle.png',
-                                            width: 50,
+                                            width: screenWidth * 0.12,
                                           ),
                                           Text(
                                               'enable to fetch '), //! localization
@@ -335,7 +339,7 @@ class _RentPageState extends State<RentPage> {
                                       );
                                     },
                                     'https://${widget.photoPath}',
-                                    width: 200,
+                                    width: screenWidth * 0.6, //200,
                                     colorBlendMode: BlendMode.colorBurn,
                                   ),
                                 ),
@@ -373,14 +377,14 @@ class _RentPageState extends State<RentPage> {
                                     'duration',
                                     style: TextStyle(
                                         color: AppColor.hintColor,
-                                        fontSize: 16,
+                                        fontSize: screenWidth * 0.04, // 16,
                                         fontWeight: FontWeight.w500),
                                   )
                                 ],
                               ),
                               IconButton(
                                   onPressed: _incrementDuration,
-                                  icon: Icon(Icons.add))
+                                  icon: const Icon(Icons.add))
                             ],
                           ),
                         ),

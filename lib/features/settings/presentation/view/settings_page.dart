@@ -54,12 +54,12 @@ class SettingsPage extends StatelessWidget {
                   child: Center(
                     child: Padding(
                       padding: isEnglish(context)
-                          ? const EdgeInsets.only(right: 50)
-                          : const EdgeInsets.only(left: 50),
+                          ? EdgeInsets.only(right: screenWidth * 0.2) //50)
+                          : EdgeInsets.only(left: screenWidth * 0.2),
                       child: Text(
                         LocalizationKeys.settingsTitle.tr(),
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.045, // 18,
                           color: AppColor.settingsTitleColor,
                           fontWeight: FontWeight.w500,
                         ),
@@ -86,7 +86,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: ChangePasswordPage(),
+                child: const ChangePasswordPage(),
               ),
             ).animate().scaleXY(duration: .25.seconds, delay: .15.seconds),
             SizedBox(
@@ -96,7 +96,7 @@ class SettingsPage extends StatelessWidget {
               dio: dio,
               sharedPreferences: sharedPreferences,
               text: LocalizationKeys.changeLanguage.tr(),
-              child: ChangeLanguage(),
+              child: const ChangeLanguage(),
             ).animate().scaleXY(duration: .3.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.025,
@@ -116,7 +116,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 )..add(GetPolicy()),
-                child: PolicyPage(),
+                child: const PolicyPage(),
               ),
             ).animate().scaleXY(duration: .35.seconds, delay: .25.seconds),
             // SizedBox(

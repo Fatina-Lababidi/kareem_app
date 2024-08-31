@@ -1,5 +1,5 @@
 {
-  "offline": "offline",
+  "offline": "offline ....",
   "SKIP": "Skip",
   "GO": "Go",
   "onboardingTilte1": "Anywhere you are",
@@ -116,5 +116,6 @@
   "enter_your_bank_account": "Enter your bank account",
   "bank_account_validate": "please enter your bank account!",
   "create": "Create",
-  "create_new_wallet": "Create New Wallet"
+  "create_new_wallet": "Create New Wallet",
+  "success":"Success ...."
 }

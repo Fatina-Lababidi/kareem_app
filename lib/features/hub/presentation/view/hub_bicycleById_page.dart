@@ -50,6 +50,7 @@ class HubBicyclebyidPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     debugPrint('Building HubBicyclebyidPage');
     final double screenWidth = MediaQuery.sizeOf(context).width;
     final double screenHeight = MediaQuery.sizeOf(context).height;
     return BlocProvider(
@@ -72,12 +73,14 @@ class HubBicyclebyidPage extends StatelessWidget {
           return BlocConsumer<AddFavouriteBloc, AddFavouriteState>(
             listener: (context, state) {
               if (state is AddFavouriteSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: AppColor.baseColor,
-                    content: Text('success')));
+                    content: Text(LocalizationKeys.success.tr())));
               } else if (state is AddFavouriteFailure) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(state.message)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: AppColor.snackbarOfflineColor,
+                ));
               }
             },
             builder: (context, state) {
@@ -103,10 +106,10 @@ class HubBicyclebyidPage extends StatelessWidget {
                               BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
                                 builder: (context, state) {
                                   if (state is AddFavouriteLoding) {
-                                    return const SizedBox(
-                                      width: 10,
-                                      height: 10,
-                                      child: CircularProgressIndicator(
+                                    return SizedBox(
+                                      width: screenWidth * 0.03, //10,
+                                      height: screenWidth * 0.03, //10,
+                                      child: const CircularProgressIndicator(
                                         color: AppColor.snackbarOfflineColor,
                                       ),
                                     );
@@ -117,10 +120,10 @@ class HubBicyclebyidPage extends StatelessWidget {
                                             .read<AddFavouriteBloc>()
                                             .add(AddFav());
                                       },
-                                      icon: const Icon(
-                                        Icons.favorite_sharp,
-                                        color: AppColor.snackbarOfflineColor,
-                                      ),
+                                      icon: Icon(Icons.favorite_sharp,
+                                          color: AppColor.snackbarOfflineColor,
+                                          size: screenWidth * 0.07 //30,
+                                          ),
                                     );
                                   }
                                 },
@@ -131,16 +134,16 @@ class HubBicyclebyidPage extends StatelessWidget {
                               ),
                           Text(
                             model,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColor.buttonDetailsColor,
-                              fontSize: 24,
+                              fontSize: screenWidth * 0.06, //24,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
                             type,
-                            style: const TextStyle(
-                                fontSize: 14,
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.035, //14,
                                 color: AppColor.skipTextColor,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -149,16 +152,15 @@ class HubBicyclebyidPage extends StatelessWidget {
                               errorBuilder: (context, error, stackTrace) {
                                 return Column(
                                   children: [
-                                    Image.asset(
-                                      'assets/images/bicycle.png',
-                                      width: 50,
-                                    ),
+                                    Image.asset('assets/images/bicycle.png',
+                                        width: screenWidth * 0.2 //50,
+                                        ),
                                     Text('enable to fetch '), //! localization
                                   ],
                                 );
                               },
                               'https://$photoPath',
-                              width: 200,
+                              width: screenWidth * 0.5, // 200,
                               colorBlendMode: BlendMode.colorBurn,
                             ),
                           ),
@@ -166,8 +168,8 @@ class HubBicyclebyidPage extends StatelessWidget {
                               ),
                           Text(
                             LocalizationKeys.specifications.tr(),
-                            style: const TextStyle(
-                                fontSize: 18,
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.045, //18,
                                 fontWeight: FontWeight.w500,
                                 color: AppColor.buttonDetailsColor),
                           ), //! Localization
@@ -179,8 +181,8 @@ class HubBicyclebyidPage extends StatelessWidget {
                             height: screenHeight * 0.02, //5,
                           ),
                           Text(LocalizationKeys.bicycleFeatures.tr(),
-                              style: const TextStyle(
-                                  fontSize: 18,
+                              style: TextStyle(
+                                  fontSize: screenHeight * 0.02, //18,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.buttonDetailsColor)),
                           SizedBox(height: screenHeight * 0.02 //5,

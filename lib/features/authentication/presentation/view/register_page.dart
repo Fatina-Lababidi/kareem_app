@@ -73,7 +73,9 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 Padding(
                         padding: EdgeInsets.only(
-                            left: screenWidth * 0.02, top: screenHeight * 0.01),
+                          left: screenWidth * 0.02,
+                          top: screenHeight * 0.01,
+                        ),
                         child: const BackWidget())
                     .animate()
                     .fade(duration: .2.seconds, delay: .1.seconds),
@@ -86,9 +88,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       LocalizationKeys.signUpWithEmailOrPhone.tr(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColor.contentSecondaryTextColor,
-                        fontSize: 24,
+                        fontSize: screenWidth * 0.06, //24,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -102,9 +104,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         : Alignment.topRight,
                     child: Text(
                       LocalizationKeys.phoneNumber.tr(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColor.contentSecondaryTextColor,
-                        fontSize: 24,
+                        fontSize: screenWidth * 0.06, //24,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -177,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       builder: (context, child) {
                         return Theme(
                             data: ThemeData.light().copyWith(
-                                colorScheme: ColorScheme.light(
+                                colorScheme: const ColorScheme.light(
                                     primary: AppColor.baseColor,
                                     onSurface: Colors.black,
                                     onPrimary: AppColor.whiteColor)),
@@ -233,7 +235,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           vertical: screenHeight * 0.025, horizontal: 12.0),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: AppColor.skipTextColor),
+                        borderSide:
+                            const BorderSide(color: AppColor.skipTextColor),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -267,28 +270,28 @@ class _SignUpPageState extends State<SignUpPage> {
                     Image.asset(AppImages.circle),
                     Text(
                       LocalizationKeys.bySigningUp.tr(),
-                      style: const TextStyle(
-                          fontSize: 12,
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.03, //12,
                           color: AppColor.skipTextColor,
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
-                      width: 2,
+                      width: screenWidth * 0.01,
                     ),
                     Text(
                       LocalizationKeys.termsOfService.tr(),
-                      style: const TextStyle(
-                          fontSize: 12,
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.03, // 12,
                           color: AppColor.baseColor,
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
-                      width: 2,
+                      width: screenWidth * 0.01,
                     ),
                     Text(
                       LocalizationKeys.and.tr(),
-                      style: const TextStyle(
-                          fontSize: 12,
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.03, //12,
                           color: AppColor.skipTextColor,
                           fontWeight: FontWeight.w500),
                     ),
@@ -302,8 +305,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         : Alignment.topRight,
                     child: Text(
                       LocalizationKeys.privacyPolicy.tr(),
-                      style: const TextStyle(
-                          fontSize: 12,
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.03, //12,
                           color: AppColor.baseColor,
                           fontWeight: FontWeight.w500),
                     ).animate().fade(duration: 1.seconds, delay: .55.seconds),
@@ -363,8 +366,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       Text(
                         LocalizationKeys.alreadyHaveAccount.tr(),
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.04, //16,
                           fontWeight: FontWeight.w500,
                           color: AppColor.buttonDetailsColor,
                         ),
@@ -398,8 +401,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                         child: Text(
                           LocalizationKeys.logIn.tr(),
-                          style: const TextStyle(
-                            fontSize: 16,
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.04, //16,
                             fontWeight: FontWeight.w500,
                             color: AppColor.buttonColor,
                           ),

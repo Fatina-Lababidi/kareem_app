@@ -32,28 +32,28 @@ class RemoteGetwalletinfoDatasource {
         throw ServerException(errorModel: errorModel);
       }
     } catch (e) {
-      // if (e is DioException && e.response != null) {
-      //   log("DioError caught: ${e.message}");
-      //   final response = e.response;
-      //   final errorData = response!.data;
+      if (e is DioException && e.response != null) {
+        log("DioError caught: ${e.message}");
+        final response = e.response;
+        final errorData = response!.data;
 
-      //   if (errorData is Map<String, dynamic>) {
-      //     ErrorModel errorModel = ErrorModel.fromJson(errorData);
-      //     throw ServerException(errorModel: errorModel);
-      //   } else if (errorData is String) {
-      //     throw ServerException(
-      //       errorModel: ErrorModel(
-      //         errorMessage: errorData,
-      //       ),
-      //     );
-      //   } else {
-      //     throw ServerException(
-      //       errorModel: ErrorModel(
-      //         errorMessage: 'Unexpected error format received from server.',
-      //       ),
-      //     );
-      //   }
-      // } else
+        if (errorData is Map<String, dynamic>) {
+          ErrorModel errorModel = ErrorModel.fromJson(errorData);
+          throw ServerException(errorModel: errorModel);
+        } else if (errorData is String) {
+          throw ServerException(
+            errorModel: ErrorModel(
+              errorMessage: errorData,
+            ),
+          );
+        } else {
+          throw ServerException(
+            errorModel: ErrorModel(
+              errorMessage: 'Unexpected error format received from server.',
+            ),
+          );
+        }
+      } else
       if (e is ServerException) {
         log("ServerException caught: ${e.errorModel.errorMessage}");
         throw ServerException(errorModel: e.errorModel);

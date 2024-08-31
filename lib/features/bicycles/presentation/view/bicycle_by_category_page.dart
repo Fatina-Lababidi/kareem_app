@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
@@ -65,16 +66,22 @@ class BicycleByCategoryPage extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(
-                          left: screenWidth * 0.02, top: screenHeight * 0.01),
+                      padding: isEnglish(context)
+                          ? EdgeInsets.only(
+                              left: screenWidth * 0.02,
+                              top: screenHeight * 0.0125)
+                          : EdgeInsets.only(
+                              right: screenWidth * 0.02,
+                              top: screenHeight * 0.0125),
                       child: const BackWidget()),
                   SizedBox(
-                    height: 10,
+                    height: screenHeight * 0.02,
                   ),
                   Text(
                     LocalizationKeys.availableBikesForRide.tr(),
-                    style: const TextStyle(
-                        fontSize: 24,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: screenWidth * 0.06, //24,
                         color: AppColor.buttonDetailsColor,
                         fontWeight: FontWeight.w600),
                   ),
