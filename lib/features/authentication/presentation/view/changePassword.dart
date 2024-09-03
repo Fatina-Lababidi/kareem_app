@@ -241,7 +241,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                       print('Form is valid');
 
                                       context.read<ChangePasswordBloc>().add(
-                                          ChangeUserPasswordEvent(
+                                            ChangeUserPasswordEvent(
                                               currentPassword:
                                                   _currentPasswordController
                                                       .text,
@@ -249,7 +249,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                                   _newpasswordController.text,
                                               confirmPassword:
                                                   _confirmPasswordController
-                                                      .text));
+                                                      .text,
+                                            ),
+                                          );
                                     }
                                   },
                                   text: LocalizationKeys.save.tr(),

@@ -1,7 +1,6 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
@@ -43,35 +42,10 @@ class HubPage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: screenWidth * 0.02, top: screenHeight * 0.01),
-                    child: const BackWidget(),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Padding(
-                        padding: isEnglish(context)
-                            ? EdgeInsets.only(
-                                right: screenWidth * 0.2,
-                                top: screenHeight * 0.01)
-                            : EdgeInsets.only(
-                                left: screenWidth * 0.2,
-                                top: screenHeight * 0.01),
-                        child: Text(
-                          'Hubs',
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.045, // 18,
-                            color: AppColor.settingsTitleColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+              AppBarWidget(
+                screenWidth: screenWidth,
+                screenHeight: screenHeight,
+                textTitle: 'Hubs',
               ),
               SizedBox(
                 height: screenHeight * 0.05,

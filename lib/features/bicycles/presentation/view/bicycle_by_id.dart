@@ -105,36 +105,36 @@ class BicycleByIdPage extends StatelessWidget {
                     ),
                   ),
                 );
-              } else if (state is BicycleByIdFailure) {
-                return Scaffold(
-                  backgroundColor: AppColor.whiteColor,
-                  body: SafeArea(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: isEnglish(context)
-                              ? EdgeInsets.only(
-                                  right: screenWidth * 0.02,
-                                  top: screenHeight * 0.0125)
-                              : EdgeInsets.only(
-                                  left: screenWidth * 0.02,
-                                  top: screenHeight * 0.0125),
-                          child: const BackWidget(),
-                        ),
-                        Text(state.message),
-                        Expanded(
-                          child: Center(child: FailureUi(
-                            onTap: () {
-                              context
-                                  .read<BicycleByIdBloc>()
-                                  .add(GetBicycleById());
-                            },
-                          )),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+              // } else if (state is BicycleByIdFailure) {
+              //   return Scaffold(
+              //     backgroundColor: AppColor.whiteColor,
+              //     body: SafeArea(
+              //       child: Column(
+              //         children: [
+              //           Padding(
+              //             padding: isEnglish(context)
+              //                 ? EdgeInsets.only(
+              //                     right: screenWidth * 0.02,
+              //                     top: screenHeight * 0.0125)
+              //                 : EdgeInsets.only(
+              //                     left: screenWidth * 0.02,
+              //                     top: screenHeight * 0.0125),
+              //             child: const BackWidget(),
+              //           ),
+              //           Text(state.message),
+              //           Expanded(
+              //             child: Center(child: FailureUi(
+              //               onTap: () {
+              //                 context
+              //                     .read<BicycleByIdBloc>()
+              //                     .add(GetBicycleById());
+              //               },
+              //             )),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   );
               } else if (state is BicycleByIdSuccess) {
                 final bike = state.bicycleByIdEntity.body;
                 return buildBicyclePage(

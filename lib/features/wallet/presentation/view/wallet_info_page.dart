@@ -72,103 +72,28 @@ class WalletInfoPage extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.05,
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          width: screenWidth * 0.48, //170,
-                          height: screenHeight * 0.08, //54,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: AppColor.buttonColor,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              //navigate to the add page
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: AddMoneyPage(
-                                        dio: dio,
-                                      ),
-                                      type: PageTransitionType.fade));
-                            },
-                            child: Center(
-                              child: Text(
-                                LocalizationKeys.addMoney.tr(),
-                                style: TextStyle(
-                                    color: AppColor.buttonColor,
-                                    fontSize: screenWidth * 0.04, //16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ).animate().fade(duration: .2.seconds, delay: .1.seconds),
+                      addMoneyContainer(screenWidth, screenHeight, context)
+                          .animate()
+                          .fade(duration: .2.seconds, delay: .1.seconds),
                       SizedBox(
                         height: screenHeight * 0.04,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: screenWidth * 0.45, //170,
-                            height: screenHeight * 0.21, //145,
-                            decoration: BoxDecoration(
-                                color: AppColor.categoriesContainerColor,
-                                border: Border.all(color: AppColor.baseColor),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  state.walletInfoEntity.body.balance
-                                      .toString(),
-                                  style: TextStyle(
-                                      color: AppColor.buttonDetailsColor,
-                                      fontSize: screenWidth * 0.07, //28,
-                                      fontWeight: FontWeight.w500),
-                                ), //from back
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  LocalizationKeys.availableBalance.tr(),
-                                  style: TextStyle(
-                                      color: AppColor.buttonDetailsColor,
-                                      fontSize: screenWidth * 0.035, //14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
+                          // the first container
+                          moneyDetailsContainer(
+                            screenHeight,
+                            screenWidth,
+                            state.walletInfoEntity.body.balance.toString(),
+                            LocalizationKeys.availableBalance.tr(),
                           ),
-                          Container(
-                            width: screenWidth * 0.45, //166,
-                            height: screenHeight * 0.21, //145,
-                            decoration: BoxDecoration(
-                                color: AppColor.categoriesContainerColor,
-                                border: Border.all(color: AppColor.baseColor),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '00', //!!from where?
-                                  style: TextStyle(
-                                      color: AppColor.buttonDetailsColor,
-                                      fontSize: screenWidth * 0.07, //28,
-                                      fontWeight: FontWeight.w500),
-                                ), //from back
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  LocalizationKeys.totalExpend.tr(),
-                                  style: TextStyle(
-                                      color: AppColor.buttonDetailsColor,
-                                      fontSize: screenWidth * 0.035, //14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
+                          // second container
+                          moneyDetailsContainer(
+                            screenHeight,
+                            screenWidth,
+                            '00', //!!from where?
+                            LocalizationKeys.totalExpend.tr(),
                           ),
                         ],
                       ).animate().fade(duration: .4.seconds, delay: .2.seconds),
@@ -188,45 +113,7 @@ class WalletInfoPage extends StatelessWidget {
                 );
               } else if (state is WalletInfoFailure) {
                 if (state.message == 'PLEASE CREATE WALLET FIRST') {
-                  return Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppImages.walletImage,
-                            width: screenWidth * 0.27, //100,
-                          )
-                              .animate()
-                              .shake(duration: .5.seconds, delay: .1.seconds),
-                          SizedBox(
-                            height: screenHeight * 0.04,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: CreateNewWalletPage(dio: dio),
-                                      type: PageTransitionType.fade));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: AppColor.baseColor,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                'create wallet',
-                                style: TextStyle(
-                                    color: AppColor.whiteColor,
-                                    fontSize: screenWidth * 0.05 //20,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ]),
-                  );
+                  return noWalletFailureUi(screenHeight, screenWidth, context);
                 } else {
                   return Center(
                     child: FailureUi(
@@ -246,6 +133,124 @@ class WalletInfoPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+//? Add money button:
+
+  Align addMoneyContainer(
+      double screenWidth, double screenHeight, BuildContext context) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Container(
+        width: screenWidth * 0.48, //170,
+        height: screenHeight * 0.08, //54,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColor.buttonColor,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: InkWell(
+          onTap: () {
+            //navigate to the add page
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: AddMoneyPage(
+                      dio: dio,
+                    ),
+                    type: PageTransitionType.fade));
+          },
+          child: Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              LocalizationKeys.addMoney.tr(),
+              style: TextStyle(
+                  color: AppColor.buttonColor,
+                  fontSize: screenWidth * 0.04, //16,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+//? row buttons:
+
+  Container moneyDetailsContainer(double screenHeight, double screenWidth,
+      String textMoney, String textDiscription) {
+    return Container(
+      width: screenWidth * 0.45, //170,
+      height: screenHeight * 0.21, //145,
+      decoration: BoxDecoration(
+          color: AppColor.categoriesContainerColor,
+          border: Border.all(color: AppColor.baseColor),
+          borderRadius: BorderRadius.circular(8)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            textAlign: TextAlign.center,
+            textMoney,
+            //   state.walletInfoEntity.body.balance.toString(),
+            style: TextStyle(
+                color: AppColor.buttonDetailsColor,
+                fontSize: screenWidth * 0.07, //28,
+                fontWeight: FontWeight.w500),
+          ), //from back
+          Text(
+            textAlign: TextAlign.center,
+            textDiscription,
+            //LocalizationKeys.availableBalance.tr(),
+            style: TextStyle(
+                color: AppColor.buttonDetailsColor,
+                fontSize: screenWidth * 0.035, //14,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+
+//? failure because don't having wallet:
+
+  Center noWalletFailureUi(
+      double screenHeight, double screenWidth, BuildContext context) {
+    return Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Image.asset(
+          AppImages.walletImage,
+          width: screenWidth * 0.27, //100,
+        ).animate().shake(duration: .5.seconds, delay: .1.seconds),
+        SizedBox(
+          height: screenHeight * 0.04,
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: CreateNewWalletPage(dio: dio),
+                    type: PageTransitionType.fade));
+          },
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColor.baseColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              textAlign: TextAlign.center,
+              'create wallet',
+              style: TextStyle(
+                  color: AppColor.whiteColor, fontSize: screenWidth * 0.05 //20,
+                  ),
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }

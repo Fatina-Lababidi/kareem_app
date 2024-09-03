@@ -1,7 +1,6 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/settings/presentation/policy_bloc/policy_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -23,34 +22,10 @@ class PolicyPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(
-                        left: screenWidth * 0.02, top: screenHeight * 0.01),
-                    child: const BackWidget()),
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: isEnglish(context)
-                          ? EdgeInsets.only(
-                              right: screenWidth * 0.125,
-                              top: screenHeight * 0.01)
-                          : EdgeInsets.only(
-                              left: screenWidth * 0.125,
-                              top: screenHeight * 0.01),
-                      child: Text(
-                        LocalizationKeys.privacyPolicy.tr(),
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.045, //18,
-                          color: AppColor.settingsTitleColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            AppBarWidget(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              textTitle: LocalizationKeys.privacyPolicy.tr(),
             ).animate().fade(duration: .2.seconds, delay: .1.seconds),
             SizedBox(
               height: screenHeight * 0.05,

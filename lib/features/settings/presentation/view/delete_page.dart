@@ -1,8 +1,7 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
+import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -27,31 +26,10 @@ class DeletePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: screenWidth * 0.02, top: screenHeight * 0.01),
-                  child: const BackWidget(),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: isEnglish(context)
-                          ? EdgeInsets.only(right: 50, top: screenHeight * 0.01)
-                          : EdgeInsets.only(left: 50, top: screenHeight * 0.01),
-                      child: Text(
-                        LocalizationKeys.deleteAccount.tr(),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: AppColor.settingsTitleColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            AppBarWidget(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              textTitle: LocalizationKeys.deleteAccount.tr(),
             ).animate().fade(duration: .2.seconds, delay: .1.seconds),
             Text(
               'Are you sure you want to delete your token?',

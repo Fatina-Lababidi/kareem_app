@@ -1,8 +1,7 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/features/authentication/data/datasource/remote/remote_user.dart';
 import 'package:careem_app_clean/features/authentication/data/repositories/auth_repository_imp.dart';
 import 'package:careem_app_clean/features/authentication/domain/usecases/change_password.dart';
@@ -43,31 +42,10 @@ class SettingsPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: screenWidth * 0.02, top: screenHeight * 0.01),
-                  child: const BackWidget(),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: isEnglish(context)
-                          ? EdgeInsets.only(right: screenWidth * 0.2) //50)
-                          : EdgeInsets.only(left: screenWidth * 0.2),
-                      child: Text(
-                        LocalizationKeys.settingsTitle.tr(),
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.045, // 18,
-                          color: AppColor.settingsTitleColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            AppBarWidget(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              textTitle: LocalizationKeys.settingsTitle.tr(),
             ).animate().fade(duration: .2.seconds, delay: .1.seconds),
             SizedBox(
               height: screenHeight * 0.05,

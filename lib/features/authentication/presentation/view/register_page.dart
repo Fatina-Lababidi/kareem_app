@@ -411,9 +411,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                 ).animate().fade(duration: 1.4.seconds, delay: .8.seconds),
-                // SizedBox(
-                //   height: screenHeight * 0.04,
-                // ),
               ],
             ),
           ),

@@ -1,9 +1,8 @@
 import 'dart:developer';
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
+import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/hub_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -187,37 +186,10 @@ class _RentPageState extends State<RentPage> {
                     )
                   : Column(
                       children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: screenWidth * 0.02,
-                                  top: screenHeight * 0.012),
-                              child: const BackWidget(),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Padding(
-                                  padding: isEnglish(context)
-                                      ? EdgeInsets.only(
-                                          right: screenWidth * 0.03,
-                                          top: screenHeight * 0.012)
-                                      : EdgeInsets.only(
-                                          left: screenWidth * 0.03,
-                                          top: screenHeight * 0.012),
-                                  child: Text(
-                                    LocalizationKeys.requestForRent.tr(),
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.045, //18,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColor.settingsTitleColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: screenWidth * 0.06),
-                          ],
+                        AppBarWidget(
+                          screenWidth: screenWidth,
+                          screenHeight: screenHeight,
+                          textTitle: LocalizationKeys.requestForRent.tr(),
                         ),
                         SizedBox(
                           height: screenHeight * 0.02,

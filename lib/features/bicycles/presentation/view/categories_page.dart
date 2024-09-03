@@ -1,8 +1,7 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/bicycles/data/datasource/remote_bicycle_by_category_datasource.dart';
 import 'package:careem_app_clean/features/bicycles/data/datasource/remote_bicycle_by_id_datasource.dart';
@@ -81,34 +80,10 @@ class CategoriesPage extends StatelessWidget {
             },
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: screenWidth * 0.02, top: screenHeight * 0.01),
-                      child: const BackWidget(),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Padding(
-                          padding: isEnglish(context)
-                              ? EdgeInsets.only(
-                                  right: 50, top: screenHeight * 0.01)
-                              : EdgeInsets.only(
-                                  left: 50, top: screenHeight * 0.01),
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            LocalizationKeys.allBicycleCategories.tr(),
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.05, //18,
-                              color: AppColor.settingsTitleColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                AppBarWidget(
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  textTitle: LocalizationKeys.allBicycleCategories.tr(),
                 ).animate().fade(duration: .2.seconds, delay: .1.seconds),
                 const SizedBox(height: 20),
                 Center(
