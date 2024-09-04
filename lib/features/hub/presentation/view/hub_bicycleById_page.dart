@@ -6,6 +6,7 @@ import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/widgets/bikeSpecificationColWidget.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/widgets/bikeSpecificationRoWidget.dart';
 import 'package:careem_app_clean/features/favourite/data/datasource/remote_add_fav_datasource.dart';
+import 'package:careem_app_clean/features/favourite/data/datasource/remote_delete_fav_datasource.dart';
 import 'package:careem_app_clean/features/favourite/data/datasource/remote_getFavByClientId_datasource.dart';
 import 'package:careem_app_clean/features/favourite/data/repositories/add_fav_repo_imp.dart';
 import 'package:careem_app_clean/features/favourite/domain/usecase/add_favourite_usecase.dart';
@@ -58,6 +59,7 @@ class HubBicyclebyidPage extends StatelessWidget {
         AddFavouriteUsecase(
           bicycleId: id,
           favouriteRepo: AddFavRepoImp(
+            remoteDeleteFavDatasource: RemoteDeleteFavDatasource(dio: dio),
             remoteGetfavbyclientidDatasource:
                 RemoteGetfavbyclientidDatasource(dio: dio),
             sharedPreferences: sharedPreferences,
@@ -106,11 +108,14 @@ class HubBicyclebyidPage extends StatelessWidget {
                               BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
                                 builder: (context, state) {
                                   if (state is AddFavouriteLoding) {
-                                    return SizedBox(
-                                      width: screenWidth * 0.03, //10,
-                                      height: screenWidth * 0.03, //10,
-                                      child: const CircularProgressIndicator(
-                                        color: AppColor.snackbarOfflineColor,
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: screenWidth * 0.04, //10,
+                                        height: screenWidth * 0.04, //10,
+                                        child: const CircularProgressIndicator(
+                                          color: AppColor.snackbarOfflineColor,
+                                        ),
                                       ),
                                     );
                                   } else {

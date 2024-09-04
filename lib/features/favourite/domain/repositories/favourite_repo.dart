@@ -5,4 +5,5 @@ import 'package:dartz/dartz.dart';
 abstract class FavouriteRepo {
   Future<Either<Failures, AddFavResponseEntity>> addFav(int bicycleId);
   Future<Either<Failures, List<AddFavResponseEntity>>> getFavByClientId();
+  Future<Either<Failures, String>> deleteFavouriteBike(int favouriteId);
 }

@@ -20,7 +20,6 @@ class ClientEntity {
 
 // we have the bicycle entity
 
-
 class BicyclesWithNullPhotoEntity {
   final int id;
   final ModelPriceEntity modelPrice;
@@ -40,7 +39,6 @@ class BicyclesWithNullPhotoEntity {
   });
 }
 
-
 class AddFavResponseEntity {
   final int id;
   final BicyclesWithNullPhotoEntity bicycle;
@@ -51,3 +49,11 @@ class AddFavResponseEntity {
     required this.client,
   });
 }
+
+
+// delete success response data :
+// {
+//   "message": "Delete favourite successfully",
+//   "status": "OK",
+//   "localDateTime": "2024-09-04T08:12:51.3169779"
+// }

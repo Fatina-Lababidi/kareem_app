@@ -12,7 +12,6 @@ import 'package:careem_app_clean/features/hub/domain/entities/reservation_entity
 import 'package:careem_app_clean/features/hub/domain/usecase/reservation_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/reservation_bloc/reservation_bloc.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/hub_page.dart';
-import 'package:careem_app_clean/features/offer.dart';
 import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';

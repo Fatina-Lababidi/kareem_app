@@ -50,4 +50,8 @@ class EndPoint {
 
   static String makeReservationUrl =
       'https://rideshare.devscape.online/api/v1/reservation';
+
+  static String deleteFavouriteBike(int favouriteId) {
+    return 'https://rideshare.devscape.online/api/v1/favourite-bicycles/$favouriteId';
+  }
 }

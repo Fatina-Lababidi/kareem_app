@@ -34,7 +34,7 @@ class ThanksPage extends StatelessWidget {
                       right: screenWidth * 0.02, top: screenHeight * 0.01),
               child: const BackWidget(),
             ),
-            Spacer(),
+           const Spacer(),
             Stack(
               alignment: Alignment.center,
               children: [

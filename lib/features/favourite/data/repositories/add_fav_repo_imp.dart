@@ -3,6 +3,7 @@ import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/features/favourite/data/datasource/remote_add_fav_datasource.dart';
+import 'package:careem_app_clean/features/favourite/data/datasource/remote_delete_fav_datasource.dart';
 import 'package:careem_app_clean/features/favourite/data/datasource/remote_getFavByClientId_datasource.dart';
 import 'package:careem_app_clean/features/favourite/domain/entities/add_fav_response_entity.dart';
 import 'package:careem_app_clean/features/favourite/domain/repositories/favourite_repo.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AddFavRepoImp implements FavouriteRepo {
   RemoteAddFavDatasource remoteAddFavDatasource;
   RemoteGetfavbyclientidDatasource remoteGetfavbyclientidDatasource;
+  RemoteDeleteFavDatasource remoteDeleteFavDatasource;
   SharedPreferences sharedPreferences;
   NetworkConnection networkConnection;
   AddFavRepoImp({
@@ -19,6 +21,7 @@ class AddFavRepoImp implements FavouriteRepo {
     required this.sharedPreferences,
     required this.networkConnection,
     required this.remoteGetfavbyclientidDatasource,
+    required this.remoteDeleteFavDatasource,
   });
 
   @override
@@ -40,16 +43,31 @@ class AddFavRepoImp implements FavouriteRepo {
   }
 
   @override
-  Future<Either<Failures, List<AddFavResponseEntity>>> getFavByClientId(
-    ) async {
+  Future<Either<Failures, List<AddFavResponseEntity>>>
+      getFavByClientId() async {
     if (await networkConnection.isConnected) {
       print('there is internet');
       try {
         List<AddFavResponseEntity> fav =
             await remoteGetfavbyclientidDatasource.getFavByClientId();
         return Right(fav);
-      } on ServerException catch(e){
+      } on ServerException catch (e) {
         print('here');
+        return Left(ServerFailure(message: e.errorModel.errorMessage));
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, String>> deleteFavouriteBike(int favouriteId) async {
+    if (await networkConnection.isConnected) {
+      try {
+        String message =
+            await remoteDeleteFavDatasource.deleteFavBike(favouriteId);
+        return Right(message);
+      } on ServerException catch (e) {
         return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {

@@ -3,9 +3,12 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/favourite/data/datasource/remote_add_fav_datasource.dart';
+import 'package:careem_app_clean/features/favourite/data/datasource/remote_delete_fav_datasource.dart';
 import 'package:careem_app_clean/features/favourite/data/datasource/remote_getFavByClientId_datasource.dart';
 import 'package:careem_app_clean/features/favourite/data/repositories/add_fav_repo_imp.dart';
+import 'package:careem_app_clean/features/favourite/domain/usecase/delete_fav_useCase.dart';
 import 'package:careem_app_clean/features/favourite/domain/usecase/get_fav_by_clientId.dart';
+import 'package:careem_app_clean/features/favourite/presentation/deleteFav_bloc/delete_favourite_bloc.dart';
 import 'package:careem_app_clean/features/favourite/presentation/favByClientId_bloc/fav_by_client_id_bloc.dart';
 import 'package:careem_app_clean/features/favourite/presentation/widgets/favourite_card_widget.dart';
 import 'package:dio/dio.dart';
@@ -30,17 +33,37 @@ class FavouritePage extends StatelessWidget {
     //  final clientId = sharedPreferences.getInt('client_Id') ?? 0;
     final double screenHeight = MediaQuery.sizeOf(context).height;
     final double screenWidth = MediaQuery.sizeOf(context).width;
-    return BlocProvider(
-      create: (context) => FavByClientIdBloc(GetFavByClientidUsecase(
-        favouriteRepo: AddFavRepoImp(
-            networkConnection: NetworkConnection(
-                internetConnectionChecker: InternetConnectionChecker()),
-            sharedPreferences: sharedPreferences,
-            remoteGetfavbyclientidDatasource:
-                RemoteGetfavbyclientidDatasource(dio: dio),
-            remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio)),
-      ))
-        ..add(GetFavByClientid()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => FavByClientIdBloc(GetFavByClientidUsecase(
+            favouriteRepo: AddFavRepoImp(
+                remoteDeleteFavDatasource: RemoteDeleteFavDatasource(dio: dio),
+                networkConnection: NetworkConnection(
+                    internetConnectionChecker: InternetConnectionChecker()),
+                sharedPreferences: sharedPreferences,
+                remoteGetfavbyclientidDatasource:
+                    RemoteGetfavbyclientidDatasource(dio: dio),
+                remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio)),
+          ))
+            ..add(GetFavByClientid()),
+        ),
+        BlocProvider(
+          create: (context) => DeleteFavouriteBloc(
+            DeleteFavouriteUsecase(
+              favouriteRepo: AddFavRepoImp(
+                remoteAddFavDatasource: RemoteAddFavDatasource(dio: dio),
+                sharedPreferences: sharedPreferences,
+                networkConnection: NetworkConnection(
+                    internetConnectionChecker: InternetConnectionChecker()),
+                remoteGetfavbyclientidDatasource:
+                    RemoteGetfavbyclientidDatasource(dio: dio),
+                remoteDeleteFavDatasource: RemoteDeleteFavDatasource(dio: dio),
+              ),
+            ),
+          ),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
         body: SafeArea(
@@ -84,6 +107,7 @@ class FavouritePage extends StatelessWidget {
                             final bike =
                                 state.addFavResponseEntity[index].bicycle;
                             return FavouriteCardWidget(
+                              favId:state.addFavResponseEntity[index].id,
                                 screenHeight: screenHeight,
                                 bike: bike,
                                 dio: dio,
