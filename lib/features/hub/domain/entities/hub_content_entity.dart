@@ -9,7 +9,7 @@ class BicycleListInHubEntity {
   final String note;
   final List<dynamic> maintenance;
   final List<dynamic> extension;
-  final int photo_id;
+  final String photoPath;
   final ModelPriceEntity modelPrice;
   // final bool? hasOffer;
   // final int? discountPrice;
@@ -20,7 +20,7 @@ class BicycleListInHubEntity {
     required this.note,
     required this.maintenance,
     required this.extension,
-    required this.photo_id,
+    required this.photoPath,
     required this.modelPrice,
   });
 }

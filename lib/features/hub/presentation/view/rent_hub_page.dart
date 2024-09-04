@@ -1,18 +1,49 @@
 import 'dart:developer';
+import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_datasource.dart';
+import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
+import 'package:careem_app_clean/features/hub/domain/entities/reservation_entity.dart';
+import 'package:careem_app_clean/features/hub/domain/usecase/reservation_usecase.dart';
+import 'package:careem_app_clean/features/hub/presentation/reservation_bloc/reservation_bloc.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/hub_page.dart';
+import 'package:careem_app_clean/features/offer.dart';
+import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//to make reservation we need:
+//?? the returned data:
+// {
+//   "message": "Reservation created, but now it's in PENDING status, Complete payment processing to confirm your reservation",
+//   "status": "CREATED",
+//   "localDateTime": "2024-09-04T06:31:09.8710505",
+//   "body": {
+//     "id": 4,
+//     "client": "sana",
+//     "bicycle": "PUE229",
+//     "from": "وزارة التربية",
+//     "to": "جامع صلاح الدين",
+//     "duration": 1,
+//     "startTime": "2024-09-04T04:29:15.319",
+//     "endTime": null,
+//     "reservationStatus": "PENDING",
+//     "price": 900
+//   }
+// }
+
+//??  to make reservation we need:
 // {
 //   "bicycleId": 0,
 //   "fromHubId": 0,
@@ -51,6 +82,15 @@ class _RentPageState extends State<RentPage> {
   String descriptionText = '';
   Color selectedTextColor = AppColor.skipTextColor;
   final ValueNotifier<int> _durationNotifier = ValueNotifier(1);
+  DateTime? _selectedStartTime;
+  String paymentMethod = "Wallet";
+  int toHubId = 0;
+
+  void _confirmReservation() {
+    setState(() {
+      _selectedStartTime = DateTime.now();
+    });
+  }
 
   void _incrementDuration() {
     _durationNotifier.value++;
@@ -184,183 +224,275 @@ class _RentPageState extends State<RentPage> {
                         ],
                       ),
                     )
-                  : Column(
-                      children: [
-                        AppBarWidget(
-                          screenWidth: screenWidth,
-                          screenHeight: screenHeight,
-                          textTitle: LocalizationKeys.requestForRent.tr(),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        Row(
+                  : BlocProvider(
+                      create: (context) => ReservationBloc(ReservationUsecase(
+                          hubRepo: AllHubRepoImp(
+                              remoteAllHubDataSource:
+                                  RemoteAllHubDataSource(dio: widget.dio),
+                              networkConnection: NetworkConnection(
+                                  internetConnectionChecker:
+                                      InternetConnectionChecker()),
+                              remoteReservationDatasource:
+                                  RemoteReservationDatasource(dio: widget.dio),
+                              remoteHubContentDatasource:
+                                  RemoteHubContentDatasource(
+                                      dio: widget.dio)))),
+                      child: BlocListener<ReservationBloc, ReservationState>(
+                        listener: (context, state) {
+                          if (state is ReservationFailure) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(state.message),
+                              backgroundColor: AppColor.snackbarOfflineColor,
+                            ));
+                          } else if (state is ReservationSuccess) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text(state.reservationResponseEntity.message),
+                              backgroundColor: AppColor.baseColor,
+                            ));
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: ThanksPage(
+                                      message: state
+                                          .reservationResponseEntity.message,
+                                    ),
+                                    type: PageTransitionType.fade));
+                          }
+                        },
+                        child: Column(
                           children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: AppColor.snackbarFaildColor,
+                            AppBarWidget(
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight,
+                              textTitle: LocalizationKeys.requestForRent.tr(),
                             ),
-                            Column(
+                            SizedBox(
+                              height: screenHeight * 0.02,
+                            ),
+                            Row(
                               children: [
-                                Text(
-                                  widget.hubName,
-                                  style: TextStyle(
-                                      color: AppColor.buttonDetailsColor,
-                                      fontSize: screenWidth * 0.04, // 16,
-                                      fontWeight: FontWeight.w500),
+                                const Icon(
+                                  Icons.location_on,
+                                  color: AppColor.snackbarFaildColor,
                                 ),
-                                Text(
-                                  widget.hubDescription,
-                                  style: TextStyle(
-                                      fontSize: screenWidth * 0.04, //12,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColor.skipTextColor),
-                                )
+                                Column(
+                                  children: [
+                                    Text(
+                                      widget.hubName,
+                                      style: TextStyle(
+                                          color: AppColor.buttonDetailsColor,
+                                          fontSize: screenWidth * 0.04, // 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      widget.hubDescription,
+                                      style: TextStyle(
+                                          fontSize: screenWidth * 0.04, //12,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.skipTextColor),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.04,
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: AppColor.baseColor,
+                            SizedBox(
+                              height: screenHeight * 0.04,
                             ),
-                            TextButton(
-                              onPressed: () async {
-                                final result = await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: HubPage(
-                                          dio: widget.dio,
-                                          lat: locationData['latitude']!,
-                                          lng: locationData['longitude']!,
-                                        ),
-                                        type: PageTransitionType.fade));
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on,
+                                  color: AppColor.baseColor,
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    final result = await Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            child: HubPage(
+                                              dio: widget.dio,
+                                              lat: locationData['latitude']!,
+                                              lng: locationData['longitude']!,
+                                            ),
+                                            type: PageTransitionType.fade));
 
-                                if (result != null &&
-                                    result is Map<String, dynamic>) {
-                                  setState(() {
-                                    selectedHubName = result['name'];
-                                    descriptionText = result['description'];
-                                    selectedTextColor =
-                                        AppColor.buttonDetailsColor;
-                                  });
+                                    if (result != null &&
+                                        result is Map<String, dynamic>) {
+                                      setState(() {
+                                        toHubId = result['id'];
+                                        selectedHubName = result['name'];
+                                        descriptionText = result['description'];
+                                        selectedTextColor =
+                                            AppColor.buttonDetailsColor;
+                                      });
+                                    }
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        selectedHubName,
+                                        style: TextStyle(
+                                            color: selectedTextColor,
+                                            fontSize: screenWidth * 0.04, //16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        descriptionText,
+                                        style: TextStyle(
+                                            fontSize: screenWidth * 0.03, //12,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColor.skipTextColor),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: screenHeight * 0.02,
+                            ),
+                            Container(
+                              width: screenWidth * 0.89, //360,
+                              height: screenHeight * 0.125, //80,
+                              decoration: BoxDecoration(
+                                color: AppColor.categoriesContainerColor,
+                                border: Border.all(color: AppColor.baseColor),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      widget.bikeModel,
+                                      style: TextStyle(
+                                          color: AppColor.buttonDetailsColor,
+                                          fontSize: screenWidth * 0.04, //16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image.network(
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Column(
+                                          children: [
+                                            Image.asset(
+                                              'assets/images/bicycle.png',
+                                              width: screenWidth * 0.12,
+                                            ),
+                                            Text(
+                                                'enable to fetch '), //! localization
+                                          ],
+                                        );
+                                      },
+                                      'https://${widget.photoPath}',
+                                      width: screenWidth * 0.6, //200,
+                                      colorBlendMode: BlendMode.colorBurn,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: screenHeight * 0.02,
+                            ),
+                            Container(
+                              width: screenWidth * 0.89, //360,
+                              height: screenHeight * 0.09, //60,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: AppColor.skipTextColor),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                    onPressed: _decrementDuration,
+                                    icon: Icon(Icons.remove),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ValueListenableBuilder<int>(
+                                        valueListenable: _durationNotifier,
+                                        builder: (context, value, child) {
+                                          return Text('$value');
+                                        },
+                                      ),
+                                      Text(
+                                        'duration',
+                                        style: TextStyle(
+                                            color: AppColor.hintColor,
+                                            fontSize: screenWidth * 0.04, // 16,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                  IconButton(
+                                      onPressed: _incrementDuration,
+                                      icon: const Icon(Icons.add))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: screenHeight * 0.4,
+                            ),
+                            BlocBuilder<ReservationBloc, ReservationState>(
+                              builder: (context, state) {
+                                if (state is ReservationLoading) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColor.baseColor,
+                                    ),
+                                  );
+                                } else {
+                                  return AppButton(
+                                    screenWidth: screenWidth,
+                                    screenHeight: screenHeight,
+                                    text: 'Confirm Booking',
+                                    textColor: AppColor.whiteColor,
+                                    containerColor: AppColor.buttonColor,
+                                    onTap: () {
+                                      if (toHubId != 0) {
+                                        _confirmReservation();
+                                        final reservation =
+                                            ReservationRequestEntity(
+                                                bicycleId: widget.bikeId,
+                                                fromHubId: widget.hubId,
+                                                toHubId: toHubId,
+                                                duration:
+                                                    _durationNotifier.value,
+                                                startTime: _selectedStartTime!,
+                                                paymentMethod: paymentMethod);
+                                        print(
+                                            'Reservation Details:\n Bicycle ID: ${reservation.bicycleId} \n From Hub ID: ${reservation.fromHubId} \n To Hub ID: ${reservation.toHubId} \n Duration: ${reservation.duration}\n Start Time: ${reservation.startTime}\n start time2: ${reservation.startTime.toIso8601String()}, \nPayment Method: ${reservation.paymentMethod}');
+
+                                        // context.read<ReservationBloc>().add(
+                                        //     MakeReservation(
+                                        //         requestEntity: reservation));
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'please choose to hub')));
+                                        setState(() {
+                                          selectedTextColor =
+                                              AppColor.snackbarFaildColor;
+                                        });
+                                      }
+                                    },
+                                  );
                                 }
                               },
-                              child: Column(
-                                children: [
-                                  Text(
-                                    selectedHubName,
-                                    style: TextStyle(
-                                        color: selectedTextColor,
-                                        fontSize: screenWidth * 0.04, //16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    descriptionText,
-                                    style: TextStyle(
-                                        fontSize: screenWidth * 0.03, //12,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColor.skipTextColor),
-                                  )
-                                ],
-                              ),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        Container(
-                          width: screenWidth * 0.89, //360,
-                          height: screenHeight * 0.125, //80,
-                          decoration: BoxDecoration(
-                            color: AppColor.categoriesContainerColor,
-                            border: Border.all(color: AppColor.baseColor),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.bikeModel,
-                                  style: TextStyle(
-                                      color: AppColor.buttonDetailsColor,
-                                      fontSize: screenWidth * 0.04, //16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Center(
-                                  child: Image.network(
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Column(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/bicycle.png',
-                                            width: screenWidth * 0.12,
-                                          ),
-                                          Text(
-                                              'enable to fetch '), //! localization
-                                        ],
-                                      );
-                                    },
-                                    'https://${widget.photoPath}',
-                                    width: screenWidth * 0.6, //200,
-                                    colorBlendMode: BlendMode.colorBurn,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        Container(
-                          width: screenWidth * 0.89, //360,
-                          height: screenHeight * 0.09, //60,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.skipTextColor),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                onPressed: _decrementDuration,
-                                icon: Icon(Icons.remove),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ValueListenableBuilder<int>(
-                                    valueListenable: _durationNotifier,
-                                    builder: (context, value, child) {
-                                      return Text('$value');
-                                    },
-                                  ),
-                                  Text(
-                                    'duration',
-                                    style: TextStyle(
-                                        color: AppColor.hintColor,
-                                        fontSize: screenWidth * 0.04, // 16,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ],
-                              ),
-                              IconButton(
-                                  onPressed: _incrementDuration,
-                                  icon: const Icon(Icons.add))
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
             ),
           );

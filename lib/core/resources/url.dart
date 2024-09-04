@@ -47,4 +47,7 @@ class EndPoint {
 
   static String allCode =
       'https://rideshare.devscape.online/api/v1/wallet/All-valid-codes';
+
+  static String makeReservationUrl =
+      'https://rideshare.devscape.online/api/v1/reservation';
 }

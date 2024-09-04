@@ -25,14 +25,11 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+class PaymentPage extends StatelessWidget {
+  const PaymentPage({super.key});
 
-// class MapPage extends StatelessWidget {
-//   const MapPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Scaffold(
-//       body: Center(child: Text('map page')),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
+  }
+}

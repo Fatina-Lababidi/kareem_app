@@ -5,6 +5,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/categories_page.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
@@ -234,6 +235,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
           final lng = _savedPosition?.longitude ?? _initialPosition.longitude;
           return AllHubBloc(AllHubUsecase(
               hubRepo: AllHubRepoImp(
+                remoteReservationDatasource: RemoteReservationDatasource(dio: widget.dio),
                   remoteHubContentDatasource:
                       RemoteHubContentDatasource(dio: widget.dio),
                   remoteAllHubDataSource:

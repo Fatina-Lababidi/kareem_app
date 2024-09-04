@@ -9,47 +9,39 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingButtonsRow extends StatelessWidget {
-  const BookingButtonsRow({
-    super.key,
-    required this.screenHeight,
-    required this.screenWidth,
-    required this.sharedPreferences,
-    required this.dio,
-    required this.hubId,
-    required this.hubName,
-    required this.hubDescription,
-    required this.bikeId,
-    required this.photoPath,
-    required this.bikeModel,
-  });
-
-  final double screenHeight;
-  final double screenWidth;
-  final SharedPreferences sharedPreferences;
-  final Dio dio;
+  final String photoPath;
+  final String bikeModel;
   final int hubId;
   final String hubName;
   final String hubDescription;
   final int bikeId;
-  final String photoPath;
-  final String bikeModel;
+  final Dio dio;
+  final SharedPreferences sharedPreferences;
+
+  const BookingButtonsRow(
+      {super.key,
+      required this.photoPath,
+      required this.bikeModel,
+      required this.hubId,
+      required this.hubName,
+      required this.hubDescription,
+      required this.bikeId,
+      required this.dio,
+      required this.sharedPreferences});
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
           onTap: () {
-
             Navigator.push(
                 context,
                 PageTransition(
-                    child: ThanksPage(
-                      screenHeight: screenHeight,
-                      screenWidth: screenWidth,
-                    ),
-                    type: PageTransitionType.fade));
+                    child:const ThanksPage(message: 'your booking has been placed sent',), type: PageTransitionType.fade));
           },
           child: Container(
             height: screenHeight * 0.07, //50,
@@ -78,20 +70,26 @@ class BookingButtonsRow extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(
+            try {
+              Navigator.push(
                 context,
                 PageTransition(
-                    child: RentPage(
-                      photoPath: photoPath,
-                      bikeModel: bikeModel,
-                      hubId: hubId,
-                      hubName: hubName,
-                      hubDescription: hubDescription,
-                      bikeId: bikeId,
-                      sharedPreferences: sharedPreferences,
-                      dio: dio,
-                    ),
-                    type: PageTransitionType.fade));
+                  child: RentPage(
+                    photoPath: photoPath,
+                    bikeModel: bikeModel,
+                    hubId: hubId,
+                    hubName: hubName,
+                    hubDescription: hubDescription,
+                    bikeId: bikeId,
+                    sharedPreferences: sharedPreferences,
+                    dio: dio,
+                  ),
+                  type: PageTransitionType.fade,
+                ),
+              );
+            } catch (e) {
+              print('Error during PageTransition: $e');
+            }
           },
           child: Container(
             height: screenHeight * 0.07, //50,

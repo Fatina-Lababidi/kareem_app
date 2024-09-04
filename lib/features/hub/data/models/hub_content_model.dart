@@ -9,7 +9,7 @@ class BicycleListInHubModel extends BicycleListInHubEntity {
     required super.note,
     required super.maintenance,
     required super.extension,
-    required super.photo_id,
+    required super.photoPath,
     required super.modelPrice,
   });
 
@@ -21,7 +21,7 @@ class BicycleListInHubModel extends BicycleListInHubEntity {
       note: json['note'],
       maintenance: json['maintenance'] ?? [],
       extension: json['extension'] ?? [],
-      photo_id: json['photo_id'],
+      photoPath: json['photoPath'],
       modelPrice: ModelPrice.fromJson(json['model_price']),
     );
   }
@@ -34,7 +34,7 @@ class BicycleListInHubModel extends BicycleListInHubEntity {
       'note': note,
       'maintenance': maintenance,
       'extension': extension,
-      'photo_id': photo_id,
+      'photoPath': photoPath,
       'modelPrice': modelPrice, //.toJson ??
     };
   }

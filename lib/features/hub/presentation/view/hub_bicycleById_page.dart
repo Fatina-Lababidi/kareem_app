@@ -50,7 +50,7 @@ class HubBicyclebyidPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     debugPrint('Building HubBicyclebyidPage');
+    debugPrint('Building HubBicyclebyidPage');
     final double screenWidth = MediaQuery.sizeOf(context).width;
     final double screenHeight = MediaQuery.sizeOf(context).height;
     return BlocProvider(
@@ -149,6 +149,7 @@ class HubBicyclebyidPage extends StatelessWidget {
                           ),
                           Center(
                             child: Image.network(
+                              'https://$photoPath',
                               errorBuilder: (context, error, stackTrace) {
                                 return Column(
                                   children: [
@@ -159,7 +160,7 @@ class HubBicyclebyidPage extends StatelessWidget {
                                   ],
                                 );
                               },
-                              'https://$photoPath',
+
                               width: screenWidth * 0.5, // 200,
                               colorBlendMode: BlendMode.colorBurn,
                             ),
@@ -215,18 +216,17 @@ class HubBicyclebyidPage extends StatelessWidget {
                           SizedBox(
                             height: screenHeight * 0.02,
                           ),
+
                           BookingButtonsRow(
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            sharedPreferences: sharedPreferences,
-                            dio: dio,
-                            hubId: hubId,
-                            hubDescription: hubDescription,
-                            hubName: hubName,
-                            bikeId: id,
-                            bikeModel: model,
-                            photoPath: photoPath,
-                          ),
+                              photoPath: photoPath,
+                              bikeModel: model,
+                              hubId: hubId,
+                              hubName: hubName,
+                              hubDescription: hubDescription,
+                              bikeId: id,
+                              dio: dio,
+                              sharedPreferences: sharedPreferences),
+
                           SizedBox(
                             height: screenHeight * 0.05,
                           )
