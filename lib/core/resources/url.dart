@@ -54,4 +54,12 @@ class EndPoint {
   static String deleteFavouriteBike(int favouriteId) {
     return 'https://rideshare.devscape.online/api/v1/favourite-bicycles/$favouriteId';
   }
+static String reservationPayment='https://rideshare.devscape.online/api/v1/reservation/reseravation-payment';
+
+  static String getReservationDetailsByClientId(int clientId) {
+    return 'https://rideshare.devscape.online/api/v1/reservation/by-client-id/$clientId';
+  }
+
+
+
 }

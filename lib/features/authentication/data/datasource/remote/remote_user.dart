@@ -3,12 +3,14 @@ import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
 import 'package:careem_app_clean/core/resources/url.dart';
+import 'package:careem_app_clean/features/authentication/data/models/login_response_model.dart';
 import 'package:careem_app_clean/features/authentication/data/models/register_model.dart';
+import 'package:careem_app_clean/features/authentication/domain/entities/login_response_entity.dart';
 import 'package:dio/dio.dart';
 
 abstract class RemoteUserDataSource {
   Future<String> registerUser(UserModel userModel);
-  Future<String> loginUser(String phone, String password);
+  Future<LoginResponseEntity> loginUser(String phone, String password);
   Future<String> changePassword(
       String currentPassword, String newPassword, String confirmPassword);
 }
@@ -52,7 +54,7 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
   }
 
   @override
-  Future<String> loginUser(String phone, String password) async {
+  Future<LoginResponseEntity> loginUser(String phone, String password) async {
     try {
       final response = await dio.post(EndPoint.loginUrl,
           data: {'phone': phone, 'password': password},
@@ -63,8 +65,13 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
       print(response.statusCode);
       if (response.statusCode == 200) {
         log('log in done');
+        print(response.data['body']['id']);
         // ? save the token: here ? or in the other place ?
-        return response.data['body']['token'];
+        //    return response.data['body']['token'];
+        LoginResponseModel loginResponseEntity = LoginResponseModel(
+            token: response.data['body']['token'],
+            id: response.data['body']['id']);
+        return loginResponseEntity;
       } else {
         log("Unexpected status code: ${response.statusCode}");
         final errorData = response.data;

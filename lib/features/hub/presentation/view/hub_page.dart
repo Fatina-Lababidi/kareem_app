@@ -5,6 +5,7 @@ import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_datasource.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_details_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
@@ -28,6 +29,7 @@ class HubPage extends StatelessWidget {
       create: (context) => AllHubBloc(
         AllHubUsecase(
           hubRepo: AllHubRepoImp(
+            remoteReservationDetailsDatasource: RemoteReservationDetailsDatasource(dio: dio),
             remoteReservationDatasource: RemoteReservationDatasource(dio: dio),
             remoteHubContentDatasource: RemoteHubContentDatasource(dio: dio),
             remoteAllHubDataSource: RemoteAllHubDataSource(dio: dio),

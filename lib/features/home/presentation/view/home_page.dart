@@ -4,6 +4,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/favourite/presentation/view/favourite_page.dart';
 import 'package:careem_app_clean/features/home/presentation/view/map_page.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/hexagonal.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/reservation_details.dart';
 import 'package:careem_app_clean/features/offer.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/settings_page.dart';
 import 'package:careem_app_clean/features/wallet/presentation/view/wallet_info_page.dart';
@@ -16,11 +17,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomePage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
+  final int? currentIndex;
 
   const HomePage({
     super.key,
     required this.dio,
     required this.sharedPreferences,
+    this.currentIndex,
   });
 
   @override
@@ -28,13 +31,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  // int _currentIndex = 0;
+  late int _currentIndex;
   bool _isDrawerOpen = false;
   late List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.currentIndex ?? 0;
     _pages = [
       MapPage(
         sharedPreferences: widget.sharedPreferences,
@@ -46,9 +51,13 @@ class _HomePageState extends State<HomePage> {
       ),
       WalletInfoPage(
         dio: widget.dio,
+        sharedPreferences: widget.sharedPreferences,
       ),
       const OfferPage(),
-      const ProfilePage(),
+       ReservationDetails(
+        dio: widget.dio,
+        sharedPreferences: widget.sharedPreferences,
+      ),
     ];
   }
 
@@ -177,8 +186,8 @@ class _HomePageState extends State<HomePage> {
                   label: LocalizationKeys.offer.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.person_2_outlined),
-                  label: LocalizationKeys.profile.tr(),
+                  icon: const Icon(Icons.event),
+                  label:'reservation' //LocalizationKeys.profile.tr(),
                 ),
               ],
             ),

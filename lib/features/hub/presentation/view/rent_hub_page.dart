@@ -7,12 +7,14 @@ import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_datasource.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_details_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/reservation_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/reservation_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/reservation_bloc/reservation_bloc.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/hub_page.dart';
-import 'package:careem_app_clean/features/thanks_page.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/widgets/bike_details.dart';
+import 'package:careem_app_clean/features/payment/presentation/view/payment_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -226,6 +228,9 @@ class _RentPageState extends State<RentPage> {
                   : BlocProvider(
                       create: (context) => ReservationBloc(ReservationUsecase(
                           hubRepo: AllHubRepoImp(
+                              remoteReservationDetailsDatasource:
+                                  RemoteReservationDetailsDatasource(
+                                      dio: widget.dio),
                               remoteAllHubDataSource:
                                   RemoteAllHubDataSource(dio: widget.dio),
                               networkConnection: NetworkConnection(
@@ -249,14 +254,25 @@ class _RentPageState extends State<RentPage> {
                                   Text(state.reservationResponseEntity.message),
                               backgroundColor: AppColor.baseColor,
                             ));
+                            //reservationId:  state.reservationResponseEntity.body.id;
+                            //TODO:
+                            // //? shall we make it navigate to the payment page and then after payment it will came packe to the thanksPage?
                             Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: ThanksPage(
-                                      message: state
-                                          .reservationResponseEntity.message,
-                                    ),
-                                    type: PageTransitionType.fade));
+                              context,
+                              PageTransition(
+                                child: PaymentPage(
+                                  reservationId:
+                                      state.reservationResponseEntity.body.id,
+                                  bikeModel: widget.bikeModel,
+                                  photoPath: widget.photoPath,
+                                  sharedPreferences: widget.sharedPreferences,
+                                  dio: widget.dio,
+                                  // message:
+                                  //     state.reservationResponseEntity.message,
+                                ),
+                                type: PageTransitionType.fade,
+                              ),
+                            );
                           }
                         },
                         child: Column(
@@ -269,132 +285,101 @@ class _RentPageState extends State<RentPage> {
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_on,
-                                  color: AppColor.snackbarFaildColor,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      widget.hubName,
-                                      style: TextStyle(
-                                          color: AppColor.buttonDetailsColor,
-                                          fontSize: screenWidth * 0.04, // 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      widget.hubDescription,
-                                      style: TextStyle(
-                                          fontSize: screenWidth * 0.04, //12,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColor.skipTextColor),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: screenHeight * 0.04,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_on,
-                                  color: AppColor.baseColor,
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    final result = await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                            child: HubPage(
-                                              dio: widget.dio,
-                                              lat: locationData['latitude']!,
-                                              lng: locationData['longitude']!,
-                                            ),
-                                            type: PageTransitionType.fade));
-
-                                    if (result != null &&
-                                        result is Map<String, dynamic>) {
-                                      setState(() {
-                                        toHubId = result['id'];
-                                        selectedHubName = result['name'];
-                                        descriptionText = result['description'];
-                                        selectedTextColor =
-                                            AppColor.buttonDetailsColor;
-                                      });
-                                    }
-                                  },
-                                  child: Column(
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    color: AppColor.snackbarFaildColor,
+                                  ),
+                                  Column(
                                     children: [
                                       Text(
-                                        selectedHubName,
+                                        widget.hubName,
                                         style: TextStyle(
-                                            color: selectedTextColor,
-                                            fontSize: screenWidth * 0.04, //16,
+                                            color: AppColor.buttonDetailsColor,
+                                            fontSize: screenWidth * 0.04, // 16,
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        descriptionText,
+                                        widget.hubDescription,
                                         style: TextStyle(
-                                            fontSize: screenWidth * 0.03, //12,
+                                            fontSize: screenWidth * 0.04, //12,
                                             fontWeight: FontWeight.w400,
                                             color: AppColor.skipTextColor),
                                       )
                                     ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: screenHeight * 0.04,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    color: AppColor.baseColor,
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      final result = await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              child: HubPage(
+                                                dio: widget.dio,
+                                                lat: locationData['latitude']!,
+                                                lng: locationData['longitude']!,
+                                              ),
+                                              type: PageTransitionType.fade));
+
+                                      if (result != null &&
+                                          result is Map<String, dynamic>) {
+                                        setState(() {
+                                          toHubId = result['id'];
+                                          selectedHubName = result['name'];
+                                          descriptionText =
+                                              result['description'];
+                                          selectedTextColor =
+                                              AppColor.buttonDetailsColor;
+                                        });
+                                      }
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          selectedHubName,
+                                          style: TextStyle(
+                                              color: selectedTextColor,
+                                              fontSize:
+                                                  screenWidth * 0.04, //16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          descriptionText,
+                                          style: TextStyle(
+                                              fontSize:
+                                                  screenWidth * 0.03, //12,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppColor.skipTextColor),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
-                            Container(
-                              width: screenWidth * 0.89, //360,
-                              height: screenHeight * 0.125, //80,
-                              decoration: BoxDecoration(
-                                color: AppColor.categoriesContainerColor,
-                                border: Border.all(color: AppColor.baseColor),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      widget.bikeModel,
-                                      style: TextStyle(
-                                          color: AppColor.buttonDetailsColor,
-                                          fontSize: screenWidth * 0.04, //16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Image.network(
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Column(
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/bicycle.png',
-                                              width: screenWidth * 0.12,
-                                            ),
-                                            Text(
-                                                'enable to fetch '), //! localization
-                                          ],
-                                        );
-                                      },
-                                      'https://${widget.photoPath}',
-                                      width: screenWidth * 0.6, //200,
-                                      colorBlendMode: BlendMode.colorBurn,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            BikeDetailsForRent(
+                                screenWidth: screenWidth,
+                                screenHeight: screenHeight,
+                                widget: widget),
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
@@ -438,9 +423,10 @@ class _RentPageState extends State<RentPage> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: screenHeight * 0.4,
-                            ),
+                            // SizedBox(
+                            //   height: screenHeight * 0.3,
+                            // ),
+                            Spacer(),
                             BlocBuilder<ReservationBloc, ReservationState>(
                               builder: (context, state) {
                                 if (state is ReservationLoading) {
@@ -471,14 +457,14 @@ class _RentPageState extends State<RentPage> {
                                         print(
                                             'Reservation Details:\n Bicycle ID: ${reservation.bicycleId} \n From Hub ID: ${reservation.fromHubId} \n To Hub ID: ${reservation.toHubId} \n Duration: ${reservation.duration}\n Start Time: ${reservation.startTime}\n start time2: ${reservation.startTime.toIso8601String()}, \nPayment Method: ${reservation.paymentMethod}');
 
-                                        // context.read<ReservationBloc>().add(
-                                        //     MakeReservation(
-                                        //         requestEntity: reservation));
+                                        context.read<ReservationBloc>().add(
+                                            MakeReservation(
+                                                requestEntity: reservation));
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'please choose to hub')));
+                                                content:
+                                                    Text('please choose hub')));
                                         setState(() {
                                           selectedTextColor =
                                               AppColor.snackbarFaildColor;
@@ -488,6 +474,9 @@ class _RentPageState extends State<RentPage> {
                                   );
                                 }
                               },
+                            ),
+                            SizedBox(
+                              height: screenHeight * 0.03,
                             ),
                           ],
                         ),

@@ -5,35 +5,32 @@ import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
 import 'package:careem_app_clean/core/resources/url.dart';
-import 'package:careem_app_clean/features/hub/data/models/reservation_models.dart';
+import 'package:careem_app_clean/features/hub/data/models/reservation_details_model.dart';
 import 'package:dio/dio.dart';
 
-class RemoteReservationDatasource {
+class RemoteReservationDetailsDatasource {
   final Dio dio;
-  RemoteReservationDatasource({
+  RemoteReservationDetailsDatasource({
     required this.dio,
   });
 
-  Future<ReservationResponseModel> makeReservation(ReservationRequestModel reservation) async {
+  Future<ReservationDetailsResponseModel> getReservationDetails(
+      int clientId) async {
     try {
-      Response response = await dio.post(
-        EndPoint.makeReservationUrl,
-data: reservation.toJson(),
-        options: getHeader(true).copyWith(
-          validateStatus: (int? status) {
+      String url = EndPoint.getReservationDetailsByClientId(clientId);
+
+      Response response = await dio.get(url,
+          options: getHeader(true).copyWith(validateStatus: (int? status) {
             return status != null && status < 500;
-          },
-        ),
-      );
+          }));
       print(response.statusCode);
-      print(response.data);
       if (response.statusCode == 200) {
-        ReservationResponseModel responseModel =
-            ReservationResponseModel.fromJson(response.data);
-        return responseModel;
+        ReservationDetailsResponseModel reservationDetailsResponseModel =
+            ReservationDetailsResponseModel.fromJson(response.data);
+        return reservationDetailsResponseModel;
       } else {
-        ErrorModel errorModel = ErrorModel.fromJson(response.data['message']);
-        throw ServerException(errorModel: errorModel);
+        throw ServerException(
+            errorModel: ErrorModel.fromJson(response.data['message']));
       }
     } on DioException catch (e) {
       handleDioExceptions(e);

@@ -6,6 +6,7 @@ import 'package:careem_app_clean/features/bicycles/presentation/view/categories_
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_datasource.dart';
+import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_details_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
@@ -186,8 +187,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       print('Failed to load data: $e');
     }
   }
-//? for the hubs:
 
+//? for the hubs:
+  // int selectedHubCount = 0;
+  // LatLng? firstHub;
   List<Marker> _buildHubMarkers(
       List<PlaceEntity> places, BuildContext context) {
     if (_locationCheck == true) {
@@ -215,6 +218,17 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                         sharedPreferences: widget.sharedPreferences,
                       ),
                       type: PageTransitionType.fade));
+              //TODO:
+              // ? to draw line:
+              //       if (selectedHubCount == 0) {
+              //   firstHub = LatLng(place.latitude.toDouble(), place.longitude.toDouble());
+              //   selectedHubCount++;
+              // } else if (selectedHubCount == 1 && firstHub != null) {
+              //   final secondHub = LatLng(place.latitude.toDouble(), place.longitude.toDouble());
+              //   _addHubLine(firstHub!, secondHub);
+              //   selectedHubCount = 0; // Reset count after drawing the line
+              //   firstHub = null;
+              //   }},
             },
             child: const Icon(Icons.pedal_bike, color: Colors.red, size: 40)),
       );
@@ -223,6 +237,17 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
 
   void _updateHubMarkers(List<PlaceEntity> places) {
     markers.value = _buildHubMarkers(places, context);
+  }
+//ToDO:
+// to draw line :
+  List<Polyline> polyLines = [];
+
+  void _addHubLine(LatLng hub1, LatLng hub2) {
+    final polyline =
+        Polyline(points: [hub1, hub2], strokeWidth: 4, color: Colors.blue);
+    setState(() {
+      polyLines = [polyline];
+    });
   }
 
   @override
@@ -235,7 +260,9 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
           final lng = _savedPosition?.longitude ?? _initialPosition.longitude;
           return AllHubBloc(AllHubUsecase(
               hubRepo: AllHubRepoImp(
-                remoteReservationDatasource: RemoteReservationDatasource(dio: widget.dio),
+                  remoteReservationDetailsDatasource: RemoteReservationDetailsDatasource(dio: widget.dio),
+                  remoteReservationDatasource:
+                      RemoteReservationDatasource(dio: widget.dio),
                   remoteHubContentDatasource:
                       RemoteHubContentDatasource(dio: widget.dio),
                   remoteAllHubDataSource:
@@ -283,6 +310,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                                     'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                 userAgentPackageName: 'com.example.app',
                               ),
+                              PolylineLayer(polylines: polyLines),
                               ValueListenableBuilder<List<Marker>>(
                                 valueListenable: markers,
                                 builder: (context, markerList, _) {

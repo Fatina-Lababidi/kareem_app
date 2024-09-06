@@ -20,10 +20,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddMoneyPage extends StatefulWidget {
   final Dio dio;
-  const AddMoneyPage({super.key, required this.dio});
+  final SharedPreferences sharedPreferences;
+  const AddMoneyPage({super.key, required this.dio, required this.sharedPreferences});
 
   @override
   State<AddMoneyPage> createState() => _AddMoneyPageState();
@@ -202,6 +204,8 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
                                           text: text);
                                     } else if (state is AddMoneySuccess) {
                                       return SuccessDialogAddMoney(
+                                        sharedPreferences: widget.sharedPreferences,
+                                        dio: widget.dio,
                                           screenWidth: screenWidth,
                                           screenHeight: screenHeight,
                                           finalAmount: finalAmount);

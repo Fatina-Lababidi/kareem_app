@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             emit(LoginFailure(message: _mapFailureToMessage(failure)));
           }
         },
-        (token) => emit(LoginSuccess(token: token)),
+        (entity) => emit(LoginSuccess(token: entity.token)),
       );
     });
   }

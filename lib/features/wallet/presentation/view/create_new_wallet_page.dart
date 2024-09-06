@@ -20,10 +20,13 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateNewWalletPage extends StatefulWidget {
   final Dio dio;
-  const CreateNewWalletPage({super.key, required this.dio});
+  final SharedPreferences sharedPreferences;
+  const CreateNewWalletPage(
+      {super.key, required this.dio, required this.sharedPreferences});
 
   @override
   State<CreateNewWalletPage> createState() => _CreateNewWalletPageState();
@@ -48,6 +51,11 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
     super.dispose();
   }
 
+  Future<void> _save() async {
+    await widget.sharedPreferences.setBool('haveWallet', true);
+    print(widget.sharedPreferences.getBool('haveWallet'));
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.sizeOf(context).height;
@@ -55,8 +63,10 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
     return BlocProvider(
       create: (context) => CreateWalletBloc(CreateWalletUsecase(
           walletRepo: WalletRepoImp(
-             remoteAddMoneyDatasource: RemoteAddMoneyDatasource(dio: widget.dio),
-            remoteValidCodeDatasource: RemoteValidCodeDatasource(dio: widget.dio),
+              remoteAddMoneyDatasource:
+                  RemoteAddMoneyDatasource(dio: widget.dio),
+              remoteValidCodeDatasource:
+                  RemoteValidCodeDatasource(dio: widget.dio),
               remoteGetwalletinfoDatasource:
                   RemoteGetwalletinfoDatasource(dio: widget.dio),
               remoteCreateWalletDatasource:
@@ -78,10 +88,15 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                   content: Text(state.message),
                   backgroundColor: AppColor.baseColor,
                 ));
+                // save a boolean to use it in the payment page:
+                _save();
                 Navigator.push(
                     context,
                     PageTransition(
-                        child: WalletInfoPage(dio: widget.dio),
+                        child: WalletInfoPage(
+                          dio: widget.dio,
+                          sharedPreferences: widget.sharedPreferences,
+                        ),
                         type: PageTransitionType.fade));
               }
             },
@@ -96,8 +111,8 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                   ),
                   Text(
                     LocalizationKeys.createNewWallet.tr(),
-                    style:  TextStyle(
-                        fontSize:screenWidth/375*24, //24,
+                    style: TextStyle(
+                        fontSize: screenWidth / 375 * 24, //24,
                         fontWeight: FontWeight.w600,
                         color: AppColor.buttonDetailsColor),
                   ).animate().fade(duration: .2.seconds, delay: .1.seconds),
@@ -214,6 +229,7 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                                 confirmSecurityCode:
                                     _confirmSecurityCodeController.text,
                                 bankAccount: _bankAccount.text);
+                            print('${wallet.securityCode}\n ${wallet.confirmSecurityCode}\n${wallet.bankAccount}');
                             context
                                 .read<CreateWalletBloc>()
                                 .add(CreateNewWallet(wallet: wallet));

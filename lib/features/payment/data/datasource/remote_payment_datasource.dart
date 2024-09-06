@@ -1,39 +1,46 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
-
 import 'package:careem_app_clean/core/error/error_model.dart';
 import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/functions/header_fun.dart';
 import 'package:careem_app_clean/core/resources/url.dart';
-import 'package:careem_app_clean/features/hub/data/models/reservation_models.dart';
+import 'package:careem_app_clean/features/payment/data/models/payment_model.dart';
 import 'package:dio/dio.dart';
 
-class RemoteReservationDatasource {
+// [log] Unexpected status code: 401
+// [log] Unknown exception caught: type 'String' is not a subtype of type 'Map<dynamic, dynamic>'
+
+class RemotePaymentDatasource {
   final Dio dio;
-  RemoteReservationDatasource({
+  RemotePaymentDatasource({
     required this.dio,
   });
 
-  Future<ReservationResponseModel> makeReservation(ReservationRequestModel reservation) async {
+  Future<String> pay(PaymentRequestModel payment) async {
     try {
       Response response = await dio.post(
-        EndPoint.makeReservationUrl,
-data: reservation.toJson(),
-        options: getHeader(true).copyWith(
-          validateStatus: (int? status) {
-            return status != null && status < 500;
-          },
-        ),
+        EndPoint.reservationPayment,
+        data: payment.toJson(),
+        options: getHeader(true).copyWith(validateStatus: (int? status) {
+          return status != null && status < 500;
+        }),
       );
       print(response.statusCode);
       print(response.data);
       if (response.statusCode == 200) {
-        ReservationResponseModel responseModel =
-            ReservationResponseModel.fromJson(response.data);
-        return responseModel;
+        print(response.data['message']);
+        return response.data['message'];
       } else {
-        ErrorModel errorModel = ErrorModel.fromJson(response.data['message']);
-        throw ServerException(errorModel: errorModel);
+        log("Unexpected status code: ${response.statusCode}");
+        if (response.data is Map) {
+          final errorData = response.data['message'];
+          ErrorModel errorModel = ErrorModel(errorMessage: errorData);
+          throw ServerException(errorModel: errorModel);
+        } else {
+          ErrorModel errorModel = ErrorModel(
+              errorMessage: 'Unexpected error format : ${response.data}');
+          throw ServerException(errorModel: errorModel);
+        }
       }
     } on DioException catch (e) {
       handleDioExceptions(e);

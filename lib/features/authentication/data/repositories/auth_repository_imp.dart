@@ -3,6 +3,7 @@ import 'package:careem_app_clean/core/error/exceptions.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
 import 'package:careem_app_clean/features/authentication/data/datasource/remote/remote_user.dart';
 import 'package:careem_app_clean/features/authentication/data/models/register_model.dart';
+import 'package:careem_app_clean/features/authentication/domain/entities/login_response_entity.dart';
 import 'package:careem_app_clean/features/authentication/domain/entities/user_entity.dart';
 import 'package:careem_app_clean/features/authentication/domain/repositories/user_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -39,16 +40,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failures, String>> loginUser(
+  Future<Either<Failures, LoginResponseEntity>> loginUser(
       String phone, String password) async {
     if (await internetConnectionChecker.hasConnection) {
       try {
-        final token = await remoteDataSource.loginUser(phone, password);
-        //? here ?
-
+        final loginResponseEntity =
+            await remoteDataSource.loginUser(phone, password);
+        String token = loginResponseEntity.token;
+        int id = loginResponseEntity.id;
         await sharedPreferences.setString('token', token);
+        await sharedPreferences.setInt('clientId', id);
+        print(sharedPreferences.getInt('clientId'));
         print(sharedPreferences.getString('token'));
-        return Right(token);
+        return Right(loginResponseEntity);
       } on ServerException catch (e) {
         log(e.toString());
         return Left(ServerFailure(message: e.errorModel.errorMessage));

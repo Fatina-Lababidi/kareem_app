@@ -42,7 +42,7 @@ class ReservationBodyEntity {
   final DateTime startTime;
   final DateTime? endTime;
   final String reservationStatus;
-  final int price;
+  final double price;
 
   ReservationBodyEntity({
     required this.id,

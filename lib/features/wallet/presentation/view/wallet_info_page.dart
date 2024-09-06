@@ -19,10 +19,13 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletInfoPage extends StatelessWidget {
   final Dio dio;
-  const WalletInfoPage({super.key, required this.dio});
+  final SharedPreferences sharedPreferences;
+  const WalletInfoPage(
+      {super.key, required this.dio, required this.sharedPreferences});
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +161,7 @@ class WalletInfoPage extends StatelessWidget {
                 context,
                 PageTransition(
                     child: AddMoneyPage(
+                      sharedPreferences: sharedPreferences,
                       dio: dio,
                     ),
                     type: PageTransitionType.fade));
@@ -232,7 +236,10 @@ class WalletInfoPage extends StatelessWidget {
             Navigator.push(
                 context,
                 PageTransition(
-                    child: CreateNewWalletPage(dio: dio),
+                    child: CreateNewWalletPage(
+                      dio: dio,
+                      sharedPreferences: sharedPreferences,
+                    ),
                     type: PageTransitionType.fade));
           },
           child: Container(

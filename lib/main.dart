@@ -67,8 +67,6 @@ class MyApp extends StatelessWidget {
 }
 //?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
 
-
-
 //? what business logic means ??
 //! the interlPhoneField packge not validate ....
 //kotlen ??
@@ -91,4 +89,4 @@ class NextPage extends StatelessWidget {
   }
 }
 
-//0222222222// paPa12@121212
+//0222222222// paPa12@121212// securitycode for wallet : paPa12@121212

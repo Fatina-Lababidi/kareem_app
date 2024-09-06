@@ -1,14 +1,10 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
-import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
-import 'package:careem_app_clean/features/offer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ThanksPage extends StatelessWidget {
   final String message;
@@ -26,14 +22,14 @@ class ThanksPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: isEnglish(context)
-                  ? EdgeInsets.only(
-                      left: screenWidth * 0.02, top: screenHeight * 0.01)
-                  : EdgeInsets.only(
-                      right: screenWidth * 0.02, top: screenHeight * 0.01),
-              child: const BackWidget(),
-            ),
+            // Padding(
+            //   padding: isEnglish(context)
+            //       ? EdgeInsets.only(
+            //           left: screenWidth * 0.02, top: screenHeight * 0.01)
+            //       : EdgeInsets.only(
+            //           right: screenWidth * 0.02, top: screenHeight * 0.01),
+            //   child: const BackWidget(),
+            // ),
            const Spacer(),
             Stack(
               alignment: Alignment.center,
@@ -86,11 +82,11 @@ class ThanksPage extends StatelessWidget {
               textColor: AppColor.whiteColor,
               containerColor: AppColor.buttonColor,
               onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        child: const PaymentPage(),
-                        type: PageTransitionType.fade));
+                // Navigator.push(
+                //     context,
+                //     PageTransition(
+                //         child: const PaymentPage(),
+                //         type: PageTransitionType.fade));
               },
             ),
             SizedBox(

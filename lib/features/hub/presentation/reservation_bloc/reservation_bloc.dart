@@ -14,6 +14,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     this.reservationUsecase,
   ) : super(ReservationInitial()) {
     on<MakeReservation>((event, emit) async {
+      emit(ReservationLoading());
       final failureOrEntity =
           await reservationUsecase.call(event.requestEntity);
       failureOrEntity.fold((failure) {

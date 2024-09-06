@@ -101,10 +101,8 @@ class _FavouriteCardWidgetState extends State<FavouriteCardWidget> {
                             )
                           : IconButton(
                               onPressed: () {
-                                // Set the loading state to true
                                 _isLoading.value = true;
 
-                                // Trigger the delete event
                                 context.read<DeleteFavouriteBloc>().add(
                                       DeleteFavouriteBike(favId: widget.favId),
                                     );
@@ -119,38 +117,6 @@ class _FavouriteCardWidgetState extends State<FavouriteCardWidget> {
                   ),
                 ],
               ),
-              //     BlocConsumer<DeleteFavouriteBloc, DeleteFavouriteState>(
-              //       listener: (context, state) {
-              //         if (state is DeleteFavouriteSuccess) {
-              //           context.read<FavByClientIdBloc>().add(GetFavByClientid());
-              //         }
-              //       },
-              //       builder: (context, state) {
-              //         if (state is DeleteFavouriteLoading) {
-              //           return const Center(
-              //             child: CircularProgressIndicator(
-              //               color: AppColor.snackbarFaildColor,
-              //             ),
-              //           );
-              //         } else {
-              //           return IconButton(
-              //             onPressed: () {
-              //               //delete event
-              //               context
-              //                   .read<DeleteFavouriteBloc>()
-              //                   .add(DeleteFavouriteBike(favId: widget.favId));
-              //             },
-              //             icon: Icon(
-              //               Icons.stop_circle,
-              //               color: AppColor.snackbarFaildColor,
-              //               size: widget.screenWidth * 0.08,
-              //             ),
-              //           );
-              //         }
-              //       },
-              //     ),
-              //   ],
-              // ),
               Row(
                 children: [
                   Text(

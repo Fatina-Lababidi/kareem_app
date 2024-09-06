@@ -17,6 +17,7 @@ class RemoteCreateWalletDatasource {
     try {
       Response response = await dio.post(
         EndPoint.createNewWallet,
+        data: model.toJson(),
         options: getHeader(true).copyWith(validateStatus: (int? status) {
           return status != null && status < 500;
         }),
