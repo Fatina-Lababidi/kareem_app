@@ -50,13 +50,14 @@ class ReservationDetailsBodyModel extends ReservationDetailsBodyEntity {
 
   factory ReservationDetailsBodyModel.fromJson(Map<String, dynamic> json) {
     return ReservationDetailsBodyModel(
-        id: json['id'],
-        client: json['client'],
-        bicycle: json['bicycle'],
-        from: json['from'],
-        to: json['to'],
-        duration: json['duration'],
-        reservationStatus: json['reservationStatus'],
-        price: json['price']);
+      id: json['id'],
+      client: json['client'],
+      bicycle: json['bicycle'],
+      from: json['from'],
+      to: json['to'],
+      duration: (json['duration'] as num).toDouble(),
+      reservationStatus: json['reservationStatus'],
+      price: (json['price']as num).toDouble(),
+    );
   }
 }

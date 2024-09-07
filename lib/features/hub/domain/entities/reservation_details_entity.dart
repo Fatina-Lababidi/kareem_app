@@ -20,6 +20,7 @@
 //   ]
 // }
 
+// {message: Reservation created, but now it's in PENDING status, Complete payment processing to confirm your reservation, status: CREATED, localDateTime: 2024-09-07T17:39:32.9276541, body: {id: 11, client: sana, bicycle: BME512, from: وزارة التربية, to: كلية الهمك, duration: 2.0, startTime: 2024-09-07T17:39:04.65178, endTime: null, reservationStatus: PENDING, price: 2400.0}}
 class ReservationDetailsResponseEntity {
   final String message;
   final String status;
@@ -37,9 +38,9 @@ class ReservationDetailsBodyEntity {
   final String bicycle;
   final String from;
   final String to;
-  final num duration;
+  final double duration;
   final String reservationStatus;
-  final num price;
+  final double price;
   ReservationDetailsBodyEntity({
     required this.id,
     required this.client,
