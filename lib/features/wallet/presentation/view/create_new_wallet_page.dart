@@ -229,20 +229,11 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                                 confirmSecurityCode:
                                     _confirmSecurityCodeController.text,
                                 bankAccount: _bankAccount.text);
-                            print('${wallet.securityCode}\n ${wallet.confirmSecurityCode}\n${wallet.bankAccount}');
+                            print(
+                                '${wallet.securityCode}\n ${wallet.confirmSecurityCode}\n${wallet.bankAccount}');
                             context
                                 .read<CreateWalletBloc>()
                                 .add(CreateNewWallet(wallet: wallet));
-                            // context.read<ChangePasswordBloc>().add(
-                            //     ChangeUserPasswordEvent(
-                            //         currentPassword:
-                            //             _currentPasswordController
-                            //                 .text,
-                            //         newPassword:
-                            //             _newpasswordController.text,
-                            //         confirmPassword:
-                            //             _confirmPasswordController
-                            //                 .text));
                           }
                         },
                         text: LocalizationKeys.create.tr(),

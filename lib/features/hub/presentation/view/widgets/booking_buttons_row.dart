@@ -1,7 +1,6 @@
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/rent_hub_page.dart';
-import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +37,10 @@ class BookingButtonsRow extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    child:const ThanksPage(message: 'your booking has been placed sent',), type: PageTransitionType.fade));
+            // Navigator.push(
+            //     context,
+            //     PageTransition(
+            //         child:const ThanksPage(message: 'your booking has been placed sent',), type: PageTransitionType.fade));
           },
           child: Container(
             height: screenHeight * 0.07, //50,

@@ -11,6 +11,7 @@ import 'package:careem_app_clean/features/payment/domain/entities/payment_entity
 import 'package:careem_app_clean/features/payment/domain/usecases/payment_usecase.dart';
 import 'package:careem_app_clean/features/payment/presentation/payment_bloc/payment_bloc.dart';
 import 'package:careem_app_clean/features/payment/presentation/widgets/payment_noWallet.dart';
+import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -89,11 +90,12 @@ class _PaymentPageState extends State<PaymentPage> {
               Navigator.push(
                   context,
                   PageTransition(
-                      child: HomePage(
-                        dio: widget.dio,
-                        sharedPreferences: widget.sharedPreferences,
-                        currentIndex: 2,
-                      ),
+                      child: ThanksPage(message: state.message,sharedPreferences: widget.sharedPreferences,dio: widget.dio,),
+                      // child: HomePage(
+                      //   dio: widget.dio,
+                      //   sharedPreferences: widget.sharedPreferences,
+                      //   currentIndex: 2,
+                      // ),
                       type: PageTransitionType.fade));
             }
           } else if (state is PaymentSuccess) {

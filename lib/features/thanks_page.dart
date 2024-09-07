@@ -2,15 +2,23 @@ import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
+import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThanksPage extends StatelessWidget {
   final String message;
+  final Dio dio;
+  final SharedPreferences sharedPreferences;
   const ThanksPage({
     super.key,
     required this.message,
+    required this.dio,
+    required this.sharedPreferences,
   });
 
   @override
@@ -30,7 +38,7 @@ class ThanksPage extends StatelessWidget {
             //           right: screenWidth * 0.02, top: screenHeight * 0.01),
             //   child: const BackWidget(),
             // ),
-           const Spacer(),
+            const Spacer(),
             Stack(
               alignment: Alignment.center,
               children: [
@@ -78,10 +86,16 @@ class ThanksPage extends StatelessWidget {
             AppButton(
               screenWidth: screenWidth,
               screenHeight: screenHeight,
-              text: LocalizationKeys.confirmRide.tr(),
+              text:'Back home',//LocalizationKeys.confirmRide.tr(),
               textColor: AppColor.whiteColor,
               containerColor: AppColor.buttonColor,
               onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: HomePage(
+                            dio: dio, sharedPreferences: sharedPreferences),
+                        type: PageTransitionType.fade));
                 // Navigator.push(
                 //     context,
                 //     PageTransition(

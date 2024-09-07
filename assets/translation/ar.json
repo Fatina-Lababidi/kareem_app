@@ -117,5 +117,6 @@
     "bank_account_validate": "الرجاء إدخال حسابك المصرفي!",
     "create": "أنشأ",
     "create_new_wallet": "أنشأ محفظة جديدة",
-    "success":"نجح.... "
+    "success": "نجح.... ",
+    "payForConfirmation": "يرجى الدفع لتأكيد الحجز"
 }

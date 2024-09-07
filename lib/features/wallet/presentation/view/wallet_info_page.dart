@@ -9,9 +9,9 @@ import 'package:careem_app_clean/features/wallet/data/datasource/remote_getWalle
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_valid_code_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/repositories/wallet_repo_imp.dart';
 import 'package:careem_app_clean/features/wallet/domain/usecase/get_wallet_info_usecase.dart';
-import 'package:careem_app_clean/features/wallet/presentation/view/add_money_page.dart';
 import 'package:careem_app_clean/features/wallet/presentation/view/create_new_wallet_page.dart';
 import 'package:careem_app_clean/features/wallet/presentation/walletInfo_bloc/wallet_info_bloc.dart';
+import 'package:careem_app_clean/features/wallet/presentation/widgets/addMoneyContainer_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -67,53 +67,8 @@ class WalletInfoPage extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is WalletInfoSuccess) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: screenHeight * 0.05,
-                      ),
-                      addMoneyContainer(screenWidth, screenHeight, context)
-                          .animate()
-                          .fade(duration: .2.seconds, delay: .1.seconds),
-                      SizedBox(
-                        height: screenHeight * 0.04,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // the first container
-                          moneyDetailsContainer(
-                            screenHeight,
-                            screenWidth,
-                            state.walletInfoEntity.body.balance.toString(),
-                            LocalizationKeys.availableBalance.tr(),
-                          ),
-                          // second container
-                          moneyDetailsContainer(
-                            screenHeight,
-                            screenWidth,
-                            '00', //!!from where?
-                            LocalizationKeys.totalExpend.tr(),
-                          ),
-                        ],
-                      ).animate().fade(duration: .4.seconds, delay: .2.seconds),
-                      SizedBox(
-                        height: screenHeight * 0.02,
-                      ),
-                      Text(
-                        LocalizationKeys.transections.tr(),
-                        style: TextStyle(
-                            color: AppColor.contentSecondaryTextColor,
-                            fontSize: screenWidth * 0.04, //16,
-                            fontWeight: FontWeight.w500),
-                      ).animate().fade(duration: .6.seconds, delay: .3.seconds),
-                      //this history?? or what ?
-                    ],
-                  ),
-                );
+                return _buildWalletInfoSuccess(
+                    screenHeight, screenWidth, context, state);
               } else if (state is WalletInfoFailure) {
                 if (state.message == 'PLEASE CREATE WALLET FIRST') {
                   return noWalletFailureUi(screenHeight, screenWidth, context);
@@ -139,44 +94,58 @@ class WalletInfoPage extends StatelessWidget {
     );
   }
 
-//? Add money button:
-
-  Align addMoneyContainer(
-      double screenWidth, double screenHeight, BuildContext context) {
-    return Align(
-      alignment: Alignment.topRight,
-      child: Container(
-        width: screenWidth * 0.48, //170,
-        height: screenHeight * 0.08, //54,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColor.buttonColor,
+  Padding _buildWalletInfoSuccess(double screenHeight, double screenWidth,
+      BuildContext context, WalletInfoSuccess state) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: screenHeight * 0.05,
           ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: InkWell(
-          onTap: () {
-            //navigate to the add page
-            Navigator.push(
-                context,
-                PageTransition(
-                    child: AddMoneyPage(
-                      sharedPreferences: sharedPreferences,
-                      dio: dio,
-                    ),
-                    type: PageTransitionType.fade));
-          },
-          child: Center(
-            child: Text(
-              textAlign: TextAlign.center,
-              LocalizationKeys.addMoney.tr(),
-              style: TextStyle(
-                  color: AppColor.buttonColor,
-                  fontSize: screenWidth * 0.04, //16,
-                  fontWeight: FontWeight.w500),
-            ),
+          AddMoneyContainer(
+                  sharedPreferences: sharedPreferences,
+                  dio: dio,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  context: context)
+              .animate()
+              .fade(duration: .2.seconds, delay: .1.seconds),
+          SizedBox(
+            height: screenHeight * 0.04,
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // the first container
+              moneyDetailsContainer(
+                screenHeight,
+                screenWidth,
+                state.walletInfoEntity.body.balance.toString(),
+                LocalizationKeys.availableBalance.tr(),
+              ),
+              // second container
+              moneyDetailsContainer(
+                screenHeight,
+                screenWidth,
+                '00', //!!from where?
+                LocalizationKeys.totalExpend.tr(),
+              ),
+            ],
+          ).animate().fade(duration: .4.seconds, delay: .2.seconds),
+          SizedBox(
+            height: screenHeight * 0.02,
+          ),
+          Text(
+            LocalizationKeys.transections.tr(),
+            style: TextStyle(
+                color: AppColor.contentSecondaryTextColor,
+                fontSize: screenWidth * 0.04, //16,
+                fontWeight: FontWeight.w500),
+          ).animate().fade(duration: .6.seconds, delay: .3.seconds),
+          //this history?? or what ?
+        ],
       ),
     );
   }
