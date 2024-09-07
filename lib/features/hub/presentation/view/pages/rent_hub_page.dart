@@ -12,7 +12,7 @@ import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_imp
 import 'package:careem_app_clean/features/hub/domain/entities/reservation_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/reservation_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/reservation_bloc/reservation_bloc.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/hub_page.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/pages/hub_page.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/widgets/bike_details.dart';
 import 'package:careem_app_clean/features/payment/presentation/view/payment_page.dart';
 import 'package:dio/dio.dart';

@@ -1,6 +1,6 @@
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/rent_hub_page.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/pages/rent_hub_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

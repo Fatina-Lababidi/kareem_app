@@ -1,6 +1,6 @@
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/bicycle_by_category_page.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/hub_content.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/pages/hub_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';

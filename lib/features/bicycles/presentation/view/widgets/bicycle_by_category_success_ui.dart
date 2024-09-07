@@ -40,7 +40,7 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
             itemBuilder: (context, index) {
               return Container(
                 padding: const EdgeInsets.all(10),
-                height: screenHeight * 0.2, //170,
+                height: screenHeight * 0.25, //170,
                 width: screenWidth * 0.9, //363,
                 decoration: BoxDecoration(
                     color: AppColor.categoriesContainerColor,
@@ -49,7 +49,7 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                 margin: EdgeInsets.all(screenWidth * 0.025),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,6 +111,7 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: screenHeight*0.01,),
                     Align(
                       alignment: Alignment.center,
                       child: GestureDetector(

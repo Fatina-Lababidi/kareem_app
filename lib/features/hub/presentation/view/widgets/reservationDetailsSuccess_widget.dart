@@ -2,7 +2,7 @@ import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/reservation_details_entity.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/reservation_details.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/pages/reservation_details.dart';
 import 'package:careem_app_clean/features/payment/presentation/view/payment_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

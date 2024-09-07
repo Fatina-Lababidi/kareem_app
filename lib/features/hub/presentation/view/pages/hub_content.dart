@@ -10,7 +10,7 @@ import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/hub_content_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/hubContent_bloc/hub_content_bloc.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/hub_bicycleById_page.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/pages/hub_bicycleById_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +44,10 @@ class HubContentPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => HubContentBloc(HubContentUsecase(
           hubRepo: AllHubRepoImp(
-              remoteReservationDetailsDatasource: RemoteReservationDetailsDatasource(dio: dio),
-            remoteReservationDatasource: RemoteReservationDatasource(dio: dio),
+              remoteReservationDetailsDatasource:
+                  RemoteReservationDetailsDatasource(dio: dio),
+              remoteReservationDatasource:
+                  RemoteReservationDatasource(dio: dio),
               remoteAllHubDataSource: RemoteAllHubDataSource(dio: dio),
               networkConnection: NetworkConnection(
                   internetConnectionChecker: InternetConnectionChecker()),
@@ -94,14 +96,14 @@ class HubContentPage extends StatelessWidget {
                                     fontSize: screenWidth * 0.035, //14,
                                     fontWeight: FontWeight.w500),
                               ),
-                              Expanded(
+                              Flexible(
                                 child: ListView.builder(
                                   itemCount: state.hubContentResponseEntity.body
                                       .bicycleList.length,
                                   itemBuilder: (context, index) {
                                     return Container(
                                       padding: const EdgeInsets.all(10),
-                                      height: screenHeight * 0.2, //170,
+                                      height: screenHeight * 0.25, //170,
                                       width: screenWidth * 0.9, //363,
                                       decoration: BoxDecoration(
                                           color:
@@ -112,54 +114,57 @@ class HubContentPage extends StatelessWidget {
                                               BorderRadius.circular(8)),
                                       margin:
                                           EdgeInsets.all(screenWidth * 0.025),
-                                      child: Column(
+                                      child:Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    state
-                                                        .hubContentResponseEntity
-                                                        .body
-                                                        .bicycleList[index]
-                                                        .modelPrice
-                                                        .model,
-                                                    style: TextStyle(
-                                                        fontSize: screenWidth *
-                                                            0.04, // 16,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      state
+                                                          .hubContentResponseEntity
+                                                          .body
+                                                          .bicycleList[index]
+                                                          .modelPrice
+                                                          .model,
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.04, // 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: AppColor
+                                                              .buttonDetailsColor),
+                                                    ),
+                                                    Text(
+                                                      'id:${state.hubContentResponseEntity.body.bicycleList[index].id} | size:${state.hubContentResponseEntity.body.bicycleList[index].size} | price:${state.hubContentResponseEntity.body.bicycleList[index].modelPrice.price}',
+                                                      style: TextStyle(
                                                         color: AppColor
-                                                            .buttonDetailsColor),
-                                                  ),
-                                                  Text(
-                                                    'id:${state.hubContentResponseEntity.body.bicycleList[index].id} | size:${state.hubContentResponseEntity.body.bicycleList[index].size} | price:${state.hubContentResponseEntity.body.bicycleList[index].modelPrice.price}',
-                                                    style: TextStyle(
-                                                      color: AppColor
-                                                          .skipTextColor,
-                                                      fontSize:
-                                                          screenWidth * 0.035,
+                                                            .skipTextColor,
+                                                        fontSize:
+                                                            screenWidth * 0.035,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'note :${state.hubContentResponseEntity.body.bicycleList[index].note}',
-                                                    style: TextStyle(
-                                                      color: AppColor
-                                                          .skipTextColor,
-                                                      fontSize:
-                                                          screenWidth * 0.035,
-                                                    ),
-                                                  )
-                                                ],
+                                                    Text(
+                                                      'note :${state.hubContentResponseEntity.body.bicycleList[index].note}',
+                                                      style: TextStyle(
+                                                        color: AppColor
+                                                            .skipTextColor,
+                                                        fontSize:
+                                                            screenWidth * 0.035,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                               Image.network(
                                                 errorBuilder: (context, error,
@@ -193,6 +198,7 @@ class HubContentPage extends StatelessWidget {
                                               ),
                                             ],
                                           ),
+                                          SizedBox(height: screenHeight*0.01,),
                                           Align(
                                             alignment: Alignment.center,
                                             child: GestureDetector(
@@ -244,17 +250,20 @@ class HubContentPage extends StatelessWidget {
                                                         BorderRadius.circular(
                                                             8)),
                                                 child: Center(
-                                                  child: Text(
-                                                    LocalizationKeys
-                                                        .viewBikeList
-                                                        .tr(),
-                                                    style: TextStyle(
-                                                        fontSize: screenWidth *
-                                                            0.04, //16,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color:
-                                                            AppColor.baseColor),
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                      LocalizationKeys
+                                                          .viewBikeList
+                                                          .tr(),
+                                                      style: TextStyle(
+                                                          fontSize: screenWidth *
+                                                              0.04, //16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              AppColor.baseColor),
+                                                    ),
                                                   ),
                                                 ),
                                               ),

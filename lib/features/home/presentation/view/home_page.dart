@@ -4,7 +4,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/favourite/presentation/view/favourite_page.dart';
 import 'package:careem_app_clean/features/home/presentation/view/map_page.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/hexagonal.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/reservation_details.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/pages/reservation_details.dart';
 import 'package:careem_app_clean/features/offer.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/settings_page.dart';
 import 'package:careem_app_clean/features/wallet/presentation/view/wallet_info_page.dart';
