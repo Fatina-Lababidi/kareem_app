@@ -113,34 +113,3 @@ class _LocationPageState extends State<LocationPage> {
     );
   }
 }
-
-
-
-//? how to use the store location:
-
-  // Future<void> _loadSavedLocation() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final double? lat = prefs.getDouble('latitude');
-  //   final double? lng = prefs.getDouble('longitude');
-
-  //   if (lat != null && lng != null) {
-  //     setState(() {
-  //       _currentPosition = Position(
-  //           latitude: lat,
-  //           longitude: lng,
-  //           timestamp: DateTime.now(),
-  //           accuracy: 0,
-  //           altitude: 0,
-  //           heading: 0,
-  //           speed: 0,
-  //           speedAccuracy: 0);
-  //       _locationStatus = 'Last saved location: $lat, $lng';
-  //     });
-  //     print('Loaded Location: Latitude = $lat, Longitude = $lng');
-  //   } else {
-  //     setState(() {
-  //       _locationStatus = 'No saved location available.';
-  //     });
-  //     print('No saved location found.');
-  //   }
-  // }

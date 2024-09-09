@@ -96,11 +96,11 @@ class CategoriesPage extends StatelessWidget {
                   ),
                 ).animate().fade(duration: .3.seconds, delay: .15.seconds),
                 const SizedBox(height: 20),
-                BlocBuilder<CategoriesBloc, CategoriesState>(
-                    builder: (context, state) {
-                  if (state is CategoriesSuccess) {
-                    return Expanded(
-                      child: Padding(
+                Expanded(
+                  child: BlocBuilder<CategoriesBloc, CategoriesState>(
+                      builder: (context, state) {
+                    if (state is CategoriesSuccess) {
+                      return Padding(
                         padding: const EdgeInsets.all(16),
                         child: GridView.builder(
                           itemCount: state.categories.body.length,
@@ -129,27 +129,23 @@ class CategoriesPage extends StatelessWidget {
                                 delay: .2.seconds);
                           },
                         ),
-                      ),
-                    );
-                  } else if (state is CategoriesFailure) {
-                    print(state.message);
-                    return Expanded(
-                      child: FailureUi(
+                      );
+                    } else if (state is CategoriesFailure) {
+                      print(state.message);
+                      return FailureUi(
                         onTap: () {
                           context.read<CategoriesBloc>().add(GetCategories());
                         },
-                      ),
-                    );
-                  } else {
-                    return const Expanded(
-                      child: Center(
+                      );
+                    } else {
+                      return const Center(
                         child: CircularProgressIndicator(
                           color: AppColor.baseColor,
                         ),
-                      ),
-                    );
-                  }
-                })
+                      );
+                    }
+                  }),
+                )
               ],
             ),
           ),

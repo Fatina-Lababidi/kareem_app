@@ -15,7 +15,6 @@ import 'package:careem_app_clean/features/settings/presentation/view/change_lang
 import 'package:careem_app_clean/features/settings/presentation/view/delete_page.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/policy_page.dart';
 import 'package:careem_app_clean/features/settings/presentation/view/widgets/settings_options.dart';
-// import 'package:careem_app_clean/main.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -97,17 +96,6 @@ class SettingsPage extends StatelessWidget {
                 child: const PolicyPage(),
               ),
             ).animate().scaleXY(duration: .35.seconds, delay: .25.seconds),
-            // SizedBox(
-            //   height: screenHeight * 0.025,
-            // ),
-            // SettingsOption(
-            //   dio: dio,
-            //   sharedPreferences: sharedPreferences,
-            //   text: LocalizationKeys.contactUs.tr(),
-            //   child: const NextPage(
-            //     id: 1,
-            //   ),
-            // ).animate().scaleXY(duration: .6.seconds, delay: .3.seconds),
             SizedBox(
               height: screenHeight * 0.025,
             ),
@@ -115,9 +103,6 @@ class SettingsPage extends StatelessWidget {
                 dio: dio,
                 sharedPreferences: sharedPreferences,
                 text: LocalizationKeys.deleteAccount.tr(),
-                // child: const NextPage(
-                //   id: 1,
-                // )
                 child: DeletePage(
                   sharedPreferences: sharedPreferences,
                 )).animate().scaleXY(duration: .4.seconds, delay: .35.seconds)
