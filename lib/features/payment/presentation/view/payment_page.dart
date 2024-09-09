@@ -10,6 +10,7 @@ import 'package:careem_app_clean/features/payment/data/repositories_imp/payment_
 import 'package:careem_app_clean/features/payment/domain/entities/payment_entity.dart';
 import 'package:careem_app_clean/features/payment/domain/usecases/payment_usecase.dart';
 import 'package:careem_app_clean/features/payment/presentation/payment_bloc/payment_bloc.dart';
+import 'package:careem_app_clean/features/payment/presentation/widgets/bike_detailsWidget.dart';
 import 'package:careem_app_clean/features/payment/presentation/widgets/payment_noWallet.dart';
 import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';

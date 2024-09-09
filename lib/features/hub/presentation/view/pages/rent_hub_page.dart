@@ -12,8 +12,10 @@ import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_imp
 import 'package:careem_app_clean/features/hub/domain/entities/reservation_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/reservation_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/reservation_bloc/reservation_bloc.dart';
-import 'package:careem_app_clean/features/hub/presentation/view/pages/hub_page.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/widgets/bike_details.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/widgets/durationSelctor_widget.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/widgets/fromHubRow_widget.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/widgets/toHubRow_widget.dart';
 import 'package:careem_app_clean/features/payment/presentation/view/payment_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -82,7 +84,7 @@ class _RentPageState extends State<RentPage> {
   String selectedHubName = "Tap to select a hub";
   String descriptionText = '';
   Color selectedTextColor = AppColor.skipTextColor;
-  final ValueNotifier<int> _durationNotifier = ValueNotifier(1);
+  final ValueNotifier<double> _durationNotifier = ValueNotifier(1.0);
   DateTime? _selectedStartTime;
   String paymentMethod = "Wallet";
   int toHubId = 0;
@@ -93,14 +95,10 @@ class _RentPageState extends State<RentPage> {
     });
   }
 
-  void _incrementDuration() {
-    _durationNotifier.value++;
-  }
+  void _incrementDuration() => _durationNotifier.value += 0.5;
 
   void _decrementDuration() {
-    if (_durationNotifier.value > 1) {
-      _durationNotifier.value--;
-    }
+    if (_durationNotifier.value > 1) _durationNotifier.value -= 0.5;
   }
 
   Future<Map<String, num>?> getLatAndLon() async {
@@ -285,93 +283,33 @@ class _RentPageState extends State<RentPage> {
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: AppColor.snackbarFaildColor,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        widget.hubName,
-                                        style: TextStyle(
-                                            color: AppColor.buttonDetailsColor,
-                                            fontSize: screenWidth * 0.04, // 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        widget.hubDescription,
-                                        style: TextStyle(
-                                            fontSize: screenWidth * 0.04, //12,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppColor.skipTextColor),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            FromHubRowWidget(
+                                widget: widget, screenWidth: screenWidth),
                             SizedBox(
                               height: screenHeight * 0.04,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: AppColor.baseColor,
-                                  ),
-                                  TextButton(
-                                    onPressed: () async {
-                                      final result = await Navigator.push(
-                                          context,
-                                          PageTransition(
-                                              child: HubPage(
-                                                dio: widget.dio,
-                                                lat: locationData['latitude']!,
-                                                lng: locationData['longitude']!,
-                                              ),
-                                              type: PageTransitionType.fade));
-
-                                      if (result != null &&
-                                          result is Map<String, dynamic>) {
-                                        setState(() {
-                                          toHubId = result['id'];
-                                          selectedHubName = result['name'];
-                                          descriptionText =
-                                              result['description'];
-                                          selectedTextColor =
-                                              AppColor.buttonDetailsColor;
-                                        });
-                                      }
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          selectedHubName,
-                                          style: TextStyle(
-                                              color: selectedTextColor,
-                                              fontSize:
-                                                  screenWidth * 0.04, //16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          descriptionText,
-                                          style: TextStyle(
-                                              fontSize:
-                                                  screenWidth * 0.03, //12,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppColor.skipTextColor),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            ToHubRowWidget(
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight,
+                              selectedHubName: selectedHubName,
+                              descriptionText: descriptionText,
+                              selectedTextColor: selectedTextColor,
+                              onHubSelected: (result) {
+                                setState(() {
+                                  toHubId = result['id'];
+                                  selectedHubName = result['name'];
+                                  descriptionText = result['description'];
+                                  selectedTextColor =
+                                      AppColor.buttonDetailsColor;
+                                });
+                              },
+                              getLocationData: () async {
+                                return {
+                                  'latitude': locationData['latitude'],
+                                  'longitude': locationData['longitude'],
+                                };
+                              },
+                              dio: widget.dio,
                             ),
                             SizedBox(
                               height: screenHeight * 0.02,
@@ -383,50 +321,14 @@ class _RentPageState extends State<RentPage> {
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
-                            Container(
-                              width: screenWidth * 0.89, //360,
-                              height: screenHeight * 0.09, //60,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: AppColor.skipTextColor),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                    onPressed: _decrementDuration,
-                                    icon: Icon(Icons.remove),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ValueListenableBuilder<int>(
-                                        valueListenable: _durationNotifier,
-                                        builder: (context, value, child) {
-                                          return Text('$value');
-                                        },
-                                      ),
-                                      Text(
-                                        'duration',
-                                        style: TextStyle(
-                                            color: AppColor.hintColor,
-                                            fontSize: screenWidth * 0.04, // 16,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
-                                  IconButton(
-                                      onPressed: _incrementDuration,
-                                      icon: const Icon(Icons.add))
-                                ],
-                              ),
+                            DurationselctorWidget(
+                              screenHeight: screenHeight,
+                              screenWidth: screenWidth,
+                              onDecrement: _decrementDuration,
+                              onIncrement: _incrementDuration,
+                              durationNotifier: _durationNotifier,
                             ),
-                            // SizedBox(
-                            //   height: screenHeight * 0.3,
-                            // ),
-                            Spacer(),
+                            const Spacer(),
                             BlocBuilder<ReservationBloc, ReservationState>(
                               builder: (context, state) {
                                 if (state is ReservationLoading) {
@@ -455,14 +357,14 @@ class _RentPageState extends State<RentPage> {
                                                 startTime: _selectedStartTime!,
                                                 paymentMethod: paymentMethod);
                                         print(
-                                            'Reservation Details:\n Bicycle ID: ${reservation.bicycleId} \n From Hub ID: ${reservation.fromHubId} \n To Hub ID: ${reservation.toHubId} \n Duration: ${reservation.duration}\n Start Time: ${reservation.startTime}\n start time2: ${reservation.startTime.toIso8601String()}, \nPayment Method: ${reservation.paymentMethod}');
+                                            'Reservation Details:\n Bicycle ID: ${reservation.bicycleId} \n From Hub ID: ${reservation.fromHubId} \n To Hub ID: ${reservation.toHubId} \n Duration: ${reservation.duration}\n Start Time: ${reservation.startTime}\n start time2: ${reservation.startTime.toIso8601String()},\n Start Time3: ${reservation.startTime.toUtc()} \nPayment Method: ${reservation.paymentMethod}');
 
                                         context.read<ReservationBloc>().add(
                                             MakeReservation(
                                                 requestEntity: reservation));
                                       } else {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
+                                            .showSnackBar(const SnackBar(
                                                 content:
                                                     Text('please choose hub')));
                                         setState(() {

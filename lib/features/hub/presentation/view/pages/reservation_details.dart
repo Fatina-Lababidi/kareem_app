@@ -85,12 +85,14 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(state.message),
                         backgroundColor: AppColor.snackbarOfflineColor,
+                        duration: const Duration(seconds: 1),
                       ));
                     } else if (state is ReservationDetailsSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                             state.reservationDetailsResponseEntity.message),
                         backgroundColor: AppColor.baseColor,
+                        duration: const Duration(seconds: 1),
                       ));
                     }
                   },

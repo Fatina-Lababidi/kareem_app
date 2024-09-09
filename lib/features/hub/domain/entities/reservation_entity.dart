@@ -5,7 +5,7 @@ class ReservationRequestEntity {
   final int bicycleId;
   final int fromHubId;
   final int toHubId;
-  final int duration;
+  final double duration;
   final DateTime startTime;
   final String paymentMethod;
   ReservationRequestEntity({

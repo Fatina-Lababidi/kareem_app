@@ -9,6 +9,7 @@ import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation
 import 'package:careem_app_clean/features/hub/data/repositories/all_hub_repo_impl.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
+import 'package:careem_app_clean/features/hub/presentation/view/widgets/hubsContainerWidget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,35 +71,7 @@ class HubPage extends StatelessWidget {
                                 'description': item.description
                               });
                             },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(
-                                vertical: screenHeight * 0.01,
-                                horizontal: screenWidth * 0.05,
-                              ),
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: AppColor.circularRipple2,
-                                    width: 1,
-                                  )),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Icon(
-                                    Icons.pedal_bike_outlined,
-                                    color: AppColor.baseColor,
-                                  ),
-                                  Text(
-                                    item.name,
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.04,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            child: HubsContainer(screenHeight: screenHeight, screenWidth: screenWidth, item: item),
                           );
                         },
                       );
