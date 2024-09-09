@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
-import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/categories_page.dart';
+import 'package:careem_app_clean/features/home/presentation/widgets/searchAndLocationBar_widget.dart';
+import 'package:careem_app_clean/features/home/presentation/widgets/searchBarWidget.dart';
+import 'package:careem_app_clean/features/home/presentation/widgets/searchResultContainer_widget.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_reservation_datasource.dart';
@@ -12,7 +14,6 @@ import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dar
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -238,6 +239,16 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   void _updateHubMarkers(List<PlaceEntity> places) {
     markers.value = _buildHubMarkers(places, context);
   }
+
+  void _addMarker(LatLng point) {
+    markers.value = [
+      Marker(
+        point: point,
+        child: const Icon(Icons.location_pin, color: Colors.blue, size: 40),
+      ),
+    ];
+  }
+
 //ToDO:
 // to draw line :
   List<Polyline> polyLines = [];
@@ -255,262 +266,134 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     final double screenWidth = MediaQuery.sizeOf(context).width;
 
     return BlocProvider(
-        create: (context) {
-          final lat = _savedPosition?.latitude ?? _initialPosition.latitude;
-          final lng = _savedPosition?.longitude ?? _initialPosition.longitude;
-          return AllHubBloc(AllHubUsecase(
-              hubRepo: AllHubRepoImp(
-                  remoteReservationDetailsDatasource: RemoteReservationDetailsDatasource(dio: widget.dio),
-                  remoteReservationDatasource:
-                      RemoteReservationDatasource(dio: widget.dio),
-                  remoteHubContentDatasource:
-                      RemoteHubContentDatasource(dio: widget.dio),
-                  remoteAllHubDataSource:
-                      RemoteAllHubDataSource(dio: widget.dio),
-                  networkConnection: NetworkConnection(
-                      internetConnectionChecker: InternetConnectionChecker())),
-              latitude: lat,
-              longitude: lng))
-            ..add(GetAllHub());
-        },
-        child: Scaffold(
-          body: SafeArea(
-            child: BlocConsumer<AllHubBloc, AllHubState>(
-              listener: (context, state) {
-                if (state is AllHubSuccess) {
-                  _updateHubMarkers(state.allHubEntity.body);
-                } else if (state is AllHubFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: AppColor.snackbarOfflineColor,
-                  ));
-                }
-              },
-              builder: (context, state) {
-                return Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: FlutterMap(
-                            mapController: _mapController,
-                            options: MapOptions(
-                              onMapReady: () {
-                                setState(() {
-                                  _isMapReady = true;
-                                });
+      create: (context) {
+        final lat = _savedPosition?.latitude ?? _initialPosition.latitude;
+        final lng = _savedPosition?.longitude ?? _initialPosition.longitude;
+        return AllHubBloc(AllHubUsecase(
+            hubRepo: AllHubRepoImp(
+                remoteReservationDetailsDatasource:
+                    RemoteReservationDetailsDatasource(dio: widget.dio),
+                remoteReservationDatasource:
+                    RemoteReservationDatasource(dio: widget.dio),
+                remoteHubContentDatasource:
+                    RemoteHubContentDatasource(dio: widget.dio),
+                remoteAllHubDataSource: RemoteAllHubDataSource(dio: widget.dio),
+                networkConnection: NetworkConnection(
+                    internetConnectionChecker: InternetConnectionChecker())),
+            latitude: lat,
+            longitude: lng))
+          ..add(GetAllHub());
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: BlocConsumer<AllHubBloc, AllHubState>(
+            listener: (context, state) {
+              if (state is AllHubSuccess) {
+                _updateHubMarkers(state.allHubEntity.body);
+              } else if (state is AllHubFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: AppColor.snackbarOfflineColor,
+                ));
+              }
+            },
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        child: FlutterMap(
+                          mapController: _mapController,
+                          options: MapOptions(
+                            onMapReady: () {
+                              setState(() {
+                                _isMapReady = true;
+                              });
+                            },
+                            initialCenter: _initialPosition,
+                            onLongPress: (point, latLng) => _addMarker(latLng),
+                          ),
+                          children: [
+                            TileLayer(
+                              urlTemplate:
+                                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                              userAgentPackageName: 'com.example.app',
+                            ),
+                            PolylineLayer(polylines: polyLines),
+                            ValueListenableBuilder<List<Marker>>(
+                              valueListenable: markers,
+                              builder: (context, markerList, _) {
+                                return MarkerLayer(
+                                  markers: markerList,
+                                );
                               },
-                              initialCenter: _initialPosition,
-                              onLongPress: (point, latLng) =>
-                                  _addMarker(latLng),
                             ),
-                            children: [
-                              TileLayer(
-                                urlTemplate:
-                                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                userAgentPackageName: 'com.example.app',
-                              ),
-                              PolylineLayer(polylines: polyLines),
-                              ValueListenableBuilder<List<Marker>>(
-                                valueListenable: markers,
-                                builder: (context, markerList, _) {
-                                  return MarkerLayer(
-                                    markers: markerList,
-                                  );
-                                },
-                              ),
-                              if (state is AllHubSuccess)
-                                MarkerLayer(
-                                    markers: _buildHubMarkers(
-                                        state.allHubEntity.body, context))
-                            ],
-                          ),
+                            if (state is AllHubSuccess)
+                              MarkerLayer(
+                                  markers: _buildHubMarkers(
+                                      state.allHubEntity.body, context))
+                          ],
                         ),
-                        if (searchResults.isNotEmpty)
-                          Expanded(
-                            child: Container(
-                              color: AppColor.whiteColor,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                separatorBuilder: (context, index) =>
-                                    const Divider(),
-                                itemCount: searchResults.length,
-                                itemBuilder: (context, index) {
-                                  final result = searchResults[index];
-                                  return ListTile(
-                                    title: Text(result['display_name']),
-                                    onTap: () {
-                                      final lat = double.parse(result['lat']);
-                                      final lon = double.parse(result['lon']);
-                                      _mapController.move(
-                                        LatLng(lat, lon),
-                                        15.0,
-                                      );
-                                      markers.value = [
-                                        Marker(
-                                          point: LatLng(lat, lon),
-                                          child: const Icon(Icons.location_pin,
-                                              color: Colors.red, size: 40),
-                                        ),
-                                      ];
-                                      setState(() {
-                                        searchResults.clear();
-                                        _searchController.clear();
-                                      });
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                      ],
+                      ),
+                      if (searchResults.isNotEmpty)
+                        SearchResultcontainerWidget(
+                            searchResults: searchResults,
+                            mapController: _mapController,
+                            markers: markers,
+                            searchController: _searchController,
+                            onClearSearch: () {
+                              setState(() {
+                                searchResults.clear();
+                                _searchController.clear();
+                              });
+                            })
+                    ],
+                  ),
+                  if (isSearchBarVisible)
+                    SearchBarWidget(
+                      controller: _searchController,
+                      onChanged: _searchPlaces,
+                      onClear: () {
+                        setState(() {
+                          _searchController.clear();
+                          searchResults.clear();
+                          isSearchBarVisible = false;
+                        });
+                      },
                     ),
-                    if (isSearchBarVisible) _buildSearchBar(),
-                    Positioned(
+                  Positioned(
                       top: 10,
                       left: screenWidth / 1.2,
                       right: 0,
-                      child: _buildSearchAndLocationBar(),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ));
-  }
-
-  Widget _buildSearchAndLocationBar() {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isSearchBarVisible = !isSearchBarVisible;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 4.0,
-                  spreadRadius: 1.0,
-                ),
-              ],
-            ),
-            child: const Icon(Icons.search, color: Colors.black),
-          ),
-        ),
-        SizedBox(height: 8),
-        GestureDetector(
-          onTap: () async {
-            log('location');
-            await _checkAndRequestPermission();
-          },
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppColor.whiteColor,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 4.0,
-                  spreadRadius: 1.0,
-                ),
-              ],
-            ),
-            child: const Icon(Icons.location_on, color: Colors.black),
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        GestureDetector(
-          onTap: () {
-            // Navigate to bicycle categories page
-            Navigator.push(
-                context,
-                PageTransition(
-                    child: CategoriesPage(
-                      sharedPreferences: widget.sharedPreferences,
-                      dio: widget.dio,
-                    ),
-                    type: PageTransitionType.fade));
-          },
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 4.0,
-                  spreadRadius: 1.0,
-                ),
-              ],
-            ),
-            child: const Icon(Icons.pedal_bike_outlined, color: Colors.black),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Positioned(
-      top: 11,
-      left: 20,
-      right: 20,
-      child: Container(
-        height: 39,
-        margin: const EdgeInsets.symmetric(horizontal: 40),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: AppColor.categoriesContainerColor,
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColor.baseColor,
-              blurRadius: 4.0,
-              spreadRadius: 1.0,
-            ),
-          ],
-        ),
-        child: TextField(
-          cursorColor: AppColor.baseColor,
-          controller: _searchController,
-          onChanged: _searchPlaces,
-          decoration: InputDecoration(
-            hintText: LocalizationKeys.whereWouldYouGo.tr(),
-            border: InputBorder.none,
-            suffixIcon: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                setState(() {
-                  _searchController.clear();
-                  searchResults.clear();
-                  isSearchBarVisible = false;
-                });
-              },
-            ),
+                      child: SearchAndLocationBarWidgete(
+                        onSearchTap: () {
+                          setState(() {
+                            isSearchBarVisible = !isSearchBarVisible;
+                          });
+                        },
+                        onLocationTap: () async {
+                          log('location');
+                          await _checkAndRequestPermission();
+                        },
+                        onCategoriesTap: () {
+                          // Navigate to bicycle categories page
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: CategoriesPage(
+                                    sharedPreferences: widget.sharedPreferences,
+                                    dio: widget.dio,
+                                  ),
+                                  type: PageTransitionType.fade));
+                        },
+                      )),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
-  }
-
-  void _addMarker(LatLng point) {
-    markers.value = [
-      Marker(
-        point: point,
-        child: const Icon(Icons.location_pin, color: Colors.blue, size: 40),
-      ),
-    ];
   }
 }
