@@ -146,5 +146,6 @@ class LocalizationKeys {
   static const String create = 'create';
   static const String createNewWallet = 'create_new_wallet';
   static const String success = 'success';
- static const String payForConfirmation = 'payForConfirmation';
+  static const String payForConfirmation = 'payForConfirmation';
+  static const String reservation = 'reservation';
 }

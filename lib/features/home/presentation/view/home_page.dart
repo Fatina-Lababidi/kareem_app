@@ -1,17 +1,16 @@
-import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/favourite/presentation/view/favourite_page.dart';
 import 'package:careem_app_clean/features/home/presentation/view/map_page.dart';
+import 'package:careem_app_clean/features/home/presentation/widgets/customNavigationBar_widget.dart';
+import 'package:careem_app_clean/features/home/presentation/widgets/drawerWidget.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/hexagonal.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/pages/reservation_details.dart';
 import 'package:careem_app_clean/features/offer.dart';
-import 'package:careem_app_clean/features/settings/presentation/view/settings_page.dart';
 import 'package:careem_app_clean/features/wallet/presentation/view/wallet_info_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -54,7 +53,7 @@ class _HomePageState extends State<HomePage> {
         sharedPreferences: widget.sharedPreferences,
       ),
       const OfferPage(),
-       ReservationDetails(
+      ReservationDetails(
         dio: widget.dio,
         sharedPreferences: widget.sharedPreferences,
       ),
@@ -91,9 +90,15 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black.withOpacity(0.6),
                 ),
               Align(
-                alignment: Alignment.bottomCenter,
-                child: _buildCustomNavigationBar(screenHeight),
-              ),
+                  alignment: Alignment.bottomCenter,
+                  child: CustomnavigationbarWidget(
+                    screenHeight: screenHeight,
+                    isDrawerOpen: _isDrawerOpen,
+                    currentIndex: _currentIndex,
+                    onItemTapped: _onItemTapped,
+                  )
+                  //_buildCustomNavigationBar(screenHeight),
+                  ),
               Positioned(
                 top: 10,
                 left: 10,
@@ -109,7 +114,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              if (_isDrawerOpen) _buildDrawer(screenWidth, screenHeight),
+              if (_isDrawerOpen)
+                //_buildDrawer(screenWidth, screenHeight),
+                Drawerwidget(
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                  dio: widget.dio,
+                  sharedPreferences: widget.sharedPreferences,
+                  toggleDrawer: _toggleDrawer,
+                )
             ],
           ),
         ),
@@ -117,183 +130,83 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCustomNavigationBar(double screenHeight) {
-    return Container(
-      height: screenHeight * 0.1, //80,
-      decoration: BoxDecoration(
-        color: _isDrawerOpen ? Colors.white.withOpacity(0.5) : Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10.0,
-            spreadRadius: 1.0,
-          ),
-        ],
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            top: -35,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: CustomPaint(
-                size: const Size(70, 70),
-                painter: HexagonPainter(AppColor.baseColor),
-                child: const SizedBox(
-                  //! have we change this? or its good??
-                  width: 70,
-                  height: 70,
-                  child: Center(
-                    child: Icon(Icons.wallet, color: Colors.white, size: 35),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: BottomNavigationBar(
-              selectedItemColor: AppColor.baseColor,
-              onTap: _onItemTapped,
-              currentIndex: _currentIndex,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.home_rounded),
-                  label: LocalizationKeys.home.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.favorite_outline_outlined),
-                  label: LocalizationKeys.favourite.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.wallet,
-                      color: Colors.transparent), // SizedBox.shrink(),
-                  label: LocalizationKeys.wallet.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.money_off_csred_rounded),
-                  label: LocalizationKeys.offer.tr(),
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.event),
-                  label:'reservation' //LocalizationKeys.profile.tr(),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawer(double screenWidth, double screenHeight) {
-    return Positioned(
-      top: 0,
-      bottom: 0,
-      // left: isEnglish(context)?0:screenWidth-230,
-      left: 0,
-      width: screenWidth * 0.6, //230,
-      child: GestureDetector(
-        onPanUpdate: (details) {
-          if (details.delta.dx < -5) {
-            _toggleDrawer();
-          }
-        },
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(60),
-              bottomRight: Radius.circular(60),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: isEnglish(context)
-                    ? EdgeInsets.only(
-                        left: screenWidth * 0.02, top: screenHeight * 0.01)
-                    : EdgeInsets.only(
-                        right: screenWidth * 0.02, top: screenHeight * 0.02),
-                child: GestureDetector(
-                  onTap: () {
-                    _toggleDrawer();
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        size: 20,
-                        Icons.arrow_back_ios_new_outlined,
-                        color: AppColor.contentSecondaryTextColor,
-                      ),
-                      Text(
-                        LocalizationKeys.back.tr(),
-                        style: TextStyle(
-                            color: AppColor.contentSecondaryTextColor,
-                            fontSize: screenWidth * 0.04, //16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.2,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      child: SettingsPage(
-                        dio: widget.dio,
-                        sharedPreferences: widget.sharedPreferences,
-                      ),
-                      type: PageTransitionType.fade,
-                    ),
-                  );
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.settings,
-                      color: AppColor.contentSecondaryTextColor,
-                    ),
-                    SizedBox(
-                      width: screenWidth * 0.02,
-                    ),
-                    Text(
-                      LocalizationKeys.settingsTitle.tr(),
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.04, //16,
-                        color: AppColor.contentSecondaryTextColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                thickness: 1,
-                color: AppColor.dividerColor,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildCustomNavigationBar(double screenHeight) {
+  //   return Container(
+  //     height: screenHeight * 0.1, //80,
+  //     decoration: BoxDecoration(
+  //       color: _isDrawerOpen ? Colors.white.withOpacity(0.5) : Colors.white,
+  //       borderRadius: const BorderRadius.only(
+  //         topLeft: Radius.circular(30.0),
+  //         topRight: Radius.circular(30.0),
+  //       ),
+  //       boxShadow: const [
+  //         BoxShadow(
+  //           color: Colors.black26,
+  //           blurRadius: 10.0,
+  //           spreadRadius: 1.0,
+  //         ),
+  //       ],
+  //     ),
+  //     child: Stack(
+  //       clipBehavior: Clip.none,
+  //       children: [
+  //         Positioned(
+  //           top: -35,
+  //           left: 0,
+  //           right: 0,
+  //           child: Center(
+  //             child: CustomPaint(
+  //               size: const Size(70, 70),
+  //               painter: HexagonPainter(AppColor.baseColor),
+  //               child: const SizedBox(
+  //                 //! have we change this? or its good??
+  //                 width: 70,
+  //                 height: 70,
+  //                 child: Center(
+  //                   child: Icon(Icons.wallet, color: Colors.white, size: 35),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         Positioned(
+  //           top: 0,
+  //           left: 0,
+  //           right: 0,
+  //           child: BottomNavigationBar(
+  //             selectedItemColor: AppColor.baseColor,
+  //             onTap: _onItemTapped,
+  //             currentIndex: _currentIndex,
+  //             type: BottomNavigationBarType.fixed,
+  //             backgroundColor: Colors.transparent,
+  //             elevation: 0,
+  //             items: [
+  //               BottomNavigationBarItem(
+  //                 icon: const Icon(Icons.home_rounded),
+  //                 label: LocalizationKeys.home.tr(),
+  //               ),
+  //               BottomNavigationBarItem(
+  //                 icon: const Icon(Icons.favorite_outline_outlined),
+  //                 label: LocalizationKeys.favourite.tr(),
+  //               ),
+  //               BottomNavigationBarItem(
+  //                 icon: const Icon(Icons.wallet,
+  //                     color: Colors.transparent), // SizedBox.shrink(),
+  //                 label: LocalizationKeys.wallet.tr(),
+  //               ),
+  //               BottomNavigationBarItem(
+  //                 icon: const Icon(Icons.money_off_csred_rounded),
+  //                 label: LocalizationKeys.offer.tr(),
+  //               ),
+  //               BottomNavigationBarItem(
+  //                   icon: const Icon(Icons.event),
+  //                   label: 'reservation' //LocalizationKeys.profile.tr(),
+  //                   ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

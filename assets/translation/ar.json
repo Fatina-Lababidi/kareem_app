@@ -118,5 +118,6 @@
     "create": "أنشأ",
     "create_new_wallet": "أنشأ محفظة جديدة",
     "success": "نجح.... ",
-    "payForConfirmation": "يرجى الدفع لتأكيد الحجز"
+    "payForConfirmation": "يرجى الدفع لتأكيد الحجز",
+    "reservation": "الحجز"
 }

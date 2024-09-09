@@ -117,6 +117,7 @@
   "bank_account_validate": "please enter your bank account!",
   "create": "Create",
   "create_new_wallet": "Create New Wallet",
-  "success":"Success ....",
-   "payForConfirmation":"Please pay for booking confirmation"
+  "success": "Success ....",
+  "payForConfirmation": "Please pay for booking confirmation",
+  "reservation": "reservation"
 }
