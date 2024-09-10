@@ -86,7 +86,7 @@ class ThanksPage extends StatelessWidget {
             AppButton(
               screenWidth: screenWidth,
               screenHeight: screenHeight,
-              text:'Back home',//LocalizationKeys.confirmRide.tr(),
+              text: 'Back home', //LocalizationKeys.confirmRide.tr(),
               textColor: AppColor.whiteColor,
               containerColor: AppColor.buttonColor,
               onTap: () {
@@ -94,7 +94,10 @@ class ThanksPage extends StatelessWidget {
                     context,
                     PageTransition(
                         child: HomePage(
-                            dio: dio, sharedPreferences: sharedPreferences),
+                          dio: dio,
+                          sharedPreferences: sharedPreferences,
+                          currentIndex: 4,
+                        ),
                         type: PageTransitionType.fade));
                 // Navigator.push(
                 //     context,

@@ -14,11 +14,13 @@ class RemoteReservationDatasource {
     required this.dio,
   });
 
-  Future<ReservationResponseModel> makeReservation(ReservationRequestModel reservation) async {
+  Future<ReservationResponseModel> makeReservation(
+      ReservationRequestModel reservation) async {
     try {
+      print(reservation.toJson());
       Response response = await dio.post(
         EndPoint.makeReservationUrl,
-data: reservation.toJson(),
+        data: reservation.toJson(),
         options: getHeader(true).copyWith(
           validateStatus: (int? status) {
             return status != null && status < 500;
@@ -27,13 +29,16 @@ data: reservation.toJson(),
       );
       print(response.statusCode);
       print(response.data);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && response.data != null) {
         ReservationResponseModel responseModel =
             ReservationResponseModel.fromJson(response.data);
         return responseModel;
-      } else {
+      } else if (response.data != null && response.data['message'] != null) {
         ErrorModel errorModel = ErrorModel.fromJson(response.data['message']);
         throw ServerException(errorModel: errorModel);
+      } else {
+        throw ServerException(
+            errorModel: ErrorModel(errorMessage: 'unknown error'));
       }
     } on DioException catch (e) {
       handleDioExceptions(e);
@@ -55,5 +60,5 @@ data: reservation.toJson(),
         );
       }
     }
-  }
+   }
 }

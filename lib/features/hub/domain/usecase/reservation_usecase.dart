@@ -12,6 +12,7 @@ class ReservationUsecase {
 
   Future<Either<Failures, ReservationResponseEntity>> call(
       ReservationRequestEntity reservation) async {
+    print('reservation use case ${await hubRepo.makeReservation(reservation)}');
     return await hubRepo.makeReservation(reservation);
   }
 }

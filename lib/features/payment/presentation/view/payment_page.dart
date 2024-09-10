@@ -89,15 +89,16 @@ class _PaymentPageState extends State<PaymentPage> {
             if (state.message ==
                 "Not enough wallet, please charge your wallet first then try again") {
               Navigator.push(
-                  context,
-                  PageTransition(
-                      child: ThanksPage(message: state.message,sharedPreferences: widget.sharedPreferences,dio: widget.dio,),
-                      // child: HomePage(
-                      //   dio: widget.dio,
-                      //   sharedPreferences: widget.sharedPreferences,
-                      //   currentIndex: 2,
-                      // ),
-                      type: PageTransitionType.fade));
+                context,
+                PageTransition(
+                  child: HomePage(
+                    dio: widget.dio,
+                    sharedPreferences: widget.sharedPreferences,
+                    currentIndex: 2,
+                  ),
+                  type: PageTransitionType.fade,
+                ),
+              );
             }
           } else if (state is PaymentSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -107,14 +108,19 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
             );
             Navigator.push(
-              context,
-              PageTransition(
-                child: HomePage(
-                    dio: widget.dio,
-                    sharedPreferences: widget.sharedPreferences),
-                type: PageTransitionType.fade,
-              ),
-            );
+                context,
+                PageTransition(
+                    child: ThanksPage(
+                      message: state.message,
+                      sharedPreferences: widget.sharedPreferences,
+                      dio: widget.dio,
+                    ),
+                    // child: HomePage(
+                    //   dio: widget.dio,
+                    //   sharedPreferences: widget.sharedPreferences,
+                    //   currentIndex: 2,
+                    // ),
+                    type: PageTransitionType.fade));
           }
         },
         child: Scaffold(

@@ -16,7 +16,7 @@ class ReservationRequestModel extends ReservationRequestEntity {
       "fromHubId": fromHubId,
       "toHubId": toHubId,
       "duration": duration,
-      "startTime": startTime.toUtc(), //"2024-09-04T04:29:15.319Z".
+      "startTime": startTime.toUtc().toIso8601String(), //"2024-09-04T04:29:15.319Z".
       "paymentMethod": paymentMethod,
     };
   }

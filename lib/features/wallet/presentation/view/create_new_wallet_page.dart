@@ -4,6 +4,7 @@ import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/app_textFormField.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_add_money_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_create_wallet_datasource.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_getWalletInfo_datasource.dart';
@@ -12,7 +13,6 @@ import 'package:careem_app_clean/features/wallet/data/repositories/wallet_repo_i
 import 'package:careem_app_clean/features/wallet/domain/entities/create_wallet_entity.dart';
 import 'package:careem_app_clean/features/wallet/domain/usecase/create_wallet_usecase.dart';
 import 'package:careem_app_clean/features/wallet/presentation/createWallet_bloc/create_wallet_bloc.dart';
-import 'package:careem_app_clean/features/wallet/presentation/view/wallet_info_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -93,11 +93,20 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        child: WalletInfoPage(
+                        child: HomePage(
                           dio: widget.dio,
                           sharedPreferences: widget.sharedPreferences,
+                          currentIndex: 2,
                         ),
                         type: PageTransitionType.fade));
+                // Navigator.push(
+                //     context,
+                //     PageTransition(
+                //         child: WalletInfoPage(
+                //           dio: widget.dio,
+                //           sharedPreferences: widget.sharedPreferences,
+                //         ),
+                //         type: PageTransitionType.fade));
               }
             },
             child: Form(

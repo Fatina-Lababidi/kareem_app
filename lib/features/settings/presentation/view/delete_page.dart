@@ -13,6 +13,8 @@ class DeletePage extends StatelessWidget {
 
   Future<void> deleteToken() async {
     await sharedPreferences.remove('token');
+    await sharedPreferences.remove('clientId');
+    await sharedPreferences.remove('haveWallet');
     print('token deleted');
   }
 

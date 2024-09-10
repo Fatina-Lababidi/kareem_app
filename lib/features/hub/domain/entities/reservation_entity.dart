@@ -38,7 +38,7 @@ class ReservationBodyEntity {
   final String bicycle;
   final String from;
   final String to;
-  final int duration;
+  final double duration;
   final DateTime startTime;
   final DateTime? endTime;
   final String reservationStatus;

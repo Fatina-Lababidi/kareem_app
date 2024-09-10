@@ -70,15 +70,18 @@ class AllHubRepoImp implements HubRepo {
       ReservationRequestEntity reservation) async {
     if (await networkConnection.isConnected) {
       try {
+        log('AllHubRepoImp - Making reservation: $reservation');
         ReservationRequestModel reservationRequestModel =
             ReservationRequestModel.fromEntity(reservation);
 
         ReservationResponseEntity reservationResponseModel =
             await remoteReservationDatasource
                 .makeReservation(reservationRequestModel);
+        log('AllHubRepoImp - Received response: $reservationResponseModel');
         return Right(reservationResponseModel);
       } on ServerException catch (e) {
         log(e.errorModel.errorMessage);
+        log('AllHubRepoImp - Error in makeReservation: $e');
         return Left(ServerFailure(message: e.errorModel.errorMessage));
       }
     } else {

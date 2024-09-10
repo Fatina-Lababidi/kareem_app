@@ -345,8 +345,9 @@ class _RentPageState extends State<RentPage> {
                                     textColor: AppColor.whiteColor,
                                     containerColor: AppColor.buttonColor,
                                     onTap: () {
-                                      if (toHubId != 0) {
-                                        _confirmReservation();
+                                      _confirmReservation();
+                                      if (toHubId != 0 &&
+                                          _selectedStartTime != null) {
                                         final reservation =
                                             ReservationRequestEntity(
                                                 bicycleId: widget.bikeId,
