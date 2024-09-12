@@ -10,7 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -102,9 +101,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Text(
                           LocalizationKeys.logintitle.tr(),
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: AppColor.contentSecondaryTextColor,
-                            fontSize:screenWidth*0.06 ,//24,
+                            fontSize: screenWidth * 0.06, //24,
                             fontWeight: FontWeight.w500,
                           ),
                         )
@@ -113,63 +112,25 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: screenHeight * 0.02,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: IntlPhoneField(
-                            // initialValue:'0999999999',
-                            // autovalidateMode : AutovalidateMode.always,
-                            validator: (value) {
-                              print('Validator called with value: $value');
-                              if (value == null ||
-                                  value.completeNumber.isEmpty) {
-                                return LocalizationKeys.phoneValidate.tr();
-                              }
-                              return null;
-                            },
-                            cursorColor: AppColor.skipTextColor,
-                            controller: _phoneController,
-                            decoration: InputDecoration(
-                              hintText: LocalizationKeys.phoneNumber.tr(),
-                              hintStyle: TextStyle(
-                                fontSize: screenWidth * 0.04, // 16,
-                                color: Colors.grey,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: screenHeight * 0.025,
-                                  horizontal: 12.0),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                    color: AppColor.skipTextColor),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                    color: AppColor.skipTextColor, width: 2.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Colors.red),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                    color: Colors.red, width: 2.0),
-                              ),
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(),
-                              ),
-                            ),
-                            initialCountryCode: 'SY',
-                            // onChanged: (phone) {
-                            //   print(phone.completeNumber);
-                            // },
-                          )
-                              .animate()
-                              .fade(duration: .4.seconds, delay: .20.seconds),
-                        ),
+                        AppTextFormField(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          hintText: LocalizationKeys.phoneNumber.tr(),
+                          textColor: Colors.black,
+                          hintColor: Colors.grey,
+                          containerColor: Colors.white,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return LocalizationKeys.phoneValidate.tr();
+                            }
+                            if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                              return LocalizationKeys.phoneValidate.tr();
+                            }
+                            return null;
+                          },
+                        )
+                            .animate()
+                            .fade(duration: .4.seconds, delay: .20.seconds),
                         SizedBox(
                           height: screenHeight * 0.02,
                         ),
