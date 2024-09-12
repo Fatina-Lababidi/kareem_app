@@ -47,16 +47,17 @@ class BodyHubContentModel extends BodyHubContentEntity {
     required super.id,
     required super.hubId,
     required super.bicycleList,
-    required super.note,
+    // super.note,
   });
 
   factory BodyHubContentModel.fromJson(Map<String, dynamic> json) {
     return BodyHubContentModel(
-        id: json['id'],
-        hubId: json['hubId'],
-        bicycleList: List<BicycleListInHubModel>.from(json['bicycleList']
-            .map((bicycleList) => BicycleListInHubModel.fromJson(bicycleList))),
-        note: json['note']);
+      id: json['id'],
+      hubId: json['hubId'],
+      bicycleList: List<BicycleListInHubModel>.from(json['bicycleList']
+          .map((bicycleList) => BicycleListInHubModel.fromJson(bicycleList))),
+      // note: json['note']??Null);
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -65,7 +66,7 @@ class BodyHubContentModel extends BodyHubContentEntity {
       'bicycleList': bicycleList
           .map((bicycle) => bicycleList)
           .toList(), //!! have to make sure
-      'note': note,
+     // 'note': note,
     };
   }
 }

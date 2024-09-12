@@ -51,9 +51,9 @@ class _PaymentPageState extends State<PaymentPage> {
   bool walletExists = false;
   Future _isThereAWallet() async {
     bool? haveWallet = widget.sharedPreferences.getBool('haveWallet');
-    walletExists = haveWallet ?? false;
+    // walletExists = haveWallet ?? false;
     setState(() {
-      walletExists = haveWallet ?? false; //false !!
+      walletExists = haveWallet ?? true; //false !!//!! need to change
     });
   }
 

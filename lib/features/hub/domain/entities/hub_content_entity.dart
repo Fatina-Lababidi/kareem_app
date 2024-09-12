@@ -29,12 +29,12 @@ class BodyHubContentEntity {
   final int id;
   final int hubId;
   final List<BicycleListInHubEntity> bicycleList;
-  final String note;
+ // final String? note;
   BodyHubContentEntity({
     required this.id,
     required this.hubId,
     required this.bicycleList,
-    required this.note,
+   // required this.note,
   });
 }
 

@@ -85,14 +85,15 @@ class _RentPageState extends State<RentPage> {
   String descriptionText = '';
   Color selectedTextColor = AppColor.skipTextColor;
   final ValueNotifier<double> _durationNotifier = ValueNotifier(1.0);
-  DateTime? _selectedStartTime;
+  DateTime? _selectedStartTime = DateTime.parse("2024-09-19T04:55:17.292");
   String paymentMethod = "Wallet";
   int toHubId = 0;
 
   void _confirmReservation() {
-    setState(() {
-      _selectedStartTime = DateTime.now();
-    });
+    // setState(() {
+    // _selectedStartTime = DateTime.now();
+
+    // });
   }
 
   void _incrementDuration() => _durationNotifier.value += 0.5;
