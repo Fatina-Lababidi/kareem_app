@@ -51,7 +51,6 @@ class _PaymentPageState extends State<PaymentPage> {
   bool walletExists = false;
   Future _isThereAWallet() async {
     bool? haveWallet = widget.sharedPreferences.getBool('haveWallet');
-    // walletExists = haveWallet ?? false;
     setState(() {
       walletExists = haveWallet ?? true; //false !!//!! need to change
     });
@@ -85,6 +84,7 @@ class _PaymentPageState extends State<PaymentPage> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.message),
               backgroundColor: AppColor.snackbarOfflineColor,
+              duration: const Duration(seconds: 1),
             ));
             if (state.message ==
                 "Not enough wallet, please charge your wallet first then try again") {
@@ -105,6 +105,7 @@ class _PaymentPageState extends State<PaymentPage> {
               SnackBar(
                 content: Text(state.message),
                 backgroundColor: AppColor.baseColor,
+                duration: const Duration(seconds: 1),
               ),
             );
             Navigator.push(
@@ -115,11 +116,6 @@ class _PaymentPageState extends State<PaymentPage> {
                       sharedPreferences: widget.sharedPreferences,
                       dio: widget.dio,
                     ),
-                    // child: HomePage(
-                    //   dio: widget.dio,
-                    //   sharedPreferences: widget.sharedPreferences,
-                    //   currentIndex: 2,
-                    // ),
                     type: PageTransitionType.fade));
           }
         },

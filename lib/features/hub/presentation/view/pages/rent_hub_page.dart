@@ -246,12 +246,14 @@ class _RentPageState extends State<RentPage> {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(state.message),
                               backgroundColor: AppColor.snackbarOfflineColor,
+                              duration: const Duration(seconds: 1),
                             ));
                           } else if (state is ReservationSuccess) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content:
                                   Text(state.reservationResponseEntity.message),
                               backgroundColor: AppColor.baseColor,
+                              duration: const Duration(seconds: 1),
                             ));
                             //reservationId:  state.reservationResponseEntity.body.id;
                             //TODO:

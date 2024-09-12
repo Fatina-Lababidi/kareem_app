@@ -73,7 +73,9 @@ class SettingsPage extends StatelessWidget {
               dio: dio,
               sharedPreferences: sharedPreferences,
               text: LocalizationKeys.changeLanguage.tr(),
-              child: const ChangeLanguage(),
+              child: ChangeLanguage(
+                sharedPreferences: sharedPreferences,
+              ),
             ).animate().scaleXY(duration: .3.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.025,

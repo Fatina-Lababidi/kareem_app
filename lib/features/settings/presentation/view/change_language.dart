@@ -6,12 +6,13 @@ import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeLanguage extends StatefulWidget {
+  final SharedPreferences sharedPreferences;
   const ChangeLanguage({
     super.key,
+    required this.sharedPreferences,
   });
 
   @override
@@ -20,9 +21,9 @@ class ChangeLanguage extends StatefulWidget {
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
   int selectedContainerIndex = 1;
+  int? tempSelectedIndex;
   final Color selectedColor = AppColor.baseColor;
   final Color unSelectedColor = Colors.grey;
-  final SharedPreferences _prefs = GetIt.instance<SharedPreferences>();
 
   @override
   void initState() {
@@ -32,12 +33,14 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
 
   void _loadSelectedLanguageIndex() {
     setState(() {
-      selectedContainerIndex = _prefs.getInt('selectedLanguageIndex') ?? 1;
+      selectedContainerIndex =
+          widget.sharedPreferences.getInt('selectedLanguageIndex') ?? 1;
+      tempSelectedIndex = selectedContainerIndex;
     });
   }
 
   void _saveSelectedLanguageIndex(int index) async {
-    await _prefs.setInt('selectedLanguageIndex', index);
+    widget.sharedPreferences.setInt('selectedLanguageIndex', index);
   }
 
   @override
@@ -60,9 +63,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             GestureDetector(
               onTap: () async {
                 setState(() {
-                  selectedContainerIndex = 1;
+                  tempSelectedIndex = 1;
                 });
-                _saveSelectedLanguageIndex(selectedContainerIndex);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -71,7 +73,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   border: Border.all(
-                    color: selectedContainerIndex == 1
+                    color: tempSelectedIndex == 1
                         ? selectedColor
                         : unSelectedColor,
                     width: 1,
@@ -96,7 +98,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     const Spacer(),
                     Icon(
                       Icons.check_circle_outline_rounded,
-                      color: selectedContainerIndex == 1
+                      color: tempSelectedIndex == 1
                           ? selectedColor
                           : unSelectedColor,
                     ),
@@ -110,9 +112,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  selectedContainerIndex = 2;
+                  tempSelectedIndex = 2;
                 });
-                _saveSelectedLanguageIndex(selectedContainerIndex);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -121,7 +122,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   border: Border.all(
-                    color: selectedContainerIndex == 2
+                    color: tempSelectedIndex == 2
                         ? selectedColor
                         : unSelectedColor,
                     width: 1,
@@ -146,7 +147,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     const Spacer(),
                     Icon(
                       Icons.check_circle_outline_rounded,
-                      color: selectedContainerIndex == 2
+                      color: tempSelectedIndex == 2
                           ? selectedColor
                           : unSelectedColor,
                     ),
@@ -157,19 +158,26 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             const Spacer(),
             AppButton(
               onTap: () async {
-                if (selectedContainerIndex == 1) {
-                  await EasyLocalization.of(context)!
-                      .setLocale(const Locale('en'));
-                } else {
-                  await EasyLocalization.of(context)!
-                      .setLocale(const Locale('ar'));
+                if (tempSelectedIndex != null) {
+                  setState(() {
+                    selectedContainerIndex = tempSelectedIndex!;
+                  });
+                  _saveSelectedLanguageIndex(selectedContainerIndex);
+
+                  if (selectedContainerIndex == 1) {
+                    await EasyLocalization.of(context)!
+                        .setLocale(const Locale('en'));
+                  } else {
+                    await EasyLocalization.of(context)!
+                        .setLocale(const Locale('ar'));
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(LocalizationKeys.languageChanged.tr()),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
                 }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(LocalizationKeys.languageChanged.tr()),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
               },
               screenHeight: screenHeight,
               screenWidth: screenWidth,

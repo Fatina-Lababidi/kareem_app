@@ -212,6 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: screenHeight * 0.02,
                 ),
                 AppTextFormField(
+                  controller:phoneController,
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
                   hintText: LocalizationKeys.phoneNumber.tr(),
@@ -281,49 +282,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                AppButton(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      print('Form is valid');
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          child: BlocProvider(
-                            create: (context) => RegisterBloc(
-                              RegisterUserUseCase(
-                                repository: AuthRepositoryImpl(
-                                  internetConnectionChecker:
-                                      InternetConnectionChecker(),
-                                  remoteDataSource:
-                                      RemoteUserDataSourceImpl(dio: widget.dio),
-                                  sharedPreferences: widget.sharedPreferences,
-                                ),
-                              ),
-                            ),
-                            child: PasswordPage(
-                              firstName: firstNameController.text,
-                              lastName: lastNameController.text,
-                              userName: userNameController.text,
-                              phone: phoneController.text,
-                              birthDate: birthDateController.text,
-                              dio: widget.dio,
-                              sharedPreferences: widget.sharedPreferences,
-                            ),
-                          ),
-                          type: PageTransitionType.fade,
-                        ),
-                      );
-                    }
-                  },
-                  text: LocalizationKeys.signUp.tr(),
-                  textColor: AppColor.whiteColor,
-                  containerColor: AppColor.buttonColor,
-                ).animate().fade(duration: 1.2.seconds, delay: .6.seconds),
-                SizedBox(
-                  height: screenHeight * 0.04,
-                ),
                 Padding(
                   padding: isEnglish(context)
                       ? const EdgeInsets.only(left: 20)
@@ -376,7 +334,53 @@ class _SignUpPageState extends State<SignUpPage> {
                       )
                     ],
                   ),
+                ).animate().fade(duration: 1.2.seconds, delay: .6.seconds),
+                SizedBox(
+                  height: screenHeight * 0.04,
+                ),
+                AppButton(
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      print('Form is valid');
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: BlocProvider(
+                            create: (context) => RegisterBloc(
+                              RegisterUserUseCase(
+                                repository: AuthRepositoryImpl(
+                                  internetConnectionChecker:
+                                      InternetConnectionChecker(),
+                                  remoteDataSource:
+                                      RemoteUserDataSourceImpl(dio: widget.dio),
+                                  sharedPreferences: widget.sharedPreferences,
+                                ),
+                              ),
+                            ),
+                            child: PasswordPage(
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              userName: userNameController.text,
+                              phone: phoneController.text,
+                              birthDate: birthDateController.text,
+                              dio: widget.dio,
+                              sharedPreferences: widget.sharedPreferences,
+                            ),
+                          ),
+                          type: PageTransitionType.fade,
+                        ),
+                      );
+                    }
+                  },
+                  text: LocalizationKeys.signUp.tr(),
+                  textColor: AppColor.whiteColor,
+                  containerColor: AppColor.buttonColor,
                 ).animate().fade(duration: 1.4.seconds, delay: .8.seconds),
+                SizedBox(
+                  height: screenHeight * 0.03,
+                )
               ],
             ),
           ),

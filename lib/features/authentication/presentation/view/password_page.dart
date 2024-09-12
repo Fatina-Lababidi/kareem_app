@@ -232,8 +232,8 @@ class _PasswordPageState extends State<PasswordPage> {
                               LocalizationKeys
                                   .atleastOneNumberOrSpecialCharacter
                                   .tr(),
-                              style:  TextStyle(
-                                  fontSize: screenWidth*0.035,//14,
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035, //14,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.textColor),
                             ),
@@ -242,9 +242,67 @@ class _PasswordPageState extends State<PasswordPage> {
                             .animate()
                             .fade(duration: .7.seconds, delay: .35.seconds),
                         SizedBox(
-                          height: screenHeight * 0.25,
+                          height: screenHeight * 0.02,
                         ),
                         // Spacer(),
+                        Padding(
+                          padding: isEnglish(context)
+                              ? const EdgeInsets.only(left: 20)
+                              : const EdgeInsets.only(right: 20),
+                          child: Row(
+                            children: [
+                              Text(
+                                LocalizationKeys.alreadyHaveAccount.tr(),
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.04, //16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColor.buttonDetailsColor,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          child: BlocProvider(
+                                            create: (context) => LoginBloc(
+                                              LoginUserUseCase(
+                                                repository: AuthRepositoryImpl(
+                                                  internetConnectionChecker:
+                                                      InternetConnectionChecker(),
+                                                  remoteDataSource:
+                                                      RemoteUserDataSourceImpl(
+                                                          dio: widget.dio),
+                                                  sharedPreferences:
+                                                      widget.sharedPreferences,
+                                                ),
+                                              ),
+                                            ),
+                                            child: LoginPage(
+                                              dio: widget.dio,
+                                              sharedPreferences:
+                                                  widget.sharedPreferences,
+                                            ),
+                                          ),
+                                          type: PageTransitionType.fade));
+                                },
+                                child: Text(
+                                  LocalizationKeys.logIn.tr(),
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.04, //16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColor.buttonColor,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                            .animate()
+                            .fade(duration: .8.seconds, delay: .4.seconds),
+                        SizedBox(
+                          height: screenHeight * 0.04,
+                        ),
                         BlocBuilder<RegisterBloc, RegisterState>(
                           builder: (context, state) {
                             switch (state) {
@@ -279,66 +337,9 @@ class _PasswordPageState extends State<PasswordPage> {
                                   text: LocalizationKeys.register.tr(),
                                   textColor: AppColor.whiteColor,
                                   containerColor: AppColor.buttonColor,
-                                ).animate().fade(
-                                    duration: .8.seconds, delay: .4.seconds);
+                                );
                             }
                           },
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.04,
-                        ),
-                        Padding(
-                          padding: isEnglish(context)
-                              ? const EdgeInsets.only(left: 20)
-                              : const EdgeInsets.only(right: 20),
-                          child: Row(
-                            children: [
-                              Text(
-                                LocalizationKeys.alreadyHaveAccount.tr(),
-                                style:  TextStyle(
-                                  fontSize: screenWidth*0.04,//16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.buttonDetailsColor,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          child: BlocProvider(
-                                            create: (context) => LoginBloc(
-                                              LoginUserUseCase(
-                                                repository: AuthRepositoryImpl(
-                                                  internetConnectionChecker:
-                                                      InternetConnectionChecker(),
-                                                  remoteDataSource:
-                                                      RemoteUserDataSourceImpl(
-                                                          dio: widget.dio),
-                                                  sharedPreferences:
-                                                      widget.sharedPreferences,
-                                                ),
-                                              ),
-                                            ),
-                                            child: LoginPage(
-                                              dio: widget.dio,
-                                              sharedPreferences:
-                                                  widget.sharedPreferences,
-                                            ),
-                                          ),
-                                          type: PageTransitionType.fade));
-                                },
-                                child: Text(
-                                  LocalizationKeys.logIn.tr(),
-                                  style:  TextStyle(
-                                    fontSize:screenWidth*0.04, //16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColor.buttonColor,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
                         )
                             .animate()
                             .fade(duration: 1.seconds, delay: .6.seconds),

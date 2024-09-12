@@ -65,29 +65,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 //?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
-
 //? what business logic means ??
-//! the interlPhoneField packge not validate ....
 //kotlen ??
-
-//TODO:
-// don't have an account in log in so navigate to sign up
-
-class NextPage extends StatelessWidget {
-  final int id;
-  const NextPage({super.key, required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Text(id.toString()),
-      ),
-    );
-  }
-}
+//? have wallet shared need to fix in better way
 
 //0222222222// paPa12@121212// securitycode for wallet : paPa12@121212
 //0333333333 //maMa22@121212

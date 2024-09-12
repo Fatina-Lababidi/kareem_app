@@ -119,5 +119,6 @@
   "create_new_wallet": "Create New Wallet",
   "success": "Success ....",
   "payForConfirmation": "Please pay for booking confirmation",
-  "reservation": "reservation"
+  "reservation": "reservation",
+  "noAccount":"Don't have an account?"
 }

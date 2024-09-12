@@ -148,4 +148,5 @@ class LocalizationKeys {
   static const String success = 'success';
   static const String payForConfirmation = 'payForConfirmation';
   static const String reservation = 'reservation';
+  static const String noAccount = 'noAccount';
 }

@@ -52,7 +52,7 @@ class Drawerwidget extends StatelessWidget {
                     ? EdgeInsets.only(
                         left: screenWidth * 0.02, top: screenHeight * 0.01)
                     : EdgeInsets.only(
-                        right: screenWidth * 0.02, top: screenHeight * 0.02),
+                        right: screenWidth * 0.04, top: screenHeight * 0.02),
                 child: GestureDetector(
                   onTap: toggleDrawer,
                   child: Row(
