@@ -82,11 +82,13 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.message),
                   backgroundColor: AppColor.snackbarOfflineColor,
+                  duration: const Duration(seconds: 1),
                 ));
               } else if (state is CreateWalletSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.message),
                   backgroundColor: AppColor.baseColor,
+                  duration: const Duration(seconds: 1),
                 ));
                 // save a boolean to use it in the payment page:
                 _save();
@@ -99,14 +101,6 @@ class _CreateNewWalletPageState extends State<CreateNewWalletPage> {
                           currentIndex: 2,
                         ),
                         type: PageTransitionType.fade));
-                // Navigator.push(
-                //     context,
-                //     PageTransition(
-                //         child: WalletInfoPage(
-                //           dio: widget.dio,
-                //           sharedPreferences: widget.sharedPreferences,
-                //         ),
-                //         type: PageTransitionType.fade));
               }
             },
             child: Form(

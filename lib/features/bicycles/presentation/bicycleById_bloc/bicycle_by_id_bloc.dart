@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/domain/entities/bicycle_by_id.dart';
 import 'package:careem_app_clean/features/bicycles/domain/usecase/bicycle_by_id_usecase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'bicycle_by_id_event.dart';
@@ -20,7 +22,7 @@ class BicycleByIdBloc extends Bloc<BicycleByIdEvent, BicycleByIdState> {
             message = failure.message ?? 'Please try again later ..';
             break;
           default:
-            message = 'there is no internet';
+            message = LocalizationKeys.thereIsNoInternet.tr();
             break;
         }
         emit(BicycleByIdFailure(message: message));

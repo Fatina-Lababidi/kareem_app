@@ -54,13 +54,15 @@ class WalletInfoPage extends StatelessWidget {
                   SnackBar(
                     content: Text(state.message),
                     backgroundColor: AppColor.snackbarOfflineColor,
+                    duration: const Duration(seconds: 1),
                   ),
                 );
               } else if (state is WalletInfoSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('success'),
+                  SnackBar(
+                    content: Text(LocalizationKeys.success.tr()),
                     backgroundColor: AppColor.baseColor,
+                    duration: const Duration(seconds: 1),
                   ),
                 );
               }
@@ -219,7 +221,7 @@ class WalletInfoPage extends StatelessWidget {
             ),
             child: Text(
               textAlign: TextAlign.center,
-              'create wallet',
+              LocalizationKeys.createWallet.tr(),
               style: TextStyle(
                   color: AppColor.whiteColor, fontSize: screenWidth * 0.05 //20,
                   ),

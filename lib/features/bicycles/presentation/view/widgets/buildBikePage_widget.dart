@@ -66,10 +66,10 @@ class BuildBikePageWidget extends StatelessWidget {
           return BlocConsumer<AddFavouriteBloc, AddFavouriteState>(
             listener: (context, state) {
               if (state is AddFavouriteSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: AppColor.baseColor,
-                    duration: Duration(seconds: 1),
-                    content: Text('success')));
+                    duration: const Duration(seconds: 1),
+                    content: Text(LocalizationKeys.success.tr())));
               } else if (state is AddFavouriteFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.message),

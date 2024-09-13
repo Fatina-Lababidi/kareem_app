@@ -55,6 +55,7 @@ class BicycleByCategoryPage extends StatelessWidget {
                 if (state is BicycleByCategoryFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      duration: const Duration(seconds: 1),
                       backgroundColor: AppColor.snackbarOfflineColor,
                       content: Text(
                         state.message,

@@ -87,14 +87,16 @@ class FavouritePage extends StatelessWidget {
                 BlocConsumer<FavByClientIdBloc, FavByClientIdState>(
                   listener: (context, state) {
                     if (state is FavByClientIdSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('success'),
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(LocalizationKeys.success.tr()),
                         backgroundColor: AppColor.baseColor,
+                        duration: const Duration(seconds: 1),
                       ));
                     } else if (state is FavByClientIdFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(state.message),
                         backgroundColor: AppColor.snackbarOfflineColor,
+                        duration: const Duration(seconds: 1),
                       ));
                     }
                   },
@@ -107,7 +109,7 @@ class FavouritePage extends StatelessWidget {
                             final bike =
                                 state.addFavResponseEntity[index].bicycle;
                             return FavouriteCardWidget(
-                              favId:state.addFavResponseEntity[index].id,
+                                favId: state.addFavResponseEntity[index].id,
                                 screenHeight: screenHeight,
                                 bike: bike,
                                 dio: dio,

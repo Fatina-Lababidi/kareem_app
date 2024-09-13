@@ -1,5 +1,6 @@
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
@@ -11,6 +12,7 @@ import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dar
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/widgets/hubsContainerWidget.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -50,7 +52,7 @@ class HubPage extends StatelessWidget {
               AppBarWidget(
                 screenWidth: screenWidth,
                 screenHeight: screenHeight,
-                textTitle: 'Hubs',
+                textTitle:LocalizationKeys.hubs.tr() //'Hubs',
               ),
               SizedBox(
                 height: screenHeight * 0.05,

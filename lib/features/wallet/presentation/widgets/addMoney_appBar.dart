@@ -1,6 +1,8 @@
 import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/back_row_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AddMoneyAppBar extends StatelessWidget {
@@ -31,7 +33,7 @@ class AddMoneyAppBar extends StatelessWidget {
                   : EdgeInsets.only(
                       left: screenWidth * 0.125, top: screenHeight * 0.01),
               child: Text(
-                'Amount',
+                LocalizationKeys.amountTitle.tr(),
                 style: TextStyle(
                     color: AppColor.settingsTitleColor,
                     fontSize: screenWidth * 0.048, //18,

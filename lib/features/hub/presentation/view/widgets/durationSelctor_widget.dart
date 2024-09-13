@@ -1,4 +1,6 @@
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class DurationselctorWidget extends StatelessWidget {
@@ -42,7 +44,7 @@ class DurationselctorWidget extends StatelessWidget {
                 },
               ),
               Text(
-                'duration',
+                LocalizationKeys.duration.tr(),
                 style: TextStyle(
                     color: AppColor.hintColor,
                     fontSize: screenWidth * 0.04, // 16,

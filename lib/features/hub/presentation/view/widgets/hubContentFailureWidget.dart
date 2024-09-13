@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class HubContentFailureWidget extends StatelessWidget {
   final String failureMessage;
   const HubContentFailureWidget({

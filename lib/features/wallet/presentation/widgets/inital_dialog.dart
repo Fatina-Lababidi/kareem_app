@@ -1,8 +1,9 @@
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/wallet/presentation/addMoney_bloc/add_money_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class InitialDialogAddMoney extends StatelessWidget {
   const InitialDialogAddMoney({
@@ -33,7 +34,7 @@ class InitialDialogAddMoney extends StatelessWidget {
                   ),
               Text(
                 textAlign: TextAlign.center,
-                'Are you sure you need to add:',
+                LocalizationKeys.areYouSureYouNeedToAdd.tr(),
                 style: TextStyle(
                   color: AppColor.buttonDetailsColor,
                   fontWeight: FontWeight.bold,
@@ -51,7 +52,7 @@ class InitialDialogAddMoney extends StatelessWidget {
               ),
               Text(
                 textAlign: TextAlign.center,
-                'from:',
+                LocalizationKeys.from.tr(),
                 style: TextStyle(
                   color: AppColor.buttonDetailsColor,
                   fontWeight: FontWeight.w600,
@@ -85,7 +86,7 @@ class InitialDialogAddMoney extends StatelessWidget {
                         child: Center(
                           child: Text(
                             textAlign: TextAlign.center,
-                            'confirm',
+                            LocalizationKeys.confirm.tr(), // 'confirm',
                             style: TextStyle(
                                 fontSize: screenWidth * 0.04, //15,
                                 color: AppColor.whiteColor),
@@ -102,7 +103,7 @@ class InitialDialogAddMoney extends StatelessWidget {
                       },
                       child: Text(
                         textAlign: TextAlign.center,
-                        'cancel',
+                        LocalizationKeys.cancel.tr(), // 'cancel',
                         style: TextStyle(
                           color: AppColor.buttonColor,
                           fontSize: screenWidth * 0.04, // 15

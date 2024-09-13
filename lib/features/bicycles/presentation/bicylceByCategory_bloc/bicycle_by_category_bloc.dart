@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/domain/entities/bicycle_by_ctegory_entity.dart';
 import 'package:careem_app_clean/features/bicycles/domain/usecase/bicycle_by_category_usecase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'bicycle_by_category_event.dart';
@@ -23,7 +25,7 @@ class BicycleByCategoryBloc
             message = failure.message ??'Please try again later ..';
             break;
           default:
-            message = 'there is no internet';
+            message = LocalizationKeys.thereIsNoInternet.tr();
             break;
         }
         emit(BicycleByCategoryFailure(message: message));

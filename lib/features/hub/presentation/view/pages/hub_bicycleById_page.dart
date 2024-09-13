@@ -77,10 +77,12 @@ class HubBicyclebyidPage extends StatelessWidget {
               if (state is AddFavouriteSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: AppColor.baseColor,
+                    duration: const Duration(seconds: 1),
                     content: Text(LocalizationKeys.success.tr())));
               } else if (state is AddFavouriteFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.message),
+                  duration: const Duration(seconds: 1),
                   backgroundColor: AppColor.snackbarOfflineColor,
                 ));
               }

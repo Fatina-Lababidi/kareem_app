@@ -1,8 +1,10 @@
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:page_transition/page_transition.dart';
@@ -62,7 +64,7 @@ class SuccessDialogAddMoney extends StatelessWidget {
           ),
           Text(
             textAlign: TextAlign.center,
-            'Add Success',
+            LocalizationKeys.addedSuccessfully.tr(),
             style: TextStyle(
                 color: AppColor.buttonDetailsColor,
                 fontSize: screenWidth * 0.058, // 22,
@@ -70,7 +72,7 @@ class SuccessDialogAddMoney extends StatelessWidget {
           ),
           Text(
             textAlign: TextAlign.center,
-            'your money has been add successfully',
+            LocalizationKeys.moneyAddedSuccessfully.tr(),
             style: TextStyle(
                 color: AppColor.addTextColor,
                 fontSize: screenWidth * 0.032, //12,
@@ -90,16 +92,6 @@ class SuccessDialogAddMoney extends StatelessWidget {
           AppButton(
             onTap: () {
               //?navigate to home? or to the wallet info??
-              //we need to make it turn to the home age in the index of wallet(2):
-              // Navigator.push(
-              //   context,
-              //   PageTransition(
-              //       child: WalletInfoPage(
-              //         dio: widget.dio,
-              //       ),
-              //       type: PageTransitionType
-              //           .fade),
-              // );
               Navigator.push(
                   context,
                   PageTransition(
@@ -112,7 +104,7 @@ class SuccessDialogAddMoney extends StatelessWidget {
             },
             screenWidth: screenWidth / 1.2,
             screenHeight: screenHeight / 1.5,
-            text: 'Back Home',
+            text: LocalizationKeys.backHome.tr(), //'Back Home',و
             textColor: AppColor.whiteColor,
             containerColor: AppColor.buttonColor,
           ),

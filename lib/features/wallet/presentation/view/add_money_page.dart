@@ -1,5 +1,7 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/app_button.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/wallet/data/datasource/remote_add_money_datasource.dart';
@@ -17,6 +19,7 @@ import 'package:careem_app_clean/features/wallet/presentation/widgets/inital_dia
 import 'package:careem_app_clean/features/wallet/presentation/widgets/loading_dialog.dart';
 import 'package:careem_app_clean/features/wallet/presentation/widgets/success_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -25,14 +28,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AddMoneyPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
-  const AddMoneyPage({super.key, required this.dio, required this.sharedPreferences});
+  const AddMoneyPage(
+      {super.key, required this.dio, required this.sharedPreferences});
 
   @override
   State<AddMoneyPage> createState() => _AddMoneyPageState();
 }
 
 class _AddMoneyPageState extends State<AddMoneyPage> {
-  String text = 'choose the code';
+  String text = LocalizationKeys.chooseTheCode.tr();
   num finalAmount = 0;
   Color textColor = AppColor.hintColor;
 
@@ -79,7 +83,8 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AddMoneyAppBar(screenWidth: screenWidth, screenHeight: screenHeight),
+              AddMoneyAppBar(
+                  screenWidth: screenWidth, screenHeight: screenHeight),
               SizedBox(
                 height: screenHeight * 0.02,
               ),
@@ -106,11 +111,14 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
                 height: screenHeight * 0.01,
               ),
               Align(
-                alignment: Alignment.topLeft,
+                alignment:
+                    isEnglish(context) ? Alignment.topLeft : Alignment.topRight,
                 child: Padding(
-                  padding: EdgeInsets.only(left: screenWidth * 0.04),
+                  padding: isEnglish(context)
+                      ? EdgeInsets.only(left: screenWidth * 0.04)
+                      : EdgeInsets.only(right: screenWidth * 0.04),
                   child: Text(
-                    'Select the Code',
+                    LocalizationKeys.selectCode.tr(),
                     style: TextStyle(
                         color: AppColor.contentSecondaryTextColor,
                         fontSize: screenWidth * 0.04, //16,
@@ -162,11 +170,11 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
               AppButton(
                   screenWidth: screenWidth,
                   screenHeight: screenHeight,
-                  text: 'Confirm',
+                  text: LocalizationKeys.confirm.tr(), // 'Confirm',
                   textColor: AppColor.whiteColor,
                   containerColor: AppColor.buttonColor,
                   onTap: () {
-                    if (text != 'choose the code') {
+                    if (text != LocalizationKeys.chooseTheCode.tr()) {
                       showDialog(
                         context: context,
                         barrierColor:
@@ -204,8 +212,9 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
                                           text: text);
                                     } else if (state is AddMoneySuccess) {
                                       return SuccessDialogAddMoney(
-                                        sharedPreferences: widget.sharedPreferences,
-                                        dio: widget.dio,
+                                          sharedPreferences:
+                                              widget.sharedPreferences,
+                                          dio: widget.dio,
                                           screenWidth: screenWidth,
                                           screenHeight: screenHeight,
                                           finalAmount: finalAmount);
@@ -228,9 +237,10 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
                         },
                       );
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('please choose the code first'),
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(LocalizationKeys.chooseCodeSnackbar.tr()),
                         backgroundColor: AppColor.snackbarOfflineColor,
+                        duration: const Duration(seconds: 1),
                       ));
                     }
                   }),
@@ -288,7 +298,7 @@ class _AddMoneyPageState extends State<AddMoneyPage> {
             Text(
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              'amount: $amount',
+              '${LocalizationKeys.amount.tr()} $amount',
               style: TextStyle(
                   color: AppColor.skipTextColor,
                   fontWeight: FontWeight.w600,

@@ -66,10 +66,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
 //? what business logic means ??
 //kotlen ??
+//TODO
 //? have wallet shared need to fix in better way
+//? localization (setting /pop )
+//? passing MediaQuery
+//?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
 
 //0222222222// paPa12@121212// securitycode for wallet : paPa12@121212
 //0333333333 //maMa22@121212

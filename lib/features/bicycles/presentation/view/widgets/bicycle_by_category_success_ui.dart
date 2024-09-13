@@ -66,14 +66,14 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                                   color: AppColor.buttonDetailsColor),
                             ),
                             Text(
-                              'id:${bicycleByCtegoryEntity.body[index].id} | size:${bicycleByCtegoryEntity.body[index].size} | price:${bicycleByCtegoryEntity.body[index].modelPrice.price}',
+                              '${LocalizationKeys.id.tr()} :${bicycleByCtegoryEntity.body[index].id} | size:${bicycleByCtegoryEntity.body[index].size} | price:${bicycleByCtegoryEntity.body[index].modelPrice.price}',
                               style: TextStyle(
                                 color: AppColor.skipTextColor,
                                 fontSize: screenWidth * 0.035,
                               ),
                             ),
                             Text(
-                              'note :${bicycleByCtegoryEntity.body[index].note}',
+                              '${LocalizationKeys.note.tr()} :${bicycleByCtegoryEntity.body[index].note}',
                               style: TextStyle(
                                 fontSize: screenWidth * 0.035,
                               ),

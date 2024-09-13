@@ -8,7 +8,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-
 class ReservationDetailsSuccessWidget extends StatelessWidget {
   const ReservationDetailsSuccessWidget({
     super.key,
@@ -42,30 +41,24 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
           ),
         ),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Clinet :${reservation.client}',
+                  '${LocalizationKeys.client.tr()} :${reservation.client}',
                   style: TextStyle(
-                    fontSize:
-                        screenWidth * 0.045, //16,
+                    fontSize: screenWidth * 0.045, //16,
                     fontWeight: FontWeight.bold,
-                    color:
-                        AppColor.buttonDetailsColor,
+                    color: AppColor.buttonDetailsColor,
                   ),
                 ),
                 Text(
-                  'Bike : ${reservation.bicycle}',
+                  '${LocalizationKeys.bike.tr()} : ${reservation.bicycle}',
                   style: TextStyle(
-                    fontSize:
-                        screenWidth * 0.035, //14,
-                    color: AppColor.buttonDetailsColor
-                        .withOpacity(0.8),
+                    fontSize: screenWidth * 0.035, //14,
+                    color: AppColor.buttonDetailsColor.withOpacity(0.8),
                   ),
                 )
               ],
@@ -78,20 +71,17 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
               height: screenHeight * 0.01,
             ),
             Text(
-              'Form hub : ${reservation.from}',
+              '${LocalizationKeys.fromHub.tr()} : ${reservation.from}',
               style: TextStyle(
                   fontSize: screenWidth * 0.035, //14,
                   fontWeight: FontWeight.w500,
-                  color:
-                      AppColor.snackbarOfflineColor),
+                  color: AppColor.snackbarOfflineColor),
             ),
-            Text('To hub : ${reservation.to}',
+            Text('${LocalizationKeys.toHub.tr()} : ${reservation.to}',
                 style: TextStyle(
-                    fontSize:
-                        screenWidth * 0.035, //14,
+                    fontSize: screenWidth * 0.035, //14,
                     fontWeight: FontWeight.w500,
-                    color: AppColor
-                        .snackbarOfflineColor)),
+                    color: AppColor.snackbarOfflineColor)),
             SizedBox(
               height: screenHeight * 0.01,
             ),
@@ -100,22 +90,18 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
               height: screenHeight * 0.01,
             ),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                    'Duration: ${reservation.duration} hr',
+                    '${LocalizationKeys.duration.tr()} : ${reservation.duration} hr',
                     style: TextStyle(
-                        fontSize:
-                            screenWidth * 0.035, //14,
+                        fontSize: screenWidth * 0.035, //14,
                         fontWeight: FontWeight.w500,
-                        color: AppColor
-                            .snackbarOfflineColor)),
+                        color: AppColor.snackbarOfflineColor)),
                 Text(
-                  'Price: \$${reservation.price}',
+                  '${LocalizationKeys.price.tr()} : \$${reservation.price}',
                   style: TextStyle(
-                    fontSize:
-                        screenWidth * 0.04, //16,
+                    fontSize: screenWidth * 0.04, //16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -126,18 +112,12 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
             ),
             const Divider(),
             // SizedBox(height: screenHeight * 0.04),
-            (reservation.reservationStatus ==
-                    'PENDING')
-                ? Text(
-                    LocalizationKeys
-                        .payForConfirmation
-                        .tr(),
+            (reservation.reservationStatus == 'PENDING')
+                ? Text(LocalizationKeys.payForConfirmation.tr(),
                     style: TextStyle(
-                        fontSize:
-                            screenWidth * 0.035, //14,
+                        fontSize: screenWidth * 0.035, //14,
                         fontWeight: FontWeight.w500,
-                        color: AppColor
-                            .snackbarOfflineColor))
+                        color: AppColor.snackbarOfflineColor))
                 : const Text(''),
             SizedBox(
               height: screenHeight * 0.02,
@@ -145,37 +125,27 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
             Center(
               child: AppButton(
                 screenWidth: screenWidth * 0.8,
-                screenHeight: screenHeight*0.8,
+                screenHeight: screenHeight * 0.8,
                 text: reservation.reservationStatus,
                 textColor: AppColor.whiteColor,
-                containerColor:
-                    reservation.reservationStatus ==
-                            'PENDING'
-                        ? AppColor.snackbarFaildColor
-                        : AppColor.buttonColor,
-                borderColor:
-                    reservation.reservationStatus ==
-                            'PENDING'
-                        ? AppColor.snackbarFaildColor
-                        : AppColor.buttonColor,
+                containerColor: reservation.reservationStatus == 'PENDING'
+                    ? AppColor.snackbarFaildColor
+                    : AppColor.buttonColor,
+                borderColor: reservation.reservationStatus == 'PENDING'
+                    ? AppColor.snackbarFaildColor
+                    : AppColor.buttonColor,
                 onTap: () {
-                  if (reservation.reservationStatus ==
-                      'PENDING') {
+                  if (reservation.reservationStatus == 'PENDING') {
                     Navigator.push(
                         context,
                         PageTransition(
                             child: PaymentPage(
-                                reservationId:
-                                    reservation.id,
-                                bikeModel: reservation
-                                    .bicycle,
-                                photoPath:
-                                    '', //! this have to be changed
-                                sharedPreferences: widget
-                                    .sharedPreferences,
+                                reservationId: reservation.id,
+                                bikeModel: reservation.bicycle,
+                                photoPath: '', //! this have to be changed
+                                sharedPreferences: widget.sharedPreferences,
                                 dio: widget.dio),
-                            type: PageTransitionType
-                                .fade));
+                            type: PageTransitionType.fade));
                   }
                 },
               ),

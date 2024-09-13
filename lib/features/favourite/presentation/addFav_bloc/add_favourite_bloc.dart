@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/favourite/domain/entities/add_fav_response_entity.dart';
 import 'package:careem_app_clean/features/favourite/domain/usecase/add_favourite_usecase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'add_favourite_event.dart';
@@ -25,7 +27,7 @@ class AddFavouriteBloc extends Bloc<AddFavouriteEvent, AddFavouriteState> {
             message =failure.message ??"not added to the favourite..";
             break;
           default:
-            message = "there is no internet ..";
+            message = LocalizationKeys.thereIsNoInternet.tr();
         }
         emit(AddFavouriteFailure(message: message));
       }, (fav) {

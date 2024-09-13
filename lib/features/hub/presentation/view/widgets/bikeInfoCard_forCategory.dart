@@ -55,22 +55,21 @@ class BicycleInfoCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      // state.hubContentResponseEntity.body.bicycleList[index]
-                         bike .modelPrice.model,
+                      bike.modelPrice.model,
                       style: TextStyle(
                           fontSize: screenWidth * 0.04, // 16,
                           fontWeight: FontWeight.w500,
                           color: AppColor.buttonDetailsColor),
                     ),
                     Text(
-                      'id:${bike.id} | size:${bike.size} | price:${bike.modelPrice.price}',
+                      '${LocalizationKeys.id.tr()} :${bike.id} | ${LocalizationKeys.size.tr()} :${bike.size} | ${LocalizationKeys.price.tr()} :${bike.modelPrice.price}',
                       style: TextStyle(
                         color: AppColor.skipTextColor,
                         fontSize: screenWidth * 0.035,
                       ),
                     ),
                     Text(
-                      'note :${bike.note}',
+                      '${LocalizationKeys.note.tr()} :${bike.note}',
                       style: TextStyle(
                         color: AppColor.skipTextColor,
                         fontSize: screenWidth * 0.035,

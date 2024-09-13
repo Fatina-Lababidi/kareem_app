@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/features/favourite/presentation/view/favourite_page.dart';
 import 'package:careem_app_clean/features/home/presentation/view/map_page.dart';
@@ -97,7 +98,8 @@ class _HomePageState extends State<HomePage> {
                   ),
               Positioned(
                 top: 10,
-                left: 10,
+                left:isEnglish(context)? 10: null,
+                right: isEnglish(context)?null:10,
                 child: GestureDetector(
                   onTap: _toggleDrawer,
                   child: Container(

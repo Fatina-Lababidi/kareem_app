@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/bicycles/presentation/view/categories_page.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/searchAndLocationBar_widget.dart';
 import 'package:careem_app_clean/features/home/presentation/widgets/searchBarWidget.dart';
@@ -14,6 +16,7 @@ import 'package:careem_app_clean/features/hub/domain/entities/all_hub_entity.dar
 import 'package:careem_app_clean/features/hub/domain/usecase/all_hub_usecase.dart';
 import 'package:careem_app_clean/features/hub/presentation/allHub_bloc/all_hub_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -89,8 +92,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         _savedLocation(const LatLng(0.0, 0.0));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Location permission denied.'),
-          ),
+              backgroundColor: AppColor.snackbarOfflineColor,
+              duration: const Duration(seconds: 1),
+              content:
+                  Text(LocalizationKeys.locationPermissionDeniedSnackBar.tr())),
         );
         return;
       }
@@ -99,19 +104,21 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       _savedLocation(const LatLng(0.0, 0.0));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          duration: const Duration(seconds: 1),
+          backgroundColor: AppColor.snackbarOfflineColor,
           content: Row(
             children: [
               Text(
-                'Location permission is permanently denied.',
-                style: TextStyle(fontSize: 10),
+                LocalizationKeys.locationPermissionPermanentlyDenied.tr(),
+                style: const TextStyle(fontSize: 10),
               ),
               TextButton(
                 onPressed: () {
                   Geolocator.openAppSettings();
                 },
                 child: Text(
-                  'Open Settings',
-                  style: TextStyle(color: AppColor.whiteColor),
+                  LocalizationKeys.openSettings.tr(),
+                  style: const TextStyle(color: AppColor.whiteColor),
                 ),
               ),
             ],
@@ -137,7 +144,9 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to get location.'),
+            backgroundColor: AppColor.snackbarOfflineColor,
+            duration: const Duration(seconds: 1),
+            content: Text(LocalizationKeys.failedToGetLocation.tr()),
             //! ?set defualt one? or just move it to the initial point?
           ),
         );
@@ -293,6 +302,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               } else if (state is AllHubFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.message),
+                  duration:const Duration(seconds: 1),
                   backgroundColor: AppColor.snackbarOfflineColor,
                 ));
               }
@@ -364,8 +374,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     ),
                   Positioned(
                       top: 10,
-                      left: screenWidth / 1.2,
-                      right: 0,
+                      left:isEnglish(context)? screenWidth / 1.2: null,
+                      right:isEnglish(context)? 0:screenWidth / 1.2,
                       child: SearchAndLocationBarWidgete(
                         onSearchTap: () {
                           setState(() {

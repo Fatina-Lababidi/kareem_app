@@ -81,19 +81,18 @@ class RentPage extends StatefulWidget {
 }
 
 class _RentPageState extends State<RentPage> {
-  String selectedHubName = "Tap to select a hub";
+  String selectedHubName = LocalizationKeys.tapToSelectHub.tr();
   String descriptionText = '';
   Color selectedTextColor = AppColor.skipTextColor;
   final ValueNotifier<double> _durationNotifier = ValueNotifier(1.0);
-  DateTime? _selectedStartTime = DateTime.parse("2024-09-19T04:55:17.292");
+  DateTime? _selectedStartTime; //= DateTime.parse("2024-09-19T04:55:17.292");
   String paymentMethod = "Wallet";
   int toHubId = 0;
 
   void _confirmReservation() {
-    // setState(() {
-    // _selectedStartTime = DateTime.now();
-
-    // });
+    setState(() {
+      _selectedStartTime = DateTime.now();
+    });
   }
 
   void _incrementDuration() => _durationNotifier.value += 0.5;
@@ -125,8 +124,12 @@ class _RentPageState extends State<RentPage> {
 
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Location permission denied.'),
+          SnackBar(
+            backgroundColor: AppColor.snackbarOfflineColor,
+            duration: const Duration(seconds: 1),
+            content: Text(
+              LocalizationKeys.locationPermissionDeniedSnackBar.tr(),
+            ),
           ),
         );
         return;
@@ -136,19 +139,21 @@ class _RentPageState extends State<RentPage> {
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          duration: const Duration(seconds: 1),
+          backgroundColor: AppColor.snackbarOfflineColor,
           content: Row(
             children: [
-              const Text(
-                'Location permission is permanently denied.',
-                style: TextStyle(fontSize: 10),
+              Text(
+                LocalizationKeys.locationPermissionPermanentlyDenied.tr(),
+                style: const TextStyle(fontSize: 10),
               ),
               TextButton(
                 onPressed: () {
                   Geolocator.openAppSettings();
                 },
-                child: const Text(
-                  'Open Settings',
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  LocalizationKeys.openSettings.tr(),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],
@@ -168,8 +173,10 @@ class _RentPageState extends State<RentPage> {
         setState(() {});
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to get location.'),
+          SnackBar(
+            duration: const Duration(seconds: 1),
+            backgroundColor: AppColor.snackbarOfflineColor,
+            content: Text(LocalizationKeys.failedToGetLocation.tr()),
           ),
         );
       }
@@ -197,7 +204,7 @@ class _RentPageState extends State<RentPage> {
             child: CircularProgressIndicator(color: AppColor.baseColor),
           );
         } else if (snapshot.hasError) {
-          return const Center(child: Text('Failed to load location'));
+          return Center(child: Text(LocalizationKeys.failedToGetLocation.tr()));
         } else {
           final locationData = snapshot.data;
           return Scaffold(
@@ -208,15 +215,15 @@ class _RentPageState extends State<RentPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Location is not enabled. Please enable your location services.',
+                          Text(
+                            LocalizationKeys.pleaseEnableYourLocation.tr(),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: screenHeight * 0.02),
                           AppButton(
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
-                            text: 'Enable Location',
+                            text: LocalizationKeys.enableYourLocation.tr(),
                             textColor: AppColor.whiteColor,
                             containerColor: AppColor.buttonColor,
                             onTap: _checkAndRequestPermission,
@@ -225,7 +232,8 @@ class _RentPageState extends State<RentPage> {
                       ),
                     )
                   : BlocProvider(
-                      create: (context) => ReservationBloc(ReservationUsecase(
+                      create: (context) => ReservationBloc(
+                        ReservationUsecase(
                           hubRepo: AllHubRepoImp(
                               remoteReservationDetailsDatasource:
                                   RemoteReservationDetailsDatasource(
@@ -238,8 +246,9 @@ class _RentPageState extends State<RentPage> {
                               remoteReservationDatasource:
                                   RemoteReservationDatasource(dio: widget.dio),
                               remoteHubContentDatasource:
-                                  RemoteHubContentDatasource(
-                                      dio: widget.dio)))),
+                                  RemoteHubContentDatasource(dio: widget.dio)),
+                        ),
+                      ),
                       child: BlocListener<ReservationBloc, ReservationState>(
                         listener: (context, state) {
                           if (state is ReservationFailure) {
@@ -344,7 +353,7 @@ class _RentPageState extends State<RentPage> {
                                   return AppButton(
                                     screenWidth: screenWidth,
                                     screenHeight: screenHeight,
-                                    text: 'Confirm Booking',
+                                    text: LocalizationKeys.confirmBooking.tr(),
                                     textColor: AppColor.whiteColor,
                                     containerColor: AppColor.buttonColor,
                                     onTap: () {
@@ -362,15 +371,20 @@ class _RentPageState extends State<RentPage> {
                                                 paymentMethod: paymentMethod);
                                         print(
                                             'Reservation Details:\n Bicycle ID: ${reservation.bicycleId} \n From Hub ID: ${reservation.fromHubId} \n To Hub ID: ${reservation.toHubId} \n Duration: ${reservation.duration}\n Start Time: ${reservation.startTime}\n start time2: ${reservation.startTime.toIso8601String()},\n Start Time3: ${reservation.startTime.toUtc()} \nPayment Method: ${reservation.paymentMethod}');
-
+                                        print('Triggering reservation event');
                                         context.read<ReservationBloc>().add(
                                             MakeReservation(
                                                 requestEntity: reservation));
                                       } else {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content:
-                                                    Text('please choose hub')));
+                                            .showSnackBar(SnackBar(
+                                          content: Text(LocalizationKeys
+                                              .chooseHubSnackBar
+                                              .tr()),
+                                          duration: const Duration(seconds: 1),
+                                          backgroundColor:
+                                              AppColor.snackbarOfflineColor,
+                                        ));
                                         setState(() {
                                           selectedTextColor =
                                               AppColor.snackbarFaildColor;

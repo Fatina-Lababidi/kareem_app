@@ -149,4 +149,45 @@ class LocalizationKeys {
   static const String payForConfirmation = 'payForConfirmation';
   static const String reservation = 'reservation';
   static const String noAccount = 'noAccount';
+  static const String selectCode = 'select_code';
+  static const String confirm = 'confirm';
+  static const String chooseCodeSnackbar = 'chooseCodeSnackbar';
+  static const String chooseTheCode = 'chooseTheCode';
+  static const String amount = 'amount';
+  static const String amountTitle = 'Amount';
+  static const String createWallet = 'createWallet';
+  static const String areYouSureYouNeedToAdd = 'areYouSureYouNeedToAdd';
+  static const String from = 'from';
+  static const String backHome = 'backHome';
+  static const String addedSuccessfully = 'addedSuccessfully';
+  static const String moneyAddedSuccessfully = 'moneyAddedSuccessfully';
+  static const String deleteTokenQues = 'deleteTokenQues';
+  static const String deleteToken = 'deleteToken';
+  static const String deleteTokenSnackBar = 'deleteTokenSnackBar';
+  static const String payment = 'payment';
+  static const String reservationId = 'reservationId';
+  static const String enterWalletPassword = 'enterWalletPassword';
+  static const String pay = 'pay';
+  static const String createWalletAndAddMoney = 'createWalletAndAddMoney';
+  static const String cofirmFormDetailsPage = 'cofirmFormDetailsPage';
+  static const String hubs = 'Hubs';
+  static const String tapToSelectHub = 'tapToSelectHub';
+  static const String locationPermissionDeniedSnackBar =
+      'locationPermissionDeniedSnackBar';
+  static const String locationPermissionPermanentlyDenied =
+      'locationPermissionPermanentlyDenied';
+  static const String openSettings = 'openSettings';
+  static const String failedToGetLocation = 'failedToGetLocation';
+  static const String pleaseEnableYourLocation = 'pleaseEnableYourLocation';
+  static const String confirmBooking = 'confirmBooking';
+  static const String chooseHubSnackBar = 'chooseHubSnackBar';
+  static const String reservationDetails = 'reservationDetails';
+  static const String id = 'id';
+  static const String note = 'note';
+  static const String duration = 'duration';
+  static const String client = 'client';
+  static const String bike = 'bike';
+  static const String fromHub = 'fromHub';
+  static const String toHub = 'toHub';
+  static const String thereIsNoInternet = 'thereIsNoInternet';
 }

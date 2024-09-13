@@ -14,7 +14,8 @@ class DeletePage extends StatelessWidget {
   Future<void> deleteToken() async {
     await sharedPreferences.remove('token');
     await sharedPreferences.remove('clientId');
-    await sharedPreferences.remove('haveWallet');
+    await sharedPreferences
+        .remove('haveWallet'); //! have to find better solution
     print('token deleted');
   }
 
@@ -34,8 +35,9 @@ class DeletePage extends StatelessWidget {
               textTitle: LocalizationKeys.deleteAccount.tr(),
             ).animate().fade(duration: .2.seconds, delay: .1.seconds),
             Text(
-              'Are you sure you want to delete your token?',
-              style: TextStyle(
+              textAlign: TextAlign.center,
+              LocalizationKeys.deleteTokenQues.tr(),
+              style: const TextStyle(
                   color: AppColor.policydescColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w400),
@@ -44,15 +46,18 @@ class DeletePage extends StatelessWidget {
               child: AppButton(
                 screenWidth: screenWidth,
                 screenHeight: screenHeight,
-                text: 'Delete token',
+                text: LocalizationKeys.deleteToken.tr(),
                 textColor: AppColor.whiteColor,
                 containerColor: AppColor.snackbarFaildColor,
                 borderColor: AppColor.snackbarFaildColor,
                 onTap: () {
                   deleteToken().then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Token has been deleted'),
+                      SnackBar(
+                        content:
+                            Text(LocalizationKeys.deleteTokenSnackBar.tr()),
+                        duration: const Duration(seconds: 1),
+                        backgroundColor: AppColor.snackbarOfflineColor,
                       ),
                     );
                   });

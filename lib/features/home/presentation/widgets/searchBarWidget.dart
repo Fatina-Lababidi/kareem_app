@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,7 +18,7 @@ class SearchBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: 11,
-      left: 20,
+      left:isEnglish(context)? 20:40,
       right: 20,
       child: Container(
         height: 39,

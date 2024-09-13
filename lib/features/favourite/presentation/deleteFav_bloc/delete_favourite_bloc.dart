@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/favourite/domain/usecase/delete_fav_useCase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'delete_favourite_event.dart';
@@ -22,7 +24,7 @@ class DeleteFavouriteBloc
             message = failure.message ?? "please try later..";
             break;
           default:
-            message = 'there is no internet';
+            message = LocalizationKeys.thereIsNoInternet.tr();
         }
         emit(DeleteFavouriteFailure(message: message));
       }, (entity) {

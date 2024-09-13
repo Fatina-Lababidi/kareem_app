@@ -70,6 +70,7 @@ class CategoriesPage extends StatelessWidget {
               if (state is CategoriesFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
+                    duration: const Duration(seconds: 1),
                     backgroundColor: AppColor.snackbarOfflineColor,
                     content: Text(
                       state.message,

@@ -1,5 +1,6 @@
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/core/widgets/failure_widget.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_all_hub.dart';
 import 'package:careem_app_clean/features/hub/data/datasource/remote_hub_content_datasource.dart';
@@ -10,6 +11,7 @@ import 'package:careem_app_clean/features/hub/domain/usecase/reservation_details
 import 'package:careem_app_clean/features/hub/presentation/reservationDetails_bloc/reservation_details_bloc.dart';
 import 'package:careem_app_clean/features/hub/presentation/view/widgets/reservationDetailsSuccess_widget.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -68,7 +70,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
             ),
             Center(
               child: Text(
-                'Reservation Details',
+             LocalizationKeys.reservationDetails.tr(),
                 style: TextStyle(
                   fontSize: screenWidth * 0.045, //18,
                   color: AppColor.settingsTitleColor,

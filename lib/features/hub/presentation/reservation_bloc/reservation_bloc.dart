@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/reservation_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/reservation_usecase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'reservation_event.dart';
@@ -24,7 +26,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
             message = failure.message ?? 'please try later ..';
             break;
           default:
-            message = 'there is no internet ..';
+            message = LocalizationKeys.thereIsNoInternet.tr();
             break;
         }
         emit(ReservationFailure(message: message));

@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class AddMoneyContainer extends StatelessWidget {
   const AddMoneyContainer({
     super.key,

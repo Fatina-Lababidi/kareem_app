@@ -28,7 +28,8 @@ class Drawerwidget extends StatelessWidget {
       top: 0,
       bottom: 0,
       // left: isEnglish(context)?0:screenWidth-230,
-      left: 0,
+      left: isEnglish(context) ? 0 : null,
+      right: isEnglish(context) ? null : 0,
       width: screenWidth * 0.6, //230,
       child: GestureDetector(
         onPanUpdate: (details) {
@@ -37,12 +38,17 @@ class Drawerwidget extends StatelessWidget {
           }
         },
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(60),
-              bottomRight: Radius.circular(60),
-            ),
+            borderRadius: isEnglish(context)
+                ? const BorderRadius.only(
+                    topRight: Radius.circular(60),
+                    bottomRight: Radius.circular(60),
+                  )
+                : const BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    bottomLeft: Radius.circular(60),
+                  ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

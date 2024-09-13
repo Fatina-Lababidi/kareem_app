@@ -58,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
             SnackBar(
               content: Text(LocalizationKeys.success.tr()),
               backgroundColor: AppColor.baseColor,
+              duration: const Duration(seconds: 1),
             ),
           );
           //  Navigator to the next page
@@ -74,13 +75,15 @@ class _LoginPageState extends State<LoginPage> {
             SnackBar(
               content: Text(state.message),
               backgroundColor: AppColor.snackbarFaildColor,
+              duration: const Duration(seconds: 1),
             ),
           );
         } else if (state is LoginOffline) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(LocalizationKeys.offline.tr()),
+              content: Text(LocalizationKeys.thereIsNoInternet.tr()),
               backgroundColor: AppColor.snackbarOfflineColor,
+              duration: const Duration(seconds: 1),
             ),
           );
         }

@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/settings/domain/entities/policy_entity.dart';
 import 'package:careem_app_clean/features/settings/domain/usecase/get_policy.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:meta/meta.dart';
 
@@ -26,7 +28,7 @@ class PolicyBloc extends Bloc<PolicyEvent, PolicyState> {
             message = 'Please try again later ..';
             break;
           default:
-            message = 'there is no internet';
+            message =LocalizationKeys.thereIsNoInternet.tr();
             break;
         }
         emit(PolicyFailure(message: message));

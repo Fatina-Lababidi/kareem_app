@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/reservation_details_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/reservation_details_usecase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'reservation_details_event.dart';
@@ -23,7 +25,7 @@ class ReservationDetailsBloc
             message = failure.message ?? 'please try later';
             break;
           default:
-            message = 'there is no internt';
+            message = LocalizationKeys.thereIsNoInternet.tr();
             break;
         }
         emit(ReservationDetailsFailure(message: message));

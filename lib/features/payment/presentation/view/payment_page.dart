@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
@@ -129,28 +130,31 @@ class _PaymentPageState extends State<PaymentPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AppBarWidget(
-                          screenWidth: screenWidth,
-                          screenHeight: screenHeight,
-                          textTitle: 'Payment',
-                        ),
+                            screenWidth: screenWidth,
+                            screenHeight: screenHeight,
+                            textTitle:
+                                LocalizationKeys.payment.tr() //'Payment',
+                            ),
                         SizedBox(
                           height: screenHeight * 0.09,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: screenWidth * 0.07),
+                          padding: isEnglish(context)
+                              ? EdgeInsets.only(left: screenWidth * 0.07)
+                              : EdgeInsets.only(right: screenWidth * 0.07),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'Your reservation Id is :',
-                                style: TextStyle(
+                                LocalizationKeys.reservationId.tr(),
+                                style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                     color: AppColor.buttonDetailsColor),
                               ),
                               Text(
                                 '${widget.reservationId}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                   color: AppColor.buttonDetailsColor,
@@ -172,12 +176,16 @@ class _PaymentPageState extends State<PaymentPage> {
                           height: screenHeight * 0.02,
                         ),
                         Align(
-                          alignment: Alignment.topLeft,
+                          alignment: isEnglish(context)
+                              ? Alignment.topLeft
+                              : Alignment.topRight,
                           child: Padding(
-                            padding: EdgeInsets.only(left: screenWidth * 0.07),
+                            padding: isEnglish(context)
+                                ? EdgeInsets.only(left: screenWidth * 0.07)
+                                : EdgeInsets.only(right: screenWidth * 0.07),
                             child: Text(
-                              'please enter you wallet password:',
-                              style: TextStyle(
+                              LocalizationKeys.enterWalletPassword.tr(),
+                              style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.buttonDetailsColor),
@@ -228,7 +236,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         SizedBox(
                           height: screenHeight * 0.05,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         BlocBuilder<PaymentBloc, PaymentState>(
                           builder: (context, state) {
                             if (state is PaymentLoading) {
@@ -241,7 +249,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               return AppButton(
                                 screenWidth: screenWidth,
                                 screenHeight: screenHeight,
-                                text: 'pay',
+                                text: LocalizationKeys.pay.tr(),
                                 textColor: AppColor.whiteColor,
                                 containerColor: AppColor.buttonColor,
                                 onTap: () {

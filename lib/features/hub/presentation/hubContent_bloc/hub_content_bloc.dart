@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/hub/domain/entities/hub_content_entity.dart';
 import 'package:careem_app_clean/features/hub/domain/usecase/hub_content_usecase.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'hub_content_event.dart';
@@ -20,7 +22,7 @@ class HubContentBloc extends Bloc<HubContentEvent, HubContentState> {
             message = failure.message ?? 'please try later ..';
             break;
           default:
-            message = 'there is no internet ..';
+            message = LocalizationKeys.thereIsNoInternet.tr();
             break;
         }
         emit(HubContentFailure(message: message));

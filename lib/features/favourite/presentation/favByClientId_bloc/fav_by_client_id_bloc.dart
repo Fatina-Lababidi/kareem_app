@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:careem_app_clean/core/error/failures.dart';
+import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/favourite/domain/entities/add_fav_response_entity.dart';
 import 'package:careem_app_clean/features/favourite/domain/usecase/get_fav_by_clientId.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 
 part 'fav_by_client_id_event.dart';
@@ -19,7 +21,7 @@ class FavByClientIdBloc extends Bloc<FavByClientIdEvent, FavByClientIdState> {
       failureOrEntity.fold((failure) {
         String message;
         if (failure is OfflineFailure) {
-          message = 'There is no internet connection.';
+          message = LocalizationKeys.thereIsNoInternet.tr();
         } else if (failure is ServerFailure) {
           message =
               failure.message ?? "Client doesn't have any favourite bikes.";

@@ -60,6 +60,7 @@ class HubContentPage extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.message),
               backgroundColor: AppColor.snackbarOfflineColor,
+              duration: const Duration(seconds: 1),
             ));
           }
         },

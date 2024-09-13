@@ -37,6 +37,7 @@ class PolicyPage extends StatelessWidget {
                     const SnackBar(
                       content: Text('Successfully retrieved policy'),
                       backgroundColor: AppColor.baseColor,
+                      duration: Duration(seconds: 1),
                     ),
                   );
                 } else if (state is PolicyFailure) {
@@ -44,6 +45,7 @@ class PolicyPage extends StatelessWidget {
                     SnackBar(
                       content: Text(state.message),
                       backgroundColor: AppColor.snackbarOfflineColor,
+                      duration: const Duration(seconds: 1),
                     ),
                   );
                 }
