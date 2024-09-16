@@ -1,5 +1,6 @@
 import 'package:careem_app_clean/features/bicycles/presentation/view/widgets/bikeSpecificationRoWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class BikeSpecificationsRow extends StatelessWidget {
   final double screenWidth;
@@ -43,7 +44,7 @@ class BikeSpecificationsRow extends StatelessWidget {
           SizedBox(width: screenWidth * 0.01 // 5,
               ),
         ],
-      ),
+      ).animate().fade(duration: .6.seconds, delay: .45.seconds),
     );
   }
 }

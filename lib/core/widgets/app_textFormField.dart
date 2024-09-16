@@ -17,8 +17,9 @@ class AppTextFormField extends StatelessWidget {
     this.controller,
     this.obscurepassword = false,
     this.secretPasswordIcon,
-   // this.focusNode,
-   // this.enable =true,
+    this.suffixWidget,
+    // this.focusNode,
+    // this.enable =true,
   });
 
   final double screenWidth;
@@ -33,15 +34,16 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   bool obscurepassword;
   IconButton? secretPasswordIcon;
- // FocusNode? focusNode;
+  Widget? suffixWidget;
+  // FocusNode? focusNode;
 //bool enable;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: TextFormField(
-       // focusNode:focusNode ,
-         //enabled: enable,
+        // focusNode:focusNode ,
+        //enabled: enable,
         obscureText: obscurepassword,
         cursorColor: AppColor.skipTextColor,
         controller: controller,
@@ -73,13 +75,15 @@ class AppTextFormField extends StatelessWidget {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: const BorderSide(color: AppColor.snackbarFaildColor),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
+            borderSide: const BorderSide(
+                color: AppColor.snackbarFaildColor, width: 2.0),
           ),
           suffixIcon: secretPasswordIcon,
+          suffix: suffixWidget,
         ),
       ),
     );

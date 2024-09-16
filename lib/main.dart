@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
 //kotlen ??
 //TODO
 //? have wallet shared need to fix in better way
-//? localization (setting /pop )
+//? localization (setting /pop)
 //? passing MediaQuery
 //?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
 

@@ -190,4 +190,5 @@ class LocalizationKeys {
   static const String fromHub = 'fromHub';
   static const String toHub = 'toHub';
   static const String thereIsNoInternet = 'thereIsNoInternet';
+  static const String noWallet = 'noWallet';
 }

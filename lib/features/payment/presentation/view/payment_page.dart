@@ -17,6 +17,7 @@ import 'package:careem_app_clean/features/thanks_page.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -134,7 +135,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             screenHeight: screenHeight,
                             textTitle:
                                 LocalizationKeys.payment.tr() //'Payment',
-                            ),
+                            ).animate().fade(duration: .1.seconds,delay: .2.seconds),
                         SizedBox(
                           height: screenHeight * 0.09,
                         ),
@@ -162,7 +163,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               )
                             ],
                           ),
-                        ),
+                        ).animate().fade(duration: .2.seconds,delay: .25.seconds),
                         SizedBox(
                           height: screenHeight * 0.02,
                         ),
@@ -171,7 +172,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           screenHeight: screenHeight,
                           bikeModel: widget.bikeModel,
                           photoPath: widget.photoPath,
-                        ),
+                        ).animate().fade(duration: .3.seconds,delay: .3.seconds),
                         SizedBox(
                           height: screenHeight * 0.02,
                         ),
@@ -191,7 +192,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                   color: AppColor.buttonDetailsColor),
                             ),
                           ),
-                        ),
+                        ).animate().fade(duration: .4.seconds,delay: .35.seconds),
                         SizedBox(
                           height: screenHeight * 0.02,
                         ),
@@ -232,10 +233,47 @@ class _PaymentPageState extends State<PaymentPage> {
                             },
                             controller: _passwordController,
                           ),
-                        ),
+                        ).animate().fade(duration: .5.seconds,delay: .4.seconds),
                         SizedBox(
-                          height: screenHeight * 0.05,
+                          height: screenHeight * 0.02,
                         ),
+                        Align(
+                          alignment: isEnglish(context)
+                              ? Alignment.topLeft
+                              : Alignment.topRight,
+                          child: Padding(
+                            padding: isEnglish(context)
+                                ? EdgeInsets.only(left: screenWidth * 0.07)
+                                : EdgeInsets.only(right: screenWidth * 0.07),
+                            child: Row(
+                              children: [
+                                Text(LocalizationKeys.noWallet.tr()),
+                                TextButton(
+                                  style: ButtonStyle(
+                                      overlayColor: WidgetStatePropertyAll(
+                                          AppColor.baseColor
+                                              .withOpacity(0.02))),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            child: HomePage(
+                                                currentIndex: 2,
+                                                dio: widget.dio,
+                                                sharedPreferences:
+                                                    widget.sharedPreferences),
+                                            type: PageTransitionType.fade));
+                                  },
+                                  child: Text(
+                                    LocalizationKeys.wallet.tr(),
+                                    style: const TextStyle(
+                                        color: AppColor.buttonColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ).animate().fade(duration: .6.seconds,delay: .45.seconds),
                         const Spacer(),
                         BlocBuilder<PaymentBloc, PaymentState>(
                           builder: (context, state) {
@@ -269,7 +307,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                                 paymentRequestEntity));
                                   }
                                 },
-                              );
+                              ).animate().fade(duration: .7.seconds,delay: .5.seconds);
                             }
                           },
                         ),

@@ -14,6 +14,7 @@ import 'package:careem_app_clean/features/hub/presentation/view/widgets/hubsCont
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -32,7 +33,8 @@ class HubPage extends StatelessWidget {
       create: (context) => AllHubBloc(
         AllHubUsecase(
           hubRepo: AllHubRepoImp(
-            remoteReservationDetailsDatasource: RemoteReservationDetailsDatasource(dio: dio),
+            remoteReservationDetailsDatasource:
+                RemoteReservationDetailsDatasource(dio: dio),
             remoteReservationDatasource: RemoteReservationDatasource(dio: dio),
             remoteHubContentDatasource: RemoteHubContentDatasource(dio: dio),
             remoteAllHubDataSource: RemoteAllHubDataSource(dio: dio),
@@ -50,10 +52,10 @@ class HubPage extends StatelessWidget {
           child: Column(
             children: [
               AppBarWidget(
-                screenWidth: screenWidth,
-                screenHeight: screenHeight,
-                textTitle:LocalizationKeys.hubs.tr() //'Hubs',
-              ),
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  textTitle: LocalizationKeys.hubs.tr() //'Hubs',
+                  ),
               SizedBox(
                 height: screenHeight * 0.05,
               ),
@@ -73,7 +75,14 @@ class HubPage extends StatelessWidget {
                                 'description': item.description
                               });
                             },
-                            child: HubsContainer(screenHeight: screenHeight, screenWidth: screenWidth, item: item),
+                            child: HubsContainer(
+                                    screenHeight: screenHeight,
+                                    screenWidth: screenWidth,
+                                    item: item)
+                                .animate()
+                                .scaleXY(
+                                    delay:(0.08*index).seconds,
+                                    duration: (0.09* index).seconds),
                           );
                         },
                       );

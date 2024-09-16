@@ -14,6 +14,7 @@ import 'package:careem_app_clean/features/favourite/presentation/addFav_bloc/add
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,7 +127,9 @@ class BuildBikePageWidget extends StatelessWidget {
                                 },
                               )
                             ],
-                          ),
+                          )
+                              .animate()
+                              .fade(duration: .1.seconds, delay: .2.seconds),
                           SizedBox(height: screenHeight * 0.02 //20,
                               ),
                           Text(
@@ -136,14 +139,17 @@ class BuildBikePageWidget extends StatelessWidget {
                               fontSize: screenWidth * 0.06, //24,
                               fontWeight: FontWeight.w600,
                             ),
-                          ),
+                          )
+                              .animate()
+                              .fade(duration: .2.seconds, delay: .25.seconds),
                           Text(
                             type,
                             style: TextStyle(
                                 fontSize: screenWidth * 0.035, //14,
                                 color: AppColor.skipTextColor,
                                 fontWeight: FontWeight.w500),
-                          ),
+                          ) .animate()
+                              .fade(duration: .3.seconds, delay: .3.seconds),
                           Center(
                             child: Image.network(
                               errorBuilder: (context, error, stackTrace) {
@@ -160,7 +166,8 @@ class BuildBikePageWidget extends StatelessWidget {
                               width: screenWidth * 0.5, //200,
                               colorBlendMode: BlendMode.colorBurn,
                             ),
-                          ),
+                          ).animate()
+                              .fade(duration: .4.seconds, delay: .35.seconds),
                           SizedBox(height: screenHeight * 0.04 //5,
                               ),
                           Text(
@@ -169,7 +176,8 @@ class BuildBikePageWidget extends StatelessWidget {
                                 fontSize: screenWidth * 0.045, //18,
                                 fontWeight: FontWeight.w500,
                                 color: AppColor.buttonDetailsColor),
-                          ), //! Localization
+                          ).animate()
+                              .fade(duration: .5.seconds, delay: .4.seconds),
                           SizedBox(height: screenHeight * 0.02 //5,
                               ),
                           BikeSpecificationsRow(
@@ -187,19 +195,19 @@ class BuildBikePageWidget extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.045, //18,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColor.buttonDetailsColor)),
+                                  color: AppColor.buttonDetailsColor)).animate().fade(duration: .7.seconds, delay: .5.seconds),
                           SizedBox(height: screenHeight * 0.02 //5,
                               ),
                           BikeSpecificationColWidget(
                               title: LocalizationKeys.type.tr(),
                               text: type,
-                              icon: Icons.pedal_bike_outlined),
+                              icon: Icons.pedal_bike_outlined).animate().fade(duration: .8.seconds, delay: .55.seconds),
                           SizedBox(height: screenHeight * 0.015 // 10,
                               ),
                           BikeSpecificationColWidget(
                               title: LocalizationKeys.model.tr(),
                               text: model,
-                              icon: Icons.numbers),
+                              icon: Icons.numbers).animate().fade(duration: .9.seconds, delay: .6.seconds),
                           SizedBox(
                             height: screenHeight * 0.015, // 10,
                           ),
@@ -207,14 +215,14 @@ class BuildBikePageWidget extends StatelessWidget {
                             title: LocalizationKeys.price.tr(),
                             text: price.toString(),
                             icon: Icons.attach_money_rounded,
-                          ),
+                          ).animate().fade(duration: 1.seconds, delay: .65.seconds),
                           SizedBox(
                             height: screenHeight * 0.015, //10,
                           ),
                           BikeSpecificationColWidget(
                               title: LocalizationKeys.size.tr(),
                               text: size.toString(),
-                              icon: Icons.confirmation_number_sharp),
+                              icon: Icons.confirmation_number_sharp).animate().fade(duration: 1.1.seconds, delay: .7.seconds),
 
                           SizedBox(
                             height: screenHeight * 0.05,

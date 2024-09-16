@@ -159,5 +159,6 @@
     "bike": "الدراجة",
     "fromHub": "من الموقف",
     "toHub": "الى الموقف",
-    "thereIsNoInternet": "لا يتوفر اتصال بالنت ..."
+    "thereIsNoInternet": "لا يتوفر اتصال بالنت ...",
+    "noWallet": "ليس لديك محفظة ? "
 }

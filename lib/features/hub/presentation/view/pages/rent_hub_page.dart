@@ -20,6 +20,7 @@ import 'package:careem_app_clean/features/payment/presentation/view/payment_page
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -27,7 +28,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//?? the returned data:
+//?? returned data:
 // {
 //   "message": "Reservation created, but now it's in PENDING status, Complete payment processing to confirm your reservation",
 //   "status": "CREATED",
@@ -291,12 +292,12 @@ class _RentPageState extends State<RentPage> {
                               screenWidth: screenWidth,
                               screenHeight: screenHeight,
                               textTitle: LocalizationKeys.requestForRent.tr(),
-                            ),
+                            ).animate().fade(duration:.1.seconds,delay: .2.seconds),
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
                             FromHubRowWidget(
-                                widget: widget, screenWidth: screenWidth),
+                                widget: widget, screenWidth: screenWidth).animate().fade(duration:.2.seconds,delay: .25.seconds),
                             SizedBox(
                               height: screenHeight * 0.04,
                             ),
@@ -322,14 +323,14 @@ class _RentPageState extends State<RentPage> {
                                 };
                               },
                               dio: widget.dio,
-                            ),
+                            ).animate().fade(duration:.3.seconds,delay: .3.seconds),
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
                             BikeDetailsForRent(
                                 screenWidth: screenWidth,
                                 screenHeight: screenHeight,
-                                widget: widget),
+                                widget: widget).animate().fade(duration:.4.seconds,delay: .35.seconds),
                             SizedBox(
                               height: screenHeight * 0.02,
                             ),
@@ -339,7 +340,7 @@ class _RentPageState extends State<RentPage> {
                               onDecrement: _decrementDuration,
                               onIncrement: _incrementDuration,
                               durationNotifier: _durationNotifier,
-                            ),
+                            ).animate().fade(duration:.5.seconds,delay: .4.seconds),
                             const Spacer(),
                             BlocBuilder<ReservationBloc, ReservationState>(
                               builder: (context, state) {
@@ -391,7 +392,7 @@ class _RentPageState extends State<RentPage> {
                                         });
                                       }
                                     },
-                                  );
+                                  ).animate().fade(duration:.6.seconds,delay: .45.seconds);
                                 }
                               },
                             ),

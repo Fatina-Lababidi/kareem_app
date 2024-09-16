@@ -80,97 +80,102 @@ class _OnBoardingState extends State<OnBoarding> {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.02, vertical: screenHeight * 0.02),
-          child: Column(
-            children: [
-              Align(
-                alignment: isEng ? Alignment.topRight : Alignment.topLeft,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        child: WelcomePage(
-                          dio: widget.dio,
-                          sharedPreferences: widget.sharedPreferences,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.02, vertical: screenHeight * 0.02),
+            child: Column(
+              children: [
+                Align(
+                  alignment: isEng ? Alignment.topRight : Alignment.topLeft,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: WelcomePage(
+                            dio: widget.dio,
+                            sharedPreferences: widget.sharedPreferences,
+                          ),
+                          type: PageTransitionType.fade,
                         ),
-                        type: PageTransitionType.fade,
-                      ),
-                    );
-                  },
-                  child: Text(
-                    LocalizationKeys.skip.tr(),
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: screenWidth * 0.05, // 16,
-                        fontWeight: FontWeight.w400),
+                      );
+                    },
+                    child: Text(
+                      LocalizationKeys.skip.tr(),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: screenWidth * 0.05, // 16,
+                          fontWeight: FontWeight.w400),
+                    ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              ProgressContent(
-                key: ValueKey<int>(
-                  _currentIndex,
-                ), //to make the animation repate for each image
-                image: images[_currentIndex],
-                title: titles[_currentIndex],
-                descriptionP1: descriptionP1[_currentIndex],
-                descriptionP2: descriptionP2[_currentIndex],
-                descriptionP3: descriptionP3[_currentIndex],
-              ),
-              const Spacer(
-                flex: 2,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: screenWidth * 0.25,
-                      height: screenWidth * 0.25,
-                      child: CircularProgressIndicator(
-                        value: _progressValue,
-                        strokeWidth: 4,
-                        color: AppColor.baseColor,
-                        backgroundColor: AppColor.progressBackgoundColor,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: screenWidth * 0.2,
-                      height: screenWidth * 0.2,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          backgroundColor: AppColor.baseColor,
-                          padding: EdgeInsets.zero,
+                SizedBox(
+                  height: screenHeight * 0.05,
+                ),
+                ProgressContent(
+                  key: ValueKey<int>(
+                    _currentIndex,
+                  ), //to make the animation repate for each image
+                  image: images[_currentIndex],
+                  title: titles[_currentIndex],
+                  descriptionP1: descriptionP1[_currentIndex],
+                  descriptionP2: descriptionP2[_currentIndex],
+                  descriptionP3: descriptionP3[_currentIndex],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.05,
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: screenWidth * 0.25,
+                        height: screenWidth * 0.25,
+                        child: CircularProgressIndicator(
+                          value: _progressValue,
+                          strokeWidth: 4,
+                          color: AppColor.baseColor,
+                          backgroundColor: AppColor.progressBackgoundColor,
                         ),
-                        onPressed: _updateProgress,
-                        child: (_currentIndex < 2)
-                            ?  Icon(
-                                Icons.arrow_forward,
-                                color: AppColor.buttonDetailsColor,
-                                size:screenWidth*0.06// 24,
-                              )
-                            : Text(
-                                LocalizationKeys.go.tr(),
-                                style:  TextStyle(
-                                  color: AppColor.buttonDetailsColor,
-                                  fontSize:screenWidth*0.05 //16,
-                                ),
-                              ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-            ],
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: screenWidth * 0.2,
+                        height: screenWidth * 0.2,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColor.baseColor,
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: _updateProgress,
+                          child: (_currentIndex < 2)
+                              ? Icon(Icons.arrow_forward,
+                                  color: AppColor.buttonDetailsColor,
+                                  size: screenWidth * 0.06 // 24,
+                                  )
+                              : Text(
+                                  LocalizationKeys.go.tr(),
+                                  style: TextStyle(
+                                      color: AppColor.buttonDetailsColor,
+                                      fontSize: screenWidth * 0.05 //16,
+                                      ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.05,
+                )
+              ],
+            ),
           ),
         ),
       ),

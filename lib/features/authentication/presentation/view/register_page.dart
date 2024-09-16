@@ -47,12 +47,28 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController phoneController = TextEditingController();
 
   final TextEditingController birthDateController = TextEditingController();
+  int _phoneNumberLength = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    phoneController.addListener(_updatePhoneNumberLength);
+  }
+
+  void _updatePhoneNumberLength() {
+    setState(() {
+      print("Phone number length: ${phoneController.text.length}");
+      _phoneNumberLength = phoneController.text.length;
+    });
+  }
 
   @override
   void dispose() {
     firstNameController.dispose();
     lastNameController.dispose();
     userNameController.dispose();
+    phoneController.removeListener(_updatePhoneNumberLength);
+
     phoneController.dispose();
     birthDateController.dispose();
     super.dispose();
@@ -212,7 +228,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: screenHeight * 0.02,
                 ),
                 AppTextFormField(
-                  controller:phoneController,
+                  suffixWidget: Text(
+                    '$_phoneNumberLength/10',
+                    style: TextStyle(
+                      color: _phoneNumberLength <= 10
+                          ? AppColor.detailsTextColor
+                          : Colors.red,
+                      fontSize: screenWidth * 0.04,
+                    ),
+                  ),
+                  controller: phoneController,
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
                   hintText: LocalizationKeys.phoneNumber.tr(),

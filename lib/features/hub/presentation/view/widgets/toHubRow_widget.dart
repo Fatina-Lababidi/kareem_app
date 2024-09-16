@@ -37,6 +37,10 @@ class ToHubRowWidget extends StatelessWidget {
             color: AppColor.baseColor,
           ),
           TextButton(
+            style: ButtonStyle(
+              overlayColor:
+                  WidgetStatePropertyAll(AppColor.baseColor.withOpacity(0.02)),
+            ),
             onPressed: () async {
               final locationData = await getLocationData();
               if (locationData != null) {

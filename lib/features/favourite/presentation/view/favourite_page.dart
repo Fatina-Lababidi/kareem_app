@@ -14,6 +14,7 @@ import 'package:careem_app_clean/features/favourite/presentation/widgets/favouri
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,7 +115,7 @@ class FavouritePage extends StatelessWidget {
                                 bike: bike,
                                 dio: dio,
                                 sharedPreferences: sharedPreferences,
-                                screenWidth: screenWidth);
+                                screenWidth: screenWidth).animate().fade(duration: (.1*index).seconds, delay: (0.1*index).seconds);
                           },
                         ),
                       );

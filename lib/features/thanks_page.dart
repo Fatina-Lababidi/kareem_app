@@ -87,7 +87,7 @@ class _ThanksPageState extends State<ThanksPage>
                   onComplete: (controller) {
                     controller.repeat();
                   },
-                ).rotate(duration: 3.seconds, delay: 1.seconds),
+                ).rotate(duration: 3.seconds, delay: .1.seconds),
                 Center(
                   child: Icon(Icons.check_rounded,
                       color: AppColor.checkColor, size: screenWidth * 0.2 //80,

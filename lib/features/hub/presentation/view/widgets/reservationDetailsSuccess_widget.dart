@@ -6,6 +6,7 @@ import 'package:careem_app_clean/features/hub/presentation/view/pages/reservatio
 import 'package:careem_app_clean/features/payment/presentation/view/payment_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ReservationDetailsSuccessWidget extends StatelessWidget {
@@ -62,11 +63,13 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
                   ),
                 )
               ],
-            ),
+            ).animate().fadeIn(duration: 0.1.seconds, delay: .2.seconds),
             SizedBox(
               height: screenHeight * 0.01,
             ),
-            const Divider(),
+            const Divider()
+                .animate()
+                .fadeIn(duration: 0.2.seconds, delay: .25.seconds),
             SizedBox(
               height: screenHeight * 0.01,
             ),
@@ -76,16 +79,20 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
                   fontSize: screenWidth * 0.035, //14,
                   fontWeight: FontWeight.w500,
                   color: AppColor.snackbarOfflineColor),
-            ),
+            ).animate().fadeIn(duration: 0.3.seconds, delay: .3.seconds),
             Text('${LocalizationKeys.toHub.tr()} : ${reservation.to}',
-                style: TextStyle(
-                    fontSize: screenWidth * 0.035, //14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColor.snackbarOfflineColor)),
+                    style: TextStyle(
+                        fontSize: screenWidth * 0.035, //14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.snackbarOfflineColor))
+                .animate()
+                .fadeIn(duration: 0.4.seconds, delay: .35.seconds),
             SizedBox(
               height: screenHeight * 0.01,
             ),
-            const Divider(),
+            const Divider()
+                .animate()
+                .fadeIn(duration: 0.5.seconds, delay: .4.seconds),
             SizedBox(
               height: screenHeight * 0.01,
             ),
@@ -106,18 +113,22 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ).animate().fadeIn(duration: 0.6.seconds, delay: .45.seconds),
             SizedBox(
               height: screenHeight * 0.01,
             ),
-            const Divider(),
+            const Divider()
+                .animate()
+                .fadeIn(duration: .7.seconds, delay: .5.seconds),
             // SizedBox(height: screenHeight * 0.04),
             (reservation.reservationStatus == 'PENDING')
                 ? Text(LocalizationKeys.payForConfirmation.tr(),
-                    style: TextStyle(
-                        fontSize: screenWidth * 0.035, //14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.snackbarOfflineColor))
+                        style: TextStyle(
+                            fontSize: screenWidth * 0.035, //14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.snackbarOfflineColor))
+                    .animate()
+                    .fadeIn(duration: .75.seconds, delay: .55.seconds)
                 : const Text(''),
             SizedBox(
               height: screenHeight * 0.02,
@@ -149,7 +160,7 @@ class ReservationDetailsSuccessWidget extends StatelessWidget {
                   }
                 },
               ),
-            ),
+            ).animate().fadeIn(duration: .8.seconds, delay: .55.seconds),
           ],
         ),
       ),

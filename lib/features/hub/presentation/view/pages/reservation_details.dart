@@ -13,6 +13,7 @@ import 'package:careem_app_clean/features/hub/presentation/view/widgets/reservat
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,7 +78,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
+            ).animate().fade(duration: 0.1.seconds,delay: .2.seconds),
             Expanded(
               child: Center(
                 child: BlocConsumer<ReservationDetailsBloc,
@@ -116,7 +117,7 @@ class _ReservationDetailsState extends State<ReservationDetails> {
                                 screenWidth: screenWidth,
                                 reservation: reservation,
                                 widget: widget,
-                              );
+                              ).animate().fade(duration:( 0.1*index).seconds,delay: (0.01*index).seconds);
                             },
                           ),
                         ),

@@ -39,11 +39,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   bool obscurepassword = true;
+  int _phoneNumberLength = 0;
+
+  @override
+  void initState() {
+    _phoneController.addListener(_updatePhoneNumberLength);
+    super.initState();
+  }
+
+  void _updatePhoneNumberLength() {
+    setState(() {
+      print("Phone number length: ${_phoneController.text.length}");
+      _phoneNumberLength = _phoneController.text.length;
+    });
+  }
+
   @override
   void dispose() {
     _passwordController.dispose();
+    _phoneController.removeListener(_updatePhoneNumberLength);
     _phoneController.dispose();
-
     super.dispose();
   }
 
@@ -123,6 +138,15 @@ class _LoginPageState extends State<LoginPage> {
                           height: screenHeight * 0.02,
                         ),
                         AppTextFormField(
+                          suffixWidget: Text(
+                            '$_phoneNumberLength/10',
+                            style: TextStyle(
+                              color: _phoneNumberLength <= 10
+                                  ? AppColor.detailsTextColor
+                                  : Colors.red,
+                              fontSize: screenWidth * 0.04,
+                            ),
+                          ),
                           controller: _phoneController,
                           screenHeight: screenHeight,
                           screenWidth: screenWidth,

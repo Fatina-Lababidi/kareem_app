@@ -159,5 +159,6 @@
   "bike": "Bike",
   "fromHub": "From hub",
   "toHub": "To hub",
-  "thereIsNoInternet": "there is no internet .."
+  "thereIsNoInternet": "there is no internet ..",
+  "noWallet": "You don't have a wallet ? "
 }
