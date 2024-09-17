@@ -100,54 +100,64 @@ class WalletInfoPage extends StatelessWidget {
       BuildContext context, WalletInfoSuccess state) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: screenHeight * 0.05,
-          ),
-          AddMoneyContainer(
-                  sharedPreferences: sharedPreferences,
-                  dio: dio,
-                  screenWidth: screenWidth,
-                  screenHeight: screenHeight,
-                  context: context)
-              .animate()
-              .fade(duration: .2.seconds, delay: .1.seconds),
-          SizedBox(
-            height: screenHeight * 0.04,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: RefreshIndicator(
+        backgroundColor: AppColor.whiteColor,
+        color: AppColor.baseColor,
+        onRefresh: () async {
+          context.read<WalletInfoBloc>().add(GetWalletInfo());
+        },
+        child: SingleChildScrollView(
+          physics:const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // the first container
-              moneyDetailsContainer(
-                screenHeight,
-                screenWidth,
-                state.walletInfoEntity.body.balance.toString(),
-                LocalizationKeys.availableBalance.tr(),
+              SizedBox(
+                height: screenHeight * 0.05,
               ),
-              // second container
-              moneyDetailsContainer(
-                screenHeight,
-                screenWidth,
-                '00', //!!from where?
-                LocalizationKeys.totalExpend.tr(),
+              AddMoneyContainer(
+                      sharedPreferences: sharedPreferences,
+                      dio: dio,
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      context: context)
+                  .animate()
+                  .fade(duration: .2.seconds, delay: .1.seconds),
+              SizedBox(
+                height: screenHeight * 0.04,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // the first container
+                  moneyDetailsContainer(
+                    screenHeight,
+                    screenWidth,
+                    state.walletInfoEntity.body.balance.toString(),
+                    LocalizationKeys.availableBalance.tr(),
+                  ),
+                  // second container
+                  moneyDetailsContainer(
+                    screenHeight,
+                    screenWidth,
+                    '00', //!!from where?
+                    LocalizationKeys.totalExpend.tr(),
+                  ),
+                ],
+              ).animate().fade(duration: .4.seconds, delay: .2.seconds),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              Text(
+                LocalizationKeys.transections.tr(),
+                style: TextStyle(
+                    color: AppColor.contentSecondaryTextColor,
+                    fontSize: screenWidth * 0.04, //16,
+                    fontWeight: FontWeight.w500),
+              ).animate().fade(duration: .6.seconds, delay: .3.seconds),
+              //this history?? or what ?
             ],
-          ).animate().fade(duration: .4.seconds, delay: .2.seconds),
-          SizedBox(
-            height: screenHeight * 0.02,
           ),
-          Text(
-            LocalizationKeys.transections.tr(),
-            style: TextStyle(
-                color: AppColor.contentSecondaryTextColor,
-                fontSize: screenWidth * 0.04, //16,
-                fontWeight: FontWeight.w500),
-          ).animate().fade(duration: .6.seconds, delay: .3.seconds),
-          //this history?? or what ?
-        ],
+        ),
       ),
     );
   }

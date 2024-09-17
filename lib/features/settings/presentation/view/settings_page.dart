@@ -23,7 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   final Dio dio;
   final SharedPreferences sharedPreferences;
   const SettingsPage({
@@ -33,82 +33,105 @@ class SettingsPage extends StatelessWidget {
   });
 
   @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.sizeOf(context).height;
     final double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            AppBarWidget(
-              screenHeight: screenHeight,
-              screenWidth: screenWidth,
-              textTitle: LocalizationKeys.settingsTitle.tr(),
-            ).animate().fade(duration: .2.seconds, delay: .1.seconds),
-            SizedBox(
-              height: screenHeight * 0.05,
-            ),
-            SettingsOption(
-              dio: dio,
-              sharedPreferences: sharedPreferences,
-              text: LocalizationKeys.changePasswordTitle.tr(),
-              child: BlocProvider(
-                create: (context) => ChangePasswordBloc(
-                  ChangePasswordUseCase(
-                    repository: AuthRepositoryImpl(
-                      internetConnectionChecker: InternetConnectionChecker(),
-                      remoteDataSource: RemoteUserDataSourceImpl(dio: dio),
-                      sharedPreferences: sharedPreferences,
-                    ),
-                  ),
+        child: RefreshIndicator(
+          backgroundColor: AppColor.whiteColor,
+          color: AppColor.baseColor,
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 1));
+            setState(() {
+
+            });
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                AppBarWidget(
+                  screenHeight: screenHeight,
+                  screenWidth: screenWidth,
+                  textTitle: LocalizationKeys.settingsTitle.tr(),
+                ).animate().fade(duration: .2.seconds, delay: .1.seconds),
+                SizedBox(
+                  height: screenHeight * 0.05,
                 ),
-                child: const ChangePasswordPage(),
-              ),
-            ).animate().scaleXY(duration: .25.seconds, delay: .15.seconds),
-            SizedBox(
-              height: screenHeight * 0.025,
-            ),
-            SettingsOption(
-              dio: dio,
-              sharedPreferences: sharedPreferences,
-              text: LocalizationKeys.changeLanguage.tr(),
-              child: ChangeLanguage(
-                sharedPreferences: sharedPreferences,
-              ),
-            ).animate().scaleXY(duration: .3.seconds, delay: .2.seconds),
-            SizedBox(
-              height: screenHeight * 0.025,
-            ),
-            SettingsOption(
-              dio: dio,
-              sharedPreferences: sharedPreferences,
-              text: LocalizationKeys.privacyPolicy.tr(),
-              child: BlocProvider<PolicyBloc>(
-                create: (context) => PolicyBloc(
-                  GetPolicyUseCase(
-                    policyRepo: PolicyRepoImp(
-                      remotePolicyDataSource: RemotePolicyDataSource(dio: dio),
-                      networkConnection: NetworkConnection(
-                        internetConnectionChecker: InternetConnectionChecker(),
+                SettingsOption(
+                  dio: widget.dio,
+                  sharedPreferences: widget.sharedPreferences,
+                  text: LocalizationKeys.changePasswordTitle.tr(),
+                  child: BlocProvider(
+                    create: (context) => ChangePasswordBloc(
+                      ChangePasswordUseCase(
+                        repository: AuthRepositoryImpl(
+                          internetConnectionChecker:
+                              InternetConnectionChecker(),
+                          remoteDataSource: RemoteUserDataSourceImpl(dio: widget.dio),
+                          sharedPreferences: widget.sharedPreferences,
+                        ),
                       ),
                     ),
+                    child: const ChangePasswordPage(),
                   ),
-                )..add(GetPolicy()),
-                child: const PolicyPage(),
-              ),
-            ).animate().scaleXY(duration: .35.seconds, delay: .25.seconds),
-            SizedBox(
-              height: screenHeight * 0.025,
+                ).animate().scaleXY(duration: .25.seconds, delay: .15.seconds),
+                SizedBox(
+                  height: screenHeight * 0.025,
+                ),
+                SettingsOption(
+                  dio: widget.dio,
+                  sharedPreferences: widget.sharedPreferences,
+                  text: LocalizationKeys.changeLanguage.tr(),
+                  child: ChangeLanguage(
+                    sharedPreferences: widget.sharedPreferences,
+                  ),
+                ).animate().scaleXY(duration: .3.seconds, delay: .2.seconds),
+                SizedBox(
+                  height: screenHeight * 0.025,
+                ),
+                SettingsOption(
+                  dio: widget.dio,
+                  sharedPreferences: widget.sharedPreferences,
+                  text: LocalizationKeys.privacyPolicy.tr(),
+                  child: BlocProvider<PolicyBloc>(
+                    create: (context) => PolicyBloc(
+                      GetPolicyUseCase(
+                        policyRepo: PolicyRepoImp(
+                          remotePolicyDataSource:
+                              RemotePolicyDataSource(dio: widget.dio),
+                          networkConnection: NetworkConnection(
+                            internetConnectionChecker:
+                                InternetConnectionChecker(),
+                          ),
+                        ),
+                      ),
+                    )..add(GetPolicy()),
+                    child: const PolicyPage(),
+                  ),
+                ).animate().scaleXY(duration: .35.seconds, delay: .25.seconds),
+                SizedBox(
+                  height: screenHeight * 0.025,
+                ),
+                SettingsOption(
+                        dio: widget.dio,
+                        sharedPreferences: widget.sharedPreferences,
+                        text: LocalizationKeys.deleteAccount.tr(),
+                        child: DeletePage(
+                          sharedPreferences: widget.sharedPreferences,
+                        ))
+                    .animate()
+                    .scaleXY(duration: .4.seconds, delay: .35.seconds)
+              ],
             ),
-            SettingsOption(
-                dio: dio,
-                sharedPreferences: sharedPreferences,
-                text: LocalizationKeys.deleteAccount.tr(),
-                child: DeletePage(
-                  sharedPreferences: sharedPreferences,
-                )).animate().scaleXY(duration: .4.seconds, delay: .35.seconds)
-          ],
+          ),
         ),
       ),
     );

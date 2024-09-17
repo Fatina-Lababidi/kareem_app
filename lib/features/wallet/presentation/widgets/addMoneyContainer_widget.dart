@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
 import 'package:careem_app_clean/features/wallet/presentation/view/add_money_page.dart';
@@ -26,7 +27,7 @@ class AddMoneyContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.topRight,
+      alignment:isEnglish(context)? Alignment.topRight:Alignment.topLeft,
       child: Container(
         width: screenWidth * 0.45, //170,
         height: screenHeight * 0.08, //54,
