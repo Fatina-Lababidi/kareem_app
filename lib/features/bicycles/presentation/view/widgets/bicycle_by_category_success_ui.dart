@@ -99,7 +99,7 @@ class BicycleByCategorySuccessUi extends StatelessWidget {
                                 Text(
                                   'enable to fetch image',
                                   style: TextStyle(
-                                    fontSize: screenWidth * 0.12,
+                                    fontSize: screenWidth * 0.02,
                                   ),
                                 ), //! localization
                               ],

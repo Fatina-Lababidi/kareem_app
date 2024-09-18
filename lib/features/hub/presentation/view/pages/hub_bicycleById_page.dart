@@ -124,6 +124,7 @@ class HubBicyclebyidPage extends StatelessWidget {
                                   } else {
                                     return IconButton(
                                       onPressed: () {
+                                        print('bike id : $id');
                                         context
                                             .read<AddFavouriteBloc>()
                                             .add(AddFav());

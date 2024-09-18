@@ -30,8 +30,8 @@ class AddFavRepoImp implements FavouriteRepo {
       try {
         AddFavResponseEntity addFavBodyResponseEntity =
             await remoteAddFavDatasource.addFav(bicycleId);
-        int clientId = addFavBodyResponseEntity.client.id;
-        await sharedPreferences.setInt('client_Id', clientId);
+        // int clientId = addFavBodyResponseEntity.client.id;
+        // await sharedPreferences.setInt('client_Id', clientId);
 
         return Right(addFavBodyResponseEntity);
       } on ServerException catch (e) {
