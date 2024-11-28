@@ -81,15 +81,21 @@ class CustomnavigationbarWidget extends StatelessWidget {
                       color: Colors.transparent), // SizedBox.shrink(),
                   label: LocalizationKeys.wallet.tr(),
                 ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.money_off_csred_rounded),
-                  label: LocalizationKeys.offer.tr(),
-                ),
+                // BottomNavigationBarItem(
+                //   icon: const Icon(Icons.money_off_csred_rounded),
+                //   label: LocalizationKeys.offer.tr(),
+                // ),
                 BottomNavigationBarItem(
                     icon: const Icon(Icons.event),
                     label: LocalizationKeys.reservation
                         .tr() //LocalizationKeys.profile.tr(),
                     ),
+                BottomNavigationBarItem(
+                  icon: const Icon(
+                    Icons.settings,
+                  ),
+                  label: LocalizationKeys.settingsTitle.tr(),
+                ),
               ],
             ),
           ),

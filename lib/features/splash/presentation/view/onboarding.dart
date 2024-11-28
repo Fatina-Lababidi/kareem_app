@@ -1,3 +1,4 @@
+import 'package:careem_app_clean/core/app_bloc/app_maneger_bloc.dart';
 import 'package:careem_app_clean/core/functions/language.dart';
 import 'package:careem_app_clean/core/resources/asset.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
@@ -8,6 +9,7 @@ import 'package:careem_app_clean/features/splash/presentation/widgets/progress_c
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,6 +70,8 @@ class _OnBoardingState extends State<OnBoarding> {
             type: PageTransitionType.fade,
           ),
         );
+        widget.sharedPreferences.setBool('isFirstTime', false);
+        context.read<AppManegerBloc>().add(CheckAuthStatus());
       }
     });
   }
@@ -100,6 +104,8 @@ class _OnBoardingState extends State<OnBoarding> {
                           type: PageTransitionType.fade,
                         ),
                       );
+                      widget.sharedPreferences.setBool('isFirstTime', false);
+                      context.read<AppManegerBloc>().add(CheckAuthStatus());
                     },
                     child: Text(
                       LocalizationKeys.skip.tr(),

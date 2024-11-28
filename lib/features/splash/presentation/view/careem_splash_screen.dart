@@ -1,6 +1,7 @@
 import 'package:careem_app_clean/core/app_bloc/app_maneger_bloc.dart';
 import 'package:careem_app_clean/features/home/presentation/view/home_page.dart';
 import 'package:careem_app_clean/features/splash/presentation/view/onboarding.dart';
+import 'package:careem_app_clean/features/splash/presentation/view/welcom_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,25 +70,39 @@ class _CareemSplashPageState extends State<CareemSplashPage>
   }
 
   void _navigateToNextPage() {
-    Navigator.of(context).pushReplacement(PageTransition(
-      duration: const Duration(seconds: 1),
-      type: PageTransitionType.leftToRight,
-      child: BlocProvider(
-        create: (context) => AppManegerBloc()..add(CheckAuthStatus()),
-        child: BlocBuilder<AppManegerBloc, AppManegerState>(
+    Navigator.of(context).pushReplacement(
+      PageTransition(
+        duration: const Duration(seconds: 1),
+        type: PageTransitionType.leftToRight,
+        child: BlocProvider(
+          create: (context) => AppManegerBloc()..add(CheckAuthStatus()),
+          child: BlocBuilder<AppManegerBloc, AppManegerState>(
             builder: (context, state) {
-          if (state is Authenticated) {
-            return HomePage(
-                dio: widget.dio, sharedPreferences: widget.sharedPreferences);
-          } else {
-            return OnBoarding(
-              dio: widget.dio,
-              sharedPreferences: widget.sharedPreferences,
-            );
-          }
-        }),
+              if (state is Authenticated) {
+                return HomePage(
+                    dio: widget.dio,
+                    sharedPreferences: widget.sharedPreferences);
+              } else if (state is FirstTimeUser) {
+                return OnBoarding(
+                  dio: widget.dio,
+                  sharedPreferences: widget.sharedPreferences,
+                );
+              } else if (state is Unauthenticated) {
+                return WelcomePage(
+                  sharedPreferences: widget.sharedPreferences,
+                  dio: widget.dio,
+                );
+              } else {
+                return OnBoarding(
+                  dio: widget.dio,
+                  sharedPreferences: widget.sharedPreferences,
+                );
+              }
+            },
+          ),
+        ),
       ),
-    ));
+    );
   }
 
   @override
@@ -118,8 +133,8 @@ class _CareemSplashPageState extends State<CareemSplashPage>
                           duration: const Duration(seconds: 0),
                           opacity: _bikeOpacityAnimation.value,
                           child: SizedBox(
-                            width:screenWidth*0.5, //200,
-                            height:screenWidth*0.4,// 200,
+                            width: screenWidth * 0.5, //200,
+                            height: screenWidth * 0.4, // 200,
                             child: Image.asset(
                               'assets/images/bike_anim.png',
                               fit: BoxFit.fill,

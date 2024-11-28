@@ -1,7 +1,6 @@
 import 'package:careem_app_clean/core/network/network_connection.dart';
 import 'package:careem_app_clean/core/resources/color.dart';
 import 'package:careem_app_clean/core/resources/string.dart';
-import 'package:careem_app_clean/core/widgets/appBar_widget.dart';
 import 'package:careem_app_clean/features/authentication/data/datasource/remote/remote_user.dart';
 import 'package:careem_app_clean/features/authentication/data/repositories/auth_repository_imp.dart';
 import 'package:careem_app_clean/features/authentication/domain/usecases/change_password.dart';
@@ -37,6 +36,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.sizeOf(context).height;
@@ -49,19 +49,27 @@ class _SettingsPageState extends State<SettingsPage> {
           color: AppColor.baseColor,
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
-            setState(() {
-
-            });
+            setState(() {});
           },
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
-                AppBarWidget(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                  textTitle: LocalizationKeys.settingsTitle.tr(),
-                ).animate().fade(duration: .2.seconds, delay: .1.seconds),
+                // AppBarWidget(
+                //   screenHeight: screenHeight,
+                //   screenWidth: screenWidth,
+                //   textTitle: LocalizationKeys.settingsTitle.tr(),
+                // ).animate().fade(duration: .2.seconds, delay: .1.seconds),
+                Center(
+                  child: Text(
+                    LocalizationKeys.settingsTitle.tr(),
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.045, //18,
+                      color: AppColor.settingsTitleColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ).animate().fade(duration: 0.1.seconds, delay: .2.seconds),
                 SizedBox(
                   height: screenHeight * 0.05,
                 ),
@@ -75,7 +83,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         repository: AuthRepositoryImpl(
                           internetConnectionChecker:
                               InternetConnectionChecker(),
-                          remoteDataSource: RemoteUserDataSourceImpl(dio: widget.dio),
+                          remoteDataSource:
+                              RemoteUserDataSourceImpl(dio: widget.dio),
                           sharedPreferences: widget.sharedPreferences,
                         ),
                       ),
@@ -125,6 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         sharedPreferences: widget.sharedPreferences,
                         text: LocalizationKeys.deleteAccount.tr(),
                         child: DeletePage(
+                          dio: widget.dio,
                           sharedPreferences: widget.sharedPreferences,
                         ))
                     .animate()
