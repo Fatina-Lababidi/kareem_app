@@ -73,7 +73,13 @@ class MyApp extends StatelessWidget {
 //? localization (setting /pop)
 //? passing MediaQuery
 //?!!  is it true to make every call contain all this instance ? use singlton?(provider!!)
-
-//0222222222// paPa12@121212// securitycode for wallet : paPa12@121212
-//saSa22@121212 //0444444444//sanaWallet@12
-//0333333333 //maMa22@121212
+/*
+{
+  "firstName": "string1",
+  "lastName": "string",
+  "phone": "0222222222",
+  "username": "string",
+  "birthDate": "2024-11-28",
+  "password": "String@2222",
+  "confirmPassword": "string"
+}*/
