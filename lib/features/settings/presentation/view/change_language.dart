@@ -10,9 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeLanguage extends StatefulWidget {
   final SharedPreferences sharedPreferences;
+  final ValueNotifier<bool> languageChangedNotifier;
   const ChangeLanguage({
     super.key,
     required this.sharedPreferences,
+    required this.languageChangedNotifier,
   });
 
   @override
@@ -171,6 +173,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     await EasyLocalization.of(context)!
                         .setLocale(const Locale('ar'));
                   }
+
+                  widget.languageChangedNotifier.value =
+                      !widget.languageChangedNotifier.value;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(LocalizationKeys.languageChanged.tr()),

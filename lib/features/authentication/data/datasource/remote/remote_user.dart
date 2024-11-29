@@ -26,10 +26,13 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
       final response = await dio.post(
         EndPoint.registerUrl,
         data: userModel.toJson(),
-        options: getHeader(false).copyWith(validateStatus: (int? status) {
-          return status != null && status < 500;
-        }),
+        options: getHeader(false).copyWith(
+          validateStatus: (int? status) {
+            return status != null && status < 500;
+          },
+        ),
       );
+
       log("Response received with status code: ${response.statusCode}");
       log("Response data: ${response.data}");
 
@@ -37,19 +40,42 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
         log("Registration successful, token: ${response.data['body']['token']}");
         return response.data['body']['token'];
       } else {
-        log("Unexpected status code: ${response.statusCode}");
         final errorData = response.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
+        final errorMessage = errorData['message'] is String
+            ? errorData['message']
+            : (errorData['message'] as List<dynamic>?)?.join(', ') ??
+                'Unknown error occurred';
+
+        log("Error during registration: $errorMessage");
+        throw ServerException(
+          errorModel: ErrorModel(errorMessage: errorMessage),
+        );
       }
     } catch (e) {
-      log("Exception caught: $e");
+      if (e is DioException && e.response != null) {
+        log("DioException caught: ${e.message}");
+        final response = e.response;
+        final errorData = response!.data;
+        final errorMessage = errorData['message'] is String
+            ? errorData['message']
+            : (errorData['message'] as List<dynamic>?)?.join(', ') ??
+                'Unknown error occurred';
 
-      throw ServerException(
-        errorModel: ErrorModel(
-          errorMessage: 'Unexpected error occurred',
-        ),
-      );
+        log("DioException extracted message: $errorMessage");
+        throw ServerException(
+          errorModel: ErrorModel(errorMessage: errorMessage),
+        );
+      } else if (e is ServerException) {
+        log("ServerException caught with message: ${e.errorModel.errorMessage}");
+        throw e;
+      } else {
+        log("Unknown exception caught: $e");
+        throw ServerException(
+          errorModel: ErrorModel(
+            errorMessage: 'Unexpected error occurred',
+          ),
+        );
+      }
     }
   }
 
@@ -75,24 +101,38 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
       } else {
         log("Unexpected status code: ${response.statusCode}");
         final errorData = response.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
+        final errorMessage = errorData['message'] is String
+            ? errorData['message']
+            : (errorData['message'] as List<dynamic>?)?.join(', ') ??
+                'An unexpected error occurred.';
+
+        log("Error message from server: $errorMessage");
+        throw ServerException(
+          errorModel: ErrorModel(errorMessage: errorMessage),
+        );
       }
     } catch (e) {
       if (e is DioException && e.response != null) {
-        log("DioError caught: ${e.message}");
+        log("DioException caught: ${e.message}");
         final response = e.response;
         final errorData = response!.data;
-        ErrorModel errorModel = ErrorModel.fromJson(errorData);
-        throw ServerException(errorModel: errorModel);
+        final errorMessage = errorData['message'] is String
+            ? errorData['message']
+            : (errorData['message'] as List<dynamic>?)?.join(', ') ??
+                'An unexpected error occurred.';
+
+        log("DioException extracted message: $errorMessage");
+        throw ServerException(
+          errorModel: ErrorModel(errorMessage: errorMessage),
+        );
       } else if (e is ServerException) {
-        log("ServerException caught: ${e.errorModel.errorMessage}");
-        throw ServerException(errorModel: e.errorModel);
+        log("ServerException caught with message: ${e.errorModel.errorMessage}");
+        throw e;
       } else {
         log("Unknown exception caught: $e");
         throw ServerException(
           errorModel: ErrorModel(
-            errorMessage: 'Please try later ...',
+            errorMessage: 'Please try later...',
           ),
         );
       }
